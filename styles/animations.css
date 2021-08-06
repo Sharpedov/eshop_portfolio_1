@@ -1,0 +1,127 @@
+/* ENTER EXIT CART*/
+
+.cart--enter {
+	transform: translateX(100%);
+	position: absolute;
+}
+.cart--enter-active {
+	transform: none;
+	transition: all 0.25s cubic-bezier(0.5, 1, 0.89, 1);
+}
+.cart--exit {
+	transform: none;
+}
+.cart--exit-active {
+	transform: translateX(100%);
+	transition: all 0.25s cubic-bezier(0.5, 1, 0.89, 1);
+}
+
+/* MODAL */
+
+.ReactModal__Overlay {
+	opacity: 0;
+	transition: all 0.2s cubic-bezier(0.5, 1, 0.89, 1);
+}
+
+.ReactModal__Overlay--after-open {
+	opacity: 1;
+}
+
+.ReactModal__Overlay--before-close {
+	opacity: 0;
+}
+
+.modal--enter {
+	opacity: 0;
+	/* transform: translateY(100%); */
+}
+.modal--enter-active {
+	/* transform: none; */
+	opacity: 1;
+	transition: all 0.25s cubic-bezier(0.5, 1, 0.89, 1);
+}
+.modal--exit {
+	/* transform: none; */
+}
+.modal--exit-active {
+	opacity: 0;
+	/* transform: translateY(100%); */
+	transition: all 0.25s cubic-bezier(0.5, 1, 0.89, 1);
+}
+
+/* ENTER EXIT DRAWLER MENU */
+.drawlerMenu--enter {
+	transform: translateX(-100%);
+	position: absolute;
+}
+.drawlerMenu--enter-active {
+	transform: none;
+	transition: all 0.25s cubic-bezier(0.5, 1, 0.89, 1);
+}
+.drawlerMenu--exit {
+	transform: none;
+}
+.drawlerMenu--exit-active {
+	transform: translateX(-100%);
+	transition: all 0.3s cubic-bezier(0.5, 1, 0.89, 1);
+}
+
+.selectMenu--enter {
+	opacity: 0;
+	transform: scale(0.1);
+	transform-origin: top left;
+}
+.selectMenu--enter-active {
+	transform: none;
+	opacity: 1;
+	transition: all 0.2s cubic-bezier(0.45, 0, 0.55, 1);
+}
+.selectMenu--exit {
+	opacity: 0.1;
+	transition: opacity 0.2s cubic-bezier(0.45, 0, 0.55, 1);
+}
+
+/* ENTER EXIT FILTERS SIDEBAR */
+.filtersSidebar--enter {
+	transform: translateX(100%);
+	position: absolute;
+}
+.filtersSidebar--enter-active {
+	transform: none;
+	transition: all 0.25s cubic-bezier(0.5, 1, 0.89, 1);
+}
+.filtersSidebar--exit {
+	transform: none;
+}
+.filtersSidebar--exit-active {
+	transform: translateX(100%);
+	transition: all 0.3s cubic-bezier(0.5, 1, 0.89, 1);
+}
+/* ENTER EXIT SIDEBAR RIGHT */
+.sidebarRight--enter {
+	transform: translateX(100%);
+	position: absolute;
+}
+.sidebarRight--enter-active {
+	transform: none;
+	transition: all 0.25s cubic-bezier(0.5, 1, 0.89, 1);
+}
+
+.sidebarRight--exit-active {
+	transform: translateX(100%);
+	transition: all 0.3s cubic-bezier(0.5, 1, 0.89, 1);
+}
+/* ENTER EXIT SIDEBAR BOTTOM */
+.sidebarBottom--enter {
+	transform: translateY(100%);
+	position: absolute;
+}
+.sidebarBottom--enter-active {
+	transform: none;
+	transition: all 0.25s cubic-bezier(0.5, 1, 0.89, 1);
+}
+
+.sidebarBottom--exit-active {
+	transform: translateY(100%);
+	transition: all 0.3s cubic-bezier(0.5, 1, 0.89, 1);
+}
