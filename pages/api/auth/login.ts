@@ -4,7 +4,7 @@ import { compare } from "bcryptjs";
 import cookie from "cookie";
 import { sign } from "jsonwebtoken";
 
-export default async (req, res) => {
+export default async function handler(req, res) {
 	const { method, body } = req;
 	await dbConnect();
 
@@ -55,4 +55,4 @@ export default async (req, res) => {
 			res.status(400).json({ success: false });
 			break;
 	}
-};
+}

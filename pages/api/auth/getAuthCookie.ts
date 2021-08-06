@@ -1,7 +1,7 @@
 import cookie from "cookie";
 import jwt_decode from "jwt-decode";
 
-export default async (req, res) => {
+export default async function handler(req, res) {
 	const cookies = cookie.parse(req.headers.cookie || "");
 
 	if (!cookies.auth) {
@@ -22,4 +22,4 @@ export default async (req, res) => {
 	let decoded = jwt_decode(cookies.auth);
 
 	res.json({ success: true, data: decoded });
-};
+}

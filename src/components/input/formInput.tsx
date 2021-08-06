@@ -29,6 +29,7 @@ const FormInput = ({
 	disabled,
 	defaultValue,
 }: pageProps) => {
+	const [showPassword, setShowPassword] = useState<boolean>(false);
 	if (dummy) {
 		return (
 			<Container disabled={disabled}>
@@ -40,7 +41,6 @@ const FormInput = ({
 		);
 	}
 	const { name, onChange, onBlur, ref, value } = field;
-	const [showPassword, setShowPassword] = useState<boolean>(false);
 
 	return (
 		<Container error={error}>

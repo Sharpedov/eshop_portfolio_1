@@ -35,12 +35,12 @@ const OrderDetails = ({ orderDetails, setOrderDetails }: pageProps) => {
 			<Heading>Order</Heading>
 			<OrderList>
 				{orderDetails.items.map((order) => (
-					<OrderItem>
-						<Link href={`/product/${order._id}`}>
+					<OrderItem key={order._id}>
+						<Link passHref href={`/product/${order._id}`}>
 							<OrderImage src={order.images[0]} />
 						</Link>
 						<OrderContent>
-							<Link href={`/product/${order._id}`}>
+							<Link passHref href={`/product/${order._id}`}>
 								<OrderTitle>{order.title}</OrderTitle>
 							</Link>
 							<OrderQty>1 qty.</OrderQty>

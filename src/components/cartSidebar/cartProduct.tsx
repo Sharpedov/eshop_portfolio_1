@@ -7,6 +7,7 @@ import { CardActionArea } from "@material-ui/core";
 import QuantityProduct from "../quantityProduct";
 import CustomIconButton from "../customIconButton";
 import { removeFromCart } from "src/store/slices/cartSlice";
+import Image from "next/image";
 
 interface pageProps {
 	product;
@@ -30,7 +31,7 @@ const CartProduct = ({ product, onClose }: pageProps) => {
 	const handleRemoveFromCart = useCallback(() => {
 		dispatch(removeFromCart({ product }));
 		setLoading(true);
-	}, [_id, dispatch, product]);
+	}, [dispatch, product]);
 
 	useEffect(() => {
 		!loadingRemove && setLoading(false);
@@ -44,13 +45,19 @@ const CartProduct = ({ product, onClose }: pageProps) => {
 		<>
 			<ProductLi ref={basketProductRef} component="li" loading={loading}>
 				<ImageWrapper>
-					<Link href={`/product/${_id}`}>
-						<img onClick={() => onClose()} src={images[0]} alt={title} />
+					<Link passHref href={`/product/${_id}`}>
+						<Image
+							onClick={() => onClose()}
+							src={images[0]}
+							alt={title}
+							layout="fill"
+							objectFit="cover"
+						/>
 					</Link>
 				</ImageWrapper>
 				<Content component="div">
 					<ContentTop>
-						<Link href={`/product/${_id}`}>
+						<Link passHref href={`/product/${_id}`}>
 							<Title onClick={() => onClose()}>{title}</Title>
 						</Link>
 						<Delete>
@@ -102,18 +109,13 @@ const ProductLi = styled(CardActionArea)`
 `;
 
 const ImageWrapper = styled.div`
+	position: relative;
 	height: inherit;
 	width: 76px;
 	object-fit: cover;
 	background: ${({ theme }) => theme.surface.primary};
-
-	> img {
-		border-radius: 2px 0 0 2px;
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		cursor: pointer;
-	}
+	border-radius: 2px 0 0 2px;
+	overflow: hidden;
 `;
 
 const Content = styled.div`

@@ -1,7 +1,7 @@
 import dbConnect from "mongodb/dbConnect";
 import Product from "mongodb/Models/Product";
 
-export default async (req, res) => {
+export default async function handler(req, res) {
 	const {
 		method,
 		query: { gender },
@@ -27,4 +27,4 @@ export default async (req, res) => {
 			res.status(400).json({ success: false });
 			break;
 	}
-};
+}

@@ -144,13 +144,13 @@ const CustomButton = ({
 		type,
 		size,
 		onClick,
-		href,
 		loading,
 		disabled,
 		Icon,
 		fullWidth,
 		left,
 		isActive,
+		children,
 	]);
 
 	return href ? (

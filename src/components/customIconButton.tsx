@@ -37,7 +37,7 @@ const CustomIconButton = ({
 				<Icon className="customIconButton__icon" />
 			</StyledIconButton>
 		),
-		[Icon, size, onClick, href, active, ariaLabel, loading]
+		[Icon, size, onClick, active, ariaLabel, loading, disableFocus]
 	);
 
 	return href ? (

@@ -8,7 +8,7 @@ import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "src/store/slices/cartSlice";
-import { isInCartOrFavourite } from "src/utils/isInCartOrFavourite";
+import { IsInCartOrFavourite } from "src/utils/isInCartOrFavourite";
 import {
 	addToFavourite,
 	removeFromFavourite,
@@ -16,6 +16,7 @@ import {
 import RemoveShoppingCartIcon from "@material-ui/icons/RemoveShoppingCart";
 import { useAuth } from "../authProvider";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 interface pageProps {
 	data;
@@ -39,7 +40,7 @@ const ProductCard = ({ data, gridView }: pageProps) => {
 	} = useSelector(mapState);
 	const { title, price, category, brand, images, _id } = data;
 	const dispatch = useDispatch();
-	const { isInCart, isInFavourite } = isInCartOrFavourite({ id: data._id });
+	const { isInCart, isInFavourite } = IsInCartOrFavourite({ id: data._id });
 	const router = useRouter();
 
 	const handleAddToCart = useCallback(async () => {
@@ -55,7 +56,7 @@ const ProductCard = ({ data, gridView }: pageProps) => {
 		router.push(`/sign-in?redirect=${router.pathname}`);
 
 		return;
-	}, [data, dispatch, isInCart]);
+	}, [data, dispatch, isInCart, _id, isLogged, router]);
 
 	const handleAddToFavourite = useCallback(() => {
 		if (isLogged) {
@@ -70,19 +71,29 @@ const ProductCard = ({ data, gridView }: pageProps) => {
 		router.push(`/sign-in?redirect=${router.pathname}`);
 
 		return;
-	}, [dispatch, isInFavourite, data, isLogged]);
+	}, [dispatch, isInFavourite, data, isLogged, router]);
 
 	return (
 		<Card component="div">
-			<Link href={`/product/${_id}`}>
+			<Link passHref href={`/product/${_id}`}>
 				<ImageWrapper gridwiew={gridView}>
-					<img draggable={false} src={images[0]} alt={title} />
+					<a href={`/product/${_id}`}>
+						<Image
+							draggable={false}
+							src={images[0]}
+							alt={title}
+							layout="fill"
+							objectFit="cover"
+						/>
+					</a>
 				</ImageWrapper>
 			</Link>
 			<Body>
 				<Content>
-					<Link href={`/product/${_id}`}>
-						<Title>{title}</Title>
+					<Link passHref href={`/product/${_id}`}>
+						<a href={`/product/${_id}`}>
+							<Title>{title}</Title>
+						</a>
 					</Link>
 					<ContentRow>
 						<span>{`${brand}`}</span>
@@ -149,29 +160,22 @@ const Card = styled(CardActionArea)`
 `;
 
 const ImageWrapper = styled.div`
+	position: relative;
 	display: flex;
 	overflow: hidden;
 	height: ${({ gridwiew }) =>
 		gridwiew === "fit" ? "325px" : "clamp(100px, 60vw, 350px)"};
-	transition: height 0.15s ease-in-out;
 	cursor: pointer;
 	width: 100%;
+	transition: height 0.15s ease-in-out;
 
-	> span {
-		color: #000;
-	}
-
-	> img {
-		display: block;
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
+	img {
 		transition: transform 0.3s cubic-bezier(0.33, 1, 0.68, 1);
 	}
 
 	@media (min-width: 768px) {
 		${Card}:hover & {
-			> img {
+			img {
 				transform: scale(1.1);
 			}
 		}
@@ -197,6 +201,7 @@ const Content = styled.div`
 
 const Title = styled.div`
 	grid-area: title;
+	color: ${({ theme }) => theme.color.white};
 	align-self: flex-start;
 	font-size: calc(15px + 0.1vw);
 	cursor: pointer;

@@ -2,7 +2,7 @@ import dbConnect from "mongodb/dbConnect";
 import User from "mongodb/Models/User";
 import bcrypt from "bcryptjs";
 
-export default async (req, res) => {
+export default async function handler(req, res) {
 	const { method, body } = req;
 	await dbConnect();
 
@@ -34,4 +34,4 @@ export default async (req, res) => {
 			res.status(400).json({ success: false });
 			break;
 	}
-};
+}

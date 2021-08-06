@@ -34,7 +34,7 @@ const QuantityProduct = ({ qty, setQty, productId, loading }: pageProps) => {
 					return;
 			}
 		},
-		[productId, dispatch, qty]
+		[productId, dispatch, qty, setQty]
 	);
 
 	return (

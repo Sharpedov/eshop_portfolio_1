@@ -31,18 +31,6 @@
 	opacity: 0;
 }
 
-.modal--enter {
-	opacity: 0;
-	/* transform: translateY(100%); */
-}
-.modal--enter-active {
-	/* transform: none; */
-	opacity: 1;
-	transition: all 0.25s cubic-bezier(0.5, 1, 0.89, 1);
-}
-.modal--exit {
-	/* transform: none; */
-}
 .modal--exit-active {
 	opacity: 0;
 	/* transform: translateY(100%); */

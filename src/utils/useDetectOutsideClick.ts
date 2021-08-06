@@ -9,13 +9,13 @@ export const useDetectOutsideClick = (ref, initialState) => {
 		}
 	}, []);
 
-	const pageClickEvent = (e) => {
-		if (ref.current !== null && !ref.current.contains(e.target)) {
-			setIsActive(false);
-		}
-	};
-
 	useEffect(() => {
+		const pageClickEvent = (e) => {
+			if (ref.current !== null && !ref.current.contains(e.target)) {
+				setIsActive(false);
+			}
+		};
+
 		const timeout = () =>
 			setTimeout(() => {
 				if (isActive && ref.current) {
@@ -29,7 +29,7 @@ export const useDetectOutsideClick = (ref, initialState) => {
 			document.removeEventListener("click", pageClickEvent);
 			document.removeEventListener("keydown", escapeListener);
 		};
-	}, [isActive, ref.current]);
+	}, [isActive, escapeListener, ref]);
 
 	return [isActive, setIsActive];
 };

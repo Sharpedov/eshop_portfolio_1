@@ -42,7 +42,7 @@ const Pagination = ({ items, perPage }: pageProps) => {
 		(e) => {
 			setCurrentPage(Number(e.target.id));
 		},
-		[currentPage, pages]
+		[setCurrentPage]
 	);
 
 	const handlePrev = useCallback(() => {
@@ -54,10 +54,9 @@ const Pagination = ({ items, perPage }: pageProps) => {
 		}
 	}, [
 		currentPage,
-		pages,
 		pageNumberLimit,
-		maxPageNumberLimit,
-		minPageNumberLimit,
+		setMinPageNumberLimit,
+		setMaxPageNumberLimit,
 	]);
 
 	const handleNext = useCallback(() => {
@@ -67,13 +66,7 @@ const Pagination = ({ items, perPage }: pageProps) => {
 			setMaxPageNumberLimit((prev) => prev + pageNumberLimit);
 			setMinPageNumberLimit((prev) => prev + pageNumberLimit);
 		}
-	}, [
-		currentPage,
-		pages,
-		pageNumberLimit,
-		maxPageNumberLimit,
-		minPageNumberLimit,
-	]);
+	}, [currentPage, pages, pageNumberLimit, maxPageNumberLimit]);
 
 	const renderPagePagination = (
 		<Container>

@@ -58,19 +58,16 @@ const BannerSlider = ({}: pageProps) => {
 		setWidth(0);
 	}, [currentImg, bannerDataLength]);
 
-	const handleDotClick = useCallback(
-		(i) => {
-			setCurrentImg(i);
-			setWidth(0);
-		},
-		[currentImg]
-	);
+	const handleDotClick = useCallback((i) => {
+		setCurrentImg(i);
+		setWidth(0);
+	}, []);
 
 	useEffect(() => {
 		if (width === 100) {
 			handleNextSlide();
 		}
-	}, [width]);
+	}, [width, handleNextSlide]);
 
 	useEffect(() => {
 		handleStartTimer();
@@ -84,7 +81,7 @@ const BannerSlider = ({}: pageProps) => {
 						<BannerImage key={i} active={i === currentImg ? true : false}>
 							{currentImg === i && (
 								<>
-									<Image bgUrl={el.image} />
+									<Image bgUrl={el.image} alt={el.title} />
 									<BannerOverlay>
 										<BannerContent appear={currentImg === i}>
 											<h2>{el.title}</h2>

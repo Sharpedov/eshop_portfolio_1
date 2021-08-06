@@ -7,7 +7,7 @@ import LocalShippingIcon from "@material-ui/icons/LocalShipping";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import CustomButton from "src/components/customButton";
 import { addToCart } from "src/store/slices/cartSlice";
-import { isInCartOrFavourite } from "src/utils/isInCartOrFavourite";
+import { IsInCartOrFavourite } from "src/utils/isInCartOrFavourite";
 import QuantityProduct from "src/components/quantityProduct";
 import CustomIconButton from "src/components/customIconButton";
 import {
@@ -56,7 +56,7 @@ const ProductDescription = ({ productDetails, loading }: pageProps) => {
 	const [qty, setQty] = useState<number>(1);
 	const [currentTab, setCurrentTab] = useState<number>(0);
 	const contentSliderRef = useRef(null);
-	const { isInCart, isInFavourite } = isInCartOrFavourite({
+	const { isInCart, isInFavourite } = IsInCartOrFavourite({
 		id: productDetails?._id,
 	});
 	const router = useRouter();
@@ -73,7 +73,7 @@ const ProductDescription = ({ productDetails, loading }: pageProps) => {
 
 		router.push(`/sign-in?redirect=${router.asPath}`);
 		return;
-	}, [isInFavourite, dispatch, productDetails, isLogged]);
+	}, [isInFavourite, dispatch, productDetails, isLogged, router]);
 
 	const handleAddToCart = useCallback(() => {
 		if (isLogged) {
@@ -82,7 +82,7 @@ const ProductDescription = ({ productDetails, loading }: pageProps) => {
 
 		router.push(`/sign-in?redirect=${router.asPath}`);
 		return;
-	}, [dispatch, productDetails, qty, isInCart, isLogged]);
+	}, [dispatch, productDetails, qty, isLogged, router]);
 
 	const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
 		setCurrentTab(newValue);

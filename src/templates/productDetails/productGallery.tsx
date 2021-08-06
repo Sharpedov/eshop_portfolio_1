@@ -4,6 +4,7 @@ import styled from "styled-components";
 import NavigateBeforeRoundedIcon from "@material-ui/icons/NavigateBeforeRounded";
 import NavigateNextRoundedIcon from "@material-ui/icons/NavigateNextRounded";
 import { useEffect } from "react";
+import Image from "next/image";
 
 interface pageProps {
 	productDetails;
@@ -20,17 +21,14 @@ const ProductGallery = ({ productDetails, loading }: pageProps) => {
 			typeof window !== "undefined" && window.innerWidth >= 768 ? false : true
 		);
 
-	const handleScroll = useCallback(
-		() => setOffset(window.pageYOffset),
-		[offset]
-	);
+	const handleScroll = useCallback(() => setOffset(window.pageYOffset), []);
 	const disableScrolling = useCallback(() => {
 		if (typeof window !== "undefined") {
 			return setChangeOpacityOfContainer(
 				window.innerWidth >= 768 ? false : true
 			);
 		}
-	}, [changeOpacityOfContainer]);
+	}, []);
 
 	useEffect(() => {
 		if (typeof window !== "undefined") {
@@ -45,7 +43,7 @@ const ProductGallery = ({ productDetails, loading }: pageProps) => {
 				window.removeEventListener("resize", disableScrolling);
 			};
 		}
-	}, [changeOpacityOfContainer]);
+	}, [changeOpacityOfContainer, disableScrolling, handleScroll]);
 
 	const handleNextSlide = useCallback(() => {
 		if (sliderLength - 1 === currentImg) {
@@ -58,8 +56,6 @@ const ProductGallery = ({ productDetails, loading }: pageProps) => {
 		} else {
 			setX((prev) => prev - 100);
 		}
-		// setCurrentImg((prev) => (sliderLength - 1 === currentImg ? 0 : prev + 1));
-		// setX((prev) => (x === -100 * (sliderLength - 1) ? 0 : prev - 100));
 	}, [currentImg, sliderLength, x]);
 
 	const handlePrevSlide = useCallback(() => {
@@ -67,20 +63,22 @@ const ProductGallery = ({ productDetails, loading }: pageProps) => {
 		setX((prev) => (x === 0 ? -100 * (sliderLength - 1) : prev + 100));
 	}, [currentImg, sliderLength, x]);
 
-	const handleDotClick = useCallback(
-		(i) => {
-			setX(-100 * i);
-			setCurrentImg(i);
-		},
-		[currentImg]
-	);
+	const handleDotClick = useCallback((i) => {
+		setX(-100 * i);
+		setCurrentImg(i);
+	}, []);
 
 	return (
 		<Container opacity={`${35 / offset}`}>
 			<Slider>
 				{productDetails.images.map((img, i) => (
 					<Slide key={img} style={{ transform: `translateX(${x}%)` }}>
-						<img src={img} />
+						<Image
+							src={img}
+							layout="fill"
+							objectFit="cover"
+							alt={productDetails.title}
+						/>
 					</Slide>
 				))}
 				<ArrowActions>
@@ -118,7 +116,12 @@ const ProductGallery = ({ productDetails, loading }: pageProps) => {
 						onClick={() => handleDotClick(i)}
 						active={i === currentImg ? 1 : 0}
 					>
-						<img src={img} />
+						<Image
+							src={img}
+							layout="fill"
+							objectFit="cover"
+							alt={productDetails.title}
+						/>
 					</Thumbnail>
 				))}
 			</Thumbnails>
@@ -212,17 +215,26 @@ const Slider = styled.div`
 `;
 
 const Slide = styled.div`
+	position: relative;
 	display: flex;
 	min-width: 100%;
+	height: 100vw;
 	transition: all 0.25s cubic-bezier(0.5, 1, 0.89, 1);
 	animation: slideAnim 0.3s linear;
 	background-color: #f2f2f2;
+	max-height: 475px;
 
-	> img {
-		display: block;
-		height: 100%;
-		width: 100%;
-		object-fit: contain;
+	@media (min-width: 400px) {
+		max-height: 525px;
+	}
+	@media (min-width: 480px) {
+		max-height: 600px;
+	}
+	@media (min-width: 768px) {
+		max-height: 625px;
+	}
+	@media (min-width: 1024px) {
+		max-height: 650px;
 	}
 
 	@keyframes slideAnim {

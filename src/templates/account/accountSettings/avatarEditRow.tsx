@@ -19,18 +19,15 @@ const AvatarEditRow = ({ user }: pageProps) => {
 	const [error, setError] = useState<string>(null);
 	const dispatch = useDispatch();
 
-	const addImageToPost = useCallback(
-		(e) => {
-			const reader = new FileReader();
+	const addImageToPost = useCallback((e) => {
+		const reader = new FileReader();
 
-			if (e.target.files[0]) reader.readAsDataURL(e.target.files[0]);
+		if (e.target.files[0]) reader.readAsDataURL(e.target.files[0]);
 
-			reader.onload = (readerEvent) => {
-				setEditedAvatar(readerEvent.target.result);
-			};
-		},
-		[avatarPickerRef, editedAvatar]
-	);
+		reader.onload = (readerEvent) => {
+			setEditedAvatar(readerEvent.target.result);
+		};
+	}, []);
 
 	const editAvatarHandler = async () => {
 		setLoading(true);

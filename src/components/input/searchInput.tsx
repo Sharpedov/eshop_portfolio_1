@@ -1,7 +1,6 @@
 import React, { useCallback, useRef, useState } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import { throttle } from "lodash";
 import ClearIcon from "@material-ui/icons/Clear";
 import { addSearchTerm } from "src/store/slices/searchSlice";
 
@@ -14,24 +13,21 @@ const SearchInput = ({ onClick }: pageProps) => {
 	const dispatch = useDispatch();
 	const [showClearBtn, setShowClearBtn] = useState<boolean>(false);
 
-	const handleInputChange = useCallback(
-		throttle(() => {
-			if (inputRef.current) {
-				const term = inputRef.current.value;
+	const handleInputChange = useCallback(() => {
+		if (inputRef.current) {
+			const term = inputRef.current.value;
 
-				setShowClearBtn(term.length >= 1 ? true : false);
-				dispatch(addSearchTerm(term));
-			}
-		}, 500),
-		[inputRef, dispatch]
-	);
+			setShowClearBtn(term.length >= 1 ? true : false);
+			dispatch(addSearchTerm(term));
+		}
+	}, [inputRef, dispatch]);
 
 	const handleInputClear = useCallback(() => {
 		inputRef.current.value = "";
 		dispatch(addSearchTerm(""));
 		setShowClearBtn(false);
 		inputRef.current.focus();
-	}, [inputRef, dispatch, showClearBtn]);
+	}, [inputRef, dispatch]);
 
 	return (
 		<SearchInputContainer onClick={onClick}>

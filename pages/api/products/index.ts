@@ -9,7 +9,7 @@ export const config = {
 	},
 };
 
-export default async (req, res) => {
+export default async function handler(req, res) {
 	const {
 		method,
 		body,
@@ -54,4 +54,4 @@ export default async (req, res) => {
 			res.status(400).json({ success: false });
 			break;
 	}
-};
+}

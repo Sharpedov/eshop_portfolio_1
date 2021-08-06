@@ -10,7 +10,7 @@ const mapState = (state) => ({
 	favourite: state.favourite.items,
 });
 
-export const isInCartOrFavourite = ({ id }: pageProps) => {
+export const IsInCartOrFavourite = ({ id }: pageProps) => {
 	const { cart, favourite } = useSelector(mapState);
 	const [isInCart, setIsInCart] = useState<boolean>(false);
 	const [isInFavourite, setIsInFavourite] = useState<boolean>(false);

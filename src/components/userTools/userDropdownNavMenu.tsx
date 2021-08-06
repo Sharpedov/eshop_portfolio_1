@@ -45,15 +45,21 @@ const UserDropdownNavMenu = ({ user, isOpen, onClose }: pageProps) => {
 		},
 	];
 
-	const handleOnClick = useCallback((to) => {
-		push(to);
-		onClose();
-	}, []);
+	const handleOnClick = useCallback(
+		(to) => {
+			push(to);
+			onClose();
+		},
+		[onClose, push]
+	);
 
-	const handleOnClickAction = useCallback((action) => {
-		action();
-		onClose();
-	}, []);
+	const handleOnClickAction = useCallback(
+		(action) => {
+			action();
+			onClose();
+		},
+		[onClose]
+	);
 
 	return (
 		<Container isopen={isOpen}>

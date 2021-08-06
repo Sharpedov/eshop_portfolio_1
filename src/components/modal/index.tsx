@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import styled from "styled-components";
 import CloseIcon from "@material-ui/icons/Close";
 import CustomIconButton from "../customIconButton";
-import { disableScrollbar } from "src/utils/disableScrollbar";
+import { DisableScrollbar } from "src/utils/disableScrollbar";
 import ReactModal from "react-modal";
 
 interface pageProps {
@@ -22,7 +22,7 @@ const Modal = ({
 	title,
 }: pageProps) => {
 	const [isBrowser, setIsBrowser] = useState<boolean>(false);
-	disableScrollbar(show);
+	DisableScrollbar(show);
 
 	const customStyles = {
 		content: {
@@ -82,7 +82,6 @@ const StyledModal = styled(ReactModal)`
 	place-items: center;
 	position: fixed;
 	inset: 0;
-	/* background-color: rgba(0, 0, 0, 0.5); */
 	z-index: 500;
 	border: none;
 `;

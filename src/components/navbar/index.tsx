@@ -42,7 +42,7 @@ const Navbar = ({}: pageProps) => {
 	const handleToggleCartSidebar = useCallback(() => {
 		dispatch(clearNotifications());
 		setCartSidebarIsOpen((prev) => !prev);
-	}, [cartSidebarIsOpen, dispatch]);
+	}, [dispatch, setCartSidebarIsOpen]);
 
 	return (
 		<>

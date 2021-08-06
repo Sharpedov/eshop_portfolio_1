@@ -93,7 +93,7 @@ const SigninTemplate = ({}: pageProps) => {
 							</Form>
 						</FormProvider>
 						<CustomButton variant="outlined" type="button">
-							Can't sign in?
+							Can&apos;t sign in?
 						</CustomButton>
 					</FormWrapper>
 					<Bottom>

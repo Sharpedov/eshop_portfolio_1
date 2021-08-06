@@ -13,7 +13,7 @@ import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import ListAltIcon from "@material-ui/icons/ListAlt";
 import SettingsIcon from "@material-ui/icons/Settings";
 import { useAuth } from "../authProvider";
-import { disableScrollbar } from "src/utils/disableScrollbar";
+import { DisableScrollbar } from "src/utils/disableScrollbar";
 
 interface pageProps {
 	isOpen: boolean;
@@ -123,10 +123,10 @@ const userDrawlerData = [
 ];
 
 const DrawlerMenu = ({ isOpen, onClose }: pageProps) => {
-	const { pathname, asPath } = useRouter();
+	const { pathname } = useRouter();
 	const { isLogged } = useAuth();
 	const drawlerMenuRef = useRef(null);
-	disableScrollbar(isOpen);
+	DisableScrollbar(isOpen);
 
 	const drawlerFilter = useMemo(() => {
 		if (isLogged) {
@@ -134,10 +134,6 @@ const DrawlerMenu = ({ isOpen, onClose }: pageProps) => {
 		}
 		return defaultDrawlerData;
 	}, [isLogged]);
-
-	useEffect(() => {
-		onClose();
-	}, [asPath]);
 
 	return (
 		<>
@@ -165,6 +161,7 @@ const DrawlerMenu = ({ isOpen, onClose }: pageProps) => {
 												href={item.href}
 												isActive={pathname === item.href}
 												size="medium"
+												onClick={onClose}
 											>
 												{item.text}
 											</CustomButton>

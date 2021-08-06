@@ -76,15 +76,6 @@ const ProductsTemplate = ({ gender }: pageProps) => {
 	const [sortBy, setSortBy] = useState(sortByOptions[0]);
 	const [isSortByOpen, setIsSortByOpen] = useState<boolean>(false);
 	const [isOpenFiltersSidebar, setIsOpenFiltersSidebar] = useState(false);
-	const appendQueries = () =>
-		useMemo(
-			() =>
-				Object.entries(query)
-					.map(([key, value]) => key && value && `&${key}=${value}`)
-					.map((query) => query)
-					.join(""),
-			[query]
-		);
 	const { data: products } = useSWR(
 		`/api/products?gender=${gender}&sort=${sortBy.sort}&brand=${
 			query.brand ? query.brand.toString().split("+") : []
@@ -97,12 +88,18 @@ const ProductsTemplate = ({ gender }: pageProps) => {
 		fetcher
 	);
 
-	const handleSortBy = useCallback(
-		(value) => {
-			setSortBy(value);
-		},
-		[sortBy]
+	const appendQueries = useMemo(
+		() =>
+			Object.entries(query)
+				.map(([key, value]) => key && value && `&${key}=${value}`)
+				.map((query) => query)
+				.join(""),
+		[query]
 	);
+
+	const handleSortBy = useCallback((value) => {
+		setSortBy(value);
+	}, []);
 
 	// useEffect(() => {
 	// 	if (gender === "men" && productsMen.length === 0) {
@@ -150,15 +147,12 @@ const ProductsTemplate = ({ gender }: pageProps) => {
 	// 	[loadingMoreItems, lastDoc]
 	// );
 
-	const handleChangeGridView = useCallback(
-		(typeView) => {
-			if (typeof window !== "undefined") {
-				setGridView(typeView);
-				localStorage.setItem("productGridView", JSON.stringify(typeView));
-			}
-		},
-		[gridView]
-	);
+	const handleChangeGridView = useCallback((typeView) => {
+		if (typeof window !== "undefined") {
+			setGridView(typeView);
+			localStorage.setItem("productGridView", JSON.stringify(typeView));
+		}
+	}, []);
 
 	useEffect(() => {
 		if (typeof window !== "undefined") {

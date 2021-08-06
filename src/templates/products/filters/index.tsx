@@ -50,7 +50,15 @@ const Filters = ({
 			},
 		});
 		onCloseFiltersSidebar();
-	}, [brands, categories, minMaxPrice]);
+	}, [
+		brands,
+		categories,
+		minMaxPrice,
+		onCloseFiltersSidebar,
+		pathname,
+		query,
+		push,
+	]);
 
 	const handleResetFilters = useCallback(() => {
 		setBrands([]);
@@ -60,7 +68,7 @@ const Filters = ({
 			max: 9999,
 		});
 		push(pathname);
-	}, [brands, categories, minMaxPrice]);
+	}, [push, pathname]);
 
 	const onKeyPress = (event) => {
 		const keyCode = event.keyCode || event.which;

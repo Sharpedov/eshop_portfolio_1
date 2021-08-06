@@ -79,108 +79,108 @@ const AccountSettings = ({}: pageProps) => {
 	const [loading, setLoading] = useState<boolean>(false);
 	const dispatch = useDispatch();
 
-	const changeDataOnSubmit: SubmitHandler<IformInputs> = async (
-		data: IformInputs
-	) => {
-		const { username } = data;
-		setLoading(true);
-
-		try {
-			const res = await axios
-				.patch(`/api/users/changeData`, {
-					email: user.email,
-					username: username.charAt(0).toUpperCase() + username.slice(1),
-				})
-				.then((res) => res.data);
-
-			setShowModal(false);
-			dispatch(getLoggedUser());
-			dispatch(addNotification({ message: res.message }));
-			reset();
-
-			setLoading(false);
-		} catch (error) {
-			setLoading(false);
-
-			dispatch(
-				addNotification({
-					type: "error",
-					message: error.response.data.message || error,
-				})
-			);
-		}
-	};
-	const changePasswordOnSubmit: SubmitHandler<IformInputs> = async (
-		data: IformInputs
-	) => {
-		const { password, newPassword } = data;
-		setLoading(true);
-
-		try {
-			const res = await axios
-				.patch(`/api/users/changePassword`, {
-					email: user.email,
-					password,
-					newPassword,
-				})
-				.then((res) => res.data);
-
-			setShowModal(false);
-			dispatch(getLoggedUser());
-			dispatch(addNotification({ message: res.message }));
-			reset();
-
-			setLoading(false);
-		} catch (error) {
-			setLoading(false);
-
-			dispatch(
-				addNotification({
-					type: "error",
-					message: error.response.data.message || error,
-				})
-			);
-		}
-	};
-
-	const changeEmailOnSubmit: SubmitHandler<IformInputs> = async (
-		data: IformInputs
-	) => {
-		const { email: newEmail, password } = data;
-		setLoading(true);
-
-		try {
-			const res = await axios
-				.patch(`/api/users/changeEmail`, {
-					email: user.email,
-					newEmail,
-					password,
-				})
-				.then((res) => res.data);
-
-			setShowModal(false);
-			dispatch(getLoggedUser());
-			dispatch(addNotification({ message: res.message }));
-			reset();
-
-			setLoading(false);
-		} catch (error) {
-			setLoading(false);
-
-			dispatch(
-				addNotification({
-					type: "error",
-					message: error.response.data.message || error,
-				})
-			);
-		}
-	};
-
 	useEffect(() => {
 		reset();
 	}, [showModal, reset]);
 
 	const ModalBody = useMemo(() => {
+		const changeDataOnSubmit: SubmitHandler<IformInputs> = async (
+			data: IformInputs
+		) => {
+			const { username } = data;
+			setLoading(true);
+
+			try {
+				const res = await axios
+					.patch(`/api/users/changeData`, {
+						email: user.email,
+						username: username.charAt(0).toUpperCase() + username.slice(1),
+					})
+					.then((res) => res.data);
+
+				setShowModal(false);
+				dispatch(getLoggedUser());
+				dispatch(addNotification({ message: res.message }));
+				reset();
+
+				setLoading(false);
+			} catch (error) {
+				setLoading(false);
+
+				dispatch(
+					addNotification({
+						type: "error",
+						message: error.response.data.message || error,
+					})
+				);
+			}
+		};
+		const changePasswordOnSubmit: SubmitHandler<IformInputs> = async (
+			data: IformInputs
+		) => {
+			const { password, newPassword } = data;
+			setLoading(true);
+
+			try {
+				const res = await axios
+					.patch(`/api/users/changePassword`, {
+						email: user.email,
+						password,
+						newPassword,
+					})
+					.then((res) => res.data);
+
+				setShowModal(false);
+				dispatch(getLoggedUser());
+				dispatch(addNotification({ message: res.message }));
+				reset();
+
+				setLoading(false);
+			} catch (error) {
+				setLoading(false);
+
+				dispatch(
+					addNotification({
+						type: "error",
+						message: error.response.data.message || error,
+					})
+				);
+			}
+		};
+
+		const changeEmailOnSubmit: SubmitHandler<IformInputs> = async (
+			data: IformInputs
+		) => {
+			const { email: newEmail, password } = data;
+			setLoading(true);
+
+			try {
+				const res = await axios
+					.patch(`/api/users/changeEmail`, {
+						email: user.email,
+						newEmail,
+						password,
+					})
+					.then((res) => res.data);
+
+				setShowModal(false);
+				dispatch(getLoggedUser());
+				dispatch(addNotification({ message: res.message }));
+				reset();
+
+				setLoading(false);
+			} catch (error) {
+				setLoading(false);
+
+				dispatch(
+					addNotification({
+						type: "error",
+						message: error.response.data.message || error,
+					})
+				);
+			}
+		};
+
 		switch (modalType.type) {
 			case "data": {
 				return (
@@ -319,11 +319,12 @@ const AccountSettings = ({}: pageProps) => {
 		modalType,
 		control,
 		loading,
-		changeEmailOnSubmit,
 		errors,
 		user,
-		Controller,
 		methods,
+		handleSubmit,
+		dispatch,
+		reset,
 	]);
 
 	return (

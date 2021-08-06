@@ -25,7 +25,7 @@ const mapState = (state) => ({
 });
 
 const AccountDefaultContent = ({}: pageProps) => {
-	const { user, loading } = useAuth();
+	const { loading } = useAuth();
 	const { favouriteItems } = useSelector(mapState);
 
 	const CardElement = ({
@@ -37,7 +37,7 @@ const AccountDefaultContent = ({}: pageProps) => {
 		emptyCard,
 		textCard,
 	}: ICardElement) => (
-		<Link href={href}>
+		<Link passHref href={href}>
 			<Card component={component}>
 				<CardBackgroundWrapper>
 					<CardBackground background={background} />

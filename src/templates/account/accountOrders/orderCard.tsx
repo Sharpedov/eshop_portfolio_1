@@ -2,6 +2,7 @@ import React from "react";
 import styled, { keyframes } from "styled-components";
 import { CardActionArea } from "@material-ui/core";
 import { animateScroll as scroll, Link as LinkScroll } from "react-scroll";
+import Image from "next/image";
 
 interface pageProps {
 	orderData;
@@ -31,9 +32,23 @@ const OrderCard = ({ orderData, setOrderDetails }: pageProps) => {
 						{items.map((item) => (
 							<>
 								{item.images[0] ? (
-									<img src={item.images[0]} alt={item._id} key={item._id} />
+									<ImageWrapper key={item._id}>
+										<Image
+											src={item.images[0]}
+											alt={item._id}
+											layout="fill"
+											objectFit="cover"
+										/>
+									</ImageWrapper>
 								) : (
-									<img src="/empty-img.png" alt={item._id} key={item._id} />
+									<ImageWrapper key={item._id}>
+										<Image
+											src="/empty-img.png"
+											alt={item._id}
+											layout="fill"
+											objectFit="cover"
+										/>
+									</ImageWrapper>
 								)}
 							</>
 						))}
@@ -123,4 +138,10 @@ const Images = styled.div`
 		max-height: 80px;
 		object-fit: cover;
 	}
+`;
+
+const ImageWrapper = styled.div`
+	position: relative;
+	height: 80px;
+	width: 100%;
 `;

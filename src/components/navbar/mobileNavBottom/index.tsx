@@ -66,7 +66,11 @@ const MobileNavBottom = ({
 		<NavbarMobileBottom>
 			{mobileNavData.map((item, i) =>
 				item.href ? (
-					<Link href={item.href} key={`mobileNavBottom-${item.text}-${i}`}>
+					<Link
+						href={item.href}
+						key={`mobileNavBottom-${item.text}-${i}`}
+						passHref
+					>
 						<StyledIconButton
 							aria-label={item.text}
 							active={pathname === item.href}

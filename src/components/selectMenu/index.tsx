@@ -20,19 +20,22 @@ const SelectMenu = ({
 }: pageProps) => {
 	const selectRef = useRef(null);
 
-	const pageClickEvent = (e) => {
-		if (selectRef.current !== null && !selectRef.current.contains(e.target)) {
-			onClose();
-		}
-	};
-
-	const escapeListener = useCallback((e: KeyboardEvent) => {
-		if (e.key === "Escape") {
-			onClose();
-		}
-	}, []);
+	const escapeListener = useCallback(
+		(e: KeyboardEvent) => {
+			if (e.key === "Escape") {
+				onClose();
+			}
+		},
+		[onClose]
+	);
 
 	useEffect(() => {
+		const pageClickEvent = (e) => {
+			if (selectRef.current !== null && !selectRef.current.contains(e.target)) {
+				onClose();
+			}
+		};
+
 		const timeout = () =>
 			setTimeout(() => {
 				if (isOpen) {
@@ -46,7 +49,7 @@ const SelectMenu = ({
 			window.removeEventListener("click", pageClickEvent);
 			document.addEventListener("keydown", escapeListener);
 		};
-	}, [isOpen, selectRef]);
+	}, [isOpen, selectRef, escapeListener, onClose]);
 
 	return (
 		<CSSTransition

@@ -55,11 +55,11 @@ const Notification = ({ message, type, id }: pageProps) => {
 				dispatch(removeNotification({ id }));
 			}, 400);
 		}
-	}, [exit, dispatch]);
+	}, [dispatch, id]);
 
 	useEffect(() => {
 		width === 0 && handleCloseNotification();
-	}, [width]);
+	}, [width, handleCloseNotification]);
 
 	useEffect(() => {
 		handleStartTimer();

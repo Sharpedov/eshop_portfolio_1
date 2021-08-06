@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-export const disableScrollbar = (isOpen) => {
+export const DisableScrollbar = (isOpen) => {
 	useEffect(() => {
 		if (isOpen) {
 			if (

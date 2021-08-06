@@ -50,12 +50,12 @@ const CartSidebar = ({ isOpen, onClose }: pageProps) => {
 		});
 
 		if (!result.error) return dispatch(clearCart());
-	}, [stripePromise, cart, user]);
+	}, [cart, user, dispatch]);
 
 	const handleCheckout = useCallback(() => {
 		isLogged ? createCheckout() : push("/sign-in");
 		onClose();
-	}, [isLogged, stripePromise, cart, user]);
+	}, [isLogged, createCheckout, onClose, push]);
 
 	return (
 		<>

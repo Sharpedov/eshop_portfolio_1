@@ -3,7 +3,7 @@ import { CSSTransition } from "react-transition-group";
 import styled from "styled-components";
 import CustomIconButton from "../customIconButton";
 import CloseIcon from "@material-ui/icons/Close";
-import { disableScrollbar } from "src/utils/disableScrollbar";
+import { DisableScrollbar } from "src/utils/disableScrollbar";
 
 interface pageProps {
 	children: React.ReactNode;
@@ -22,7 +22,7 @@ const Sidebar = ({
 	displayNone,
 	slideFrom,
 }: pageProps) => {
-	disableScrollbar(isOpen);
+	DisableScrollbar(isOpen);
 
 	return (
 		<>
@@ -86,10 +86,6 @@ const Container = styled.div`
 	width: 100%;
 	box-shadow: ${({ theme }) => theme.boxShadow.primary};
 	background: ${({ theme }) => theme.surface.primary};
-	/* transform: ${({ isOpen }) =>
-		isOpen ? "translateX(0)" : "translateX(450px)"};
-	transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-	transition: transform 250ms linear; */
 	z-index: 101;
 
 	&::-webkit-scrollbar {

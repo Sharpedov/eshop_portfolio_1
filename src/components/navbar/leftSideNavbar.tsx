@@ -19,7 +19,7 @@ const LeftSideNavbar = ({ toggleDrawler }: pageProps) => {
 					size="medium"
 					ariaLabel="Drawler menu"
 				/>
-				<Link href="/">
+				<Link href="/" passHref>
 					<Logo>
 						eshop<span>.</span>com
 					</Logo>

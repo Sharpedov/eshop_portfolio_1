@@ -53,14 +53,14 @@ const AuthProvider = ({ children }: pageProps) => {
 		(href: string) => {
 			if (isLogged && !loading) router.push(href);
 		},
-		[user, loading, isLogged]
+		[loading, isLogged, router]
 	);
 
 	const redirectIfNotLogged = useCallback(
 		(href: string) => {
 			if (!isLogged && !loading) router.push(href);
 		},
-		[user, loading, isLogged]
+		[loading, isLogged, router]
 	);
 
 	const memoredValue = useMemo(
@@ -73,19 +73,6 @@ const AuthProvider = ({ children }: pageProps) => {
 		}),
 		[user, loading, isLogged, redirectIfLogged, redirectIfNotLogged]
 	);
-
-	// const memoedValue = useMemo(
-	//     () => ({
-	//       user,
-	//       loading,
-	//       error,
-	//       login,
-	//       signUp,
-	//       logout,
-	//     }),
-	//     [user, loading, error]
-	//   );
-	// const { user, loading, error, login, signUp, logout } = useAuth();
 
 	return (
 		<AuthContext.Provider value={memoredValue}>{children}</AuthContext.Provider>
