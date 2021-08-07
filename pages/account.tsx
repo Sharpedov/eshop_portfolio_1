@@ -1,14 +1,9 @@
 import Head from "next/head";
 import React from "react";
-import { useAuth } from "src/components/authProvider";
 import cookie from "cookie";
 import AccountTemplate from "src/templates/account";
 
 export default function AccountPage({}) {
-	const { redirectIfNotLogged } = useAuth();
-
-	// redirectIfNotLogged("/");
-
 	return (
 		<>
 			<Head>

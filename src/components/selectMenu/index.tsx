@@ -88,7 +88,6 @@ const Container = styled.div`
 	border-radius: 5px;
 	box-shadow: ${({ theme }) => theme.boxShadow.primary};
 	width: 150px;
-	/* width: calc(100% + 30px); */
 	z-index: 5;
 	overflow: hidden;
 `;

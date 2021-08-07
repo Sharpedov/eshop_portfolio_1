@@ -162,7 +162,6 @@ const HeaderControlButton = styled(ButtonBase)`
 
 	&:disabled {
 		opacity: 0.25;
-		/* background-color: ${({ theme }) => theme.primary}; */
 	}
 `;
 

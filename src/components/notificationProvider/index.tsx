@@ -71,10 +71,6 @@ const Wrapper = styled.div`
 	}
 
 	@media (min-width: 768px) {
-		/* top: 70px;
-		bottom: none;
-		right: 20px;
-		left: auto; */
 		left: 25px;
 		bottom: 45px;
 		width: 300px;

@@ -1,7 +1,7 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
 import { CardActionArea } from "@material-ui/core";
-import { animateScroll as scroll, Link as LinkScroll } from "react-scroll";
+import { Link as LinkScroll } from "react-scroll";
 import Image from "next/image";
 
 interface pageProps {
@@ -107,7 +107,6 @@ const LeftBox = styled.div`
 		opacity: 0.65;
 	}
 `;
-const Row = styled.div``;
 
 const RightBox = styled.div`
 	display: flex;

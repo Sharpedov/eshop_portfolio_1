@@ -8,7 +8,6 @@ import EmptyPageHeader from "../emptyPageHeader";
 import Sidebar from "../sidebar";
 import SpinnerLoading from "../loadingIndicators/spinnerLoading";
 import { useAuth } from "../authProvider";
-import { clearCart } from "src/store/slices/cartSlice";
 import CartProduct from "./cartProduct";
 import { createCheckoutSession } from "src/store/slices/checkoutSlice";
 

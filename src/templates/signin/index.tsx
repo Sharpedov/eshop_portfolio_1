@@ -235,42 +235,6 @@ const Bottom = styled.div`
 	}
 `;
 
-const OtherSignin = styled.div`
-	display: grid;
-	grid-gap: 20px;
-	max-width: 400px;
-	width: 100%;
-
-	@media (min-width: 768px) {
-		grid-template-columns: 1fr 1fr;
-	}
-`;
-
-const Divider = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	position: relative;
-	width: 100%;
-	text-align: center;
-	z-index: 1;
-	padding: 0 8px;
-
-	> p {
-		padding: 0 10px;
-		white-space: nowrap;
-		color: ${({ theme }) => theme.color.white};
-		opacity: 0.65;
-	}
-
-	> span {
-		width: 50%;
-		height: 1px;
-		background-color: rgba(58, 60, 63, 0.5);
-		z-index: -1;
-	}
-`;
-
 const ImageWrapper = styled.div`
 	display: none;
 

@@ -142,7 +142,6 @@ const CartAndFavBadge = styled.div`
 	border-radius: 50%;
 	height: 20px;
 	width: 20px;
-	/* text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8); */
 	font-weight: 400;
 	box-shadow: ${({ theme }) => theme.boxShadow.primary};
 

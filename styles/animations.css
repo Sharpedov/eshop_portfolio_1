@@ -31,12 +31,6 @@
 	opacity: 0;
 }
 
-.modal--exit-active {
-	opacity: 0;
-	/* transform: translateY(100%); */
-	transition: all 0.25s cubic-bezier(0.5, 1, 0.89, 1);
-}
-
 /* ENTER EXIT DRAWLER MENU */
 .drawlerMenu--enter {
 	transform: translateX(-100%);

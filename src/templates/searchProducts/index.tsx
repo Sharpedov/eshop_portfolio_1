@@ -2,7 +2,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import useSWR from "swr";
-import { useRouter } from "next/router";
 import SearchIcon from "@material-ui/icons/Search";
 import { fetcher } from "src/utils/swrFetcher";
 import ProductCard from "src/components/productCard";

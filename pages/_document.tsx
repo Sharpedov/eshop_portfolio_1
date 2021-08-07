@@ -34,6 +34,7 @@ export default class CustomDocument extends Document {
 			<Html lang="en-US">
 				<Head>
 					<meta name="apple-mobile-web-app-title" content="Eshop ecommerce" />
+					<meta name="theme-color" content="#121212" />
 
 					<link rel="preconnect" href="https://fonts.gstatic.com" />
 

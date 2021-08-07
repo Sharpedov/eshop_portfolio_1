@@ -18,7 +18,7 @@ import CustomIconButton from "src/components/customIconButton";
 import ProductSkeleton from "src/components/loadingSkeletons/productSkeleton";
 import SelectMenu from "src/components/selectMenu";
 import CustomButton from "src/components/customButton";
-import useSWR, { mutate } from "swr";
+import useSWR from "swr";
 import { fetcher } from "src/utils/swrFetcher";
 import Filters from "./filters";
 

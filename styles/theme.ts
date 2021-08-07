@@ -6,7 +6,6 @@ export const theme = {
 	},
 	color: {
 		primary: "#1DB954",
-		// primary: "#BB86FC",
 		secondary: "#03DAC6",
 		white: `hsl(0, 0%, 100%)`,
 		black: "#000",

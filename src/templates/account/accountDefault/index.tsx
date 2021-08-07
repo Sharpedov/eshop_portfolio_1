@@ -2,7 +2,6 @@ import React from "react";
 import styled, { keyframes } from "styled-components";
 import { useAuth } from "src/components/authProvider";
 import { CardActionArea } from "@material-ui/core";
-import LocalMallIcon from "@material-ui/icons/LocalMall";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import { useSelector } from "react-redux";
 import DefaultLoading from "src/components/loadingIndicators/defaultLoading";
@@ -139,9 +138,6 @@ const CardBackground = styled.div`
 	inset: 0;
 	background: ${({ background }) =>
 		`url(${background}) center / cover no-repeat rgb(23, 24, 26)`};
-	/* background-size: cover;
-	background-position: center;
-	background-repeat: no-repeat; */
 	transition: all 0.2s ease-in-out;
 	z-index: -1;
 

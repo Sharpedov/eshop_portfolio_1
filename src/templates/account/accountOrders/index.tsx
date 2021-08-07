@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled, { keyframes } from "styled-components";
 import OrderCard from "./orderCard";
-import Skeleton from "@material-ui/lab/Skeleton";
 import Pagination from "src/components/pagination";
 import DefaultLoading from "src/components/loadingIndicators/defaultLoading";
 import useSWR from "swr";
@@ -73,17 +72,6 @@ const appear = keyframes`
 	}
 `;
 
-const skeletonEnter = keyframes`
-	from {
-		opacity:0;
-		transform: scale(.92);
-	}
-	to{
-		opacity:1;
-		transform: none;
-	}
-`;
-
 const Body = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -99,30 +87,4 @@ const Orders = styled.div`
 	flex-direction: column;
 	gap: 15px;
 	animation: ${appear} 0.3s ease-in-out;
-`;
-
-const SkeletonWrapper = styled.div`
-	display: grid;
-	grid-template-columns: 2fr 3fr;
-	height: 110px;
-	grid-gap: 10px;
-
-	animation: ${skeletonEnter} 0.3s linear;
-
-	@media (min-width: 576px) {
-		grid-template-columns: minmax(125px, 250px) 1fr;
-	}
-`;
-
-const SkeletonLeft = styled.div``;
-
-const SkeletonRight = styled.div`
-	display: grid;
-	grid-template-columns: 1fr;
-	gap: 10px;
-`;
-
-const StyledSkeleton = styled(Skeleton)`
-	background: rgba(0, 0, 0, 0.2);
-	border-radius: 2px;
 `;

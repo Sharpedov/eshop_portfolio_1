@@ -122,10 +122,6 @@ const Heading = styled.div`
 	> h2 {
 		font-size: ${({ theme }) => `calc(${theme.font.xs} + 3vw)`};
 	}
-
-	/* @media (min-width: 768px) {
-		margin-bottom: 1.5%;
-	} */
 `;
 
 const Toolbar = styled.ul`
@@ -177,16 +173,4 @@ const EmptyFavouriteContainer = styled.div`
 	place-items: center;
 	margin-top: 29px;
 	animation: ${appear} 0.25s ease-in-out;
-`;
-
-const EmptyIconWrap = styled.div`
-	display: grid;
-	place-items: center;
-	border: 1px dashed ${({ theme }) => theme.color.white};
-	border-radius: 12px;
-	padding: 20px;
-
-	.favouriteEmpty__icon {
-		font-size: ${({ theme }) => `calc(${theme.font.m})`};
-	}
 `;

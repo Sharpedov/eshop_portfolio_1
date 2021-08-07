@@ -414,7 +414,6 @@ const RowContent = styled.div`
 	display: flex;
 	flex-direction: column;
 	border: 1px solid rgba(75, 75, 75, 0.25);
-	/* rgba(48, 48, 48, 0.25); */
 	padding: 16px;
 	gap: 6px;
 	border-radius: 8px;
