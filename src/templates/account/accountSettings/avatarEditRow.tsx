@@ -1,22 +1,23 @@
-import axios from "axios";
 import React, { useCallback, useRef, useState } from "react";
 import CustomButton from "src/components/customButton";
 import styled from "styled-components";
 import EditIcon from "@material-ui/icons/Edit";
 import { Avatar, ButtonBase } from "@material-ui/core";
-import { useDispatch } from "react-redux";
-import { addNotification } from "src/store/slices/notificationSlice";
-import { getLoggedUser } from "src/store/slices/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { changeUserAvatar } from "src/store/slices/userSlice";
 
 interface pageProps {
 	user;
 }
 
+const mapState = (state) => ({
+	changeLoading: state.user.changeAvatar.loading,
+});
+
 const AvatarEditRow = ({ user }: pageProps) => {
+	const { changeLoading } = useSelector(mapState);
 	const avatarPickerRef = useRef(null);
 	const [editedAvatar, setEditedAvatar] = useState(null);
-	const [loading, setLoading] = useState<boolean>(false);
-	const [error, setError] = useState<string>(null);
 	const dispatch = useDispatch();
 
 	const addImageToPost = useCallback((e) => {
@@ -29,34 +30,9 @@ const AvatarEditRow = ({ user }: pageProps) => {
 		};
 	}, []);
 
-	const editAvatarHandler = async () => {
-		setLoading(true);
-		try {
-			const res = await axios
-				.patch(`/api/users/changeAvatar`, {
-					email: user.email,
-					avatar: editedAvatar,
-				})
-				.then((res) => res.data);
-
-			dispatch(getLoggedUser());
-			dispatch(addNotification({ message: res.message }));
-
-			setEditedAvatar(null);
-			setLoading(false);
-		} catch (error) {
-			setLoading(false);
-			setEditedAvatar(null);
-
-			dispatch(
-				addNotification({
-					type: "error",
-					message: error.response.data.message || error,
-				})
-			);
-			setError(error.response.data.message || error.message);
-		}
-	};
+	const editAvatarHandler = useCallback(() => {
+		dispatch(changeUserAvatar({ email: user.email, newAvatar: editedAvatar }));
+	}, [dispatch, editedAvatar, user.email]);
 
 	return (
 		<EditAvatarRow>
@@ -80,7 +56,7 @@ const AvatarEditRow = ({ user }: pageProps) => {
 			/>
 			<CustomButton
 				disabled={!editedAvatar}
-				loading={loading}
+				loading={changeLoading}
 				onClick={editAvatarHandler}
 				variant="contained"
 				size="small"

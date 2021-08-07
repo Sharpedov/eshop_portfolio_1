@@ -10,17 +10,19 @@ import EditIcon from "@material-ui/icons/Edit";
 import CustomIconButton from "src/components/customIconButton";
 import Modal from "src/components/modal";
 import CustomButton from "src/components/customButton";
-import { useDispatch } from "react-redux";
-import axios from "axios";
-import { addNotification } from "src/store/slices/notificationSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import DefaultLoading from "src/components/loadingIndicators/defaultLoading";
 import { useEffect } from "react";
-import { getLoggedUser } from "src/store/slices/authSlice";
 import { useAuth } from "src/components/authProvider";
 import FormInput from "src/components/input/formInput";
 import AvatarEditRow from "./avatarEditRow";
+import {
+	changeUserData,
+	changeUserEmail,
+	changeUserPassword,
+} from "src/store/slices/userSlice";
 
 interface pageProps {}
 
@@ -37,7 +39,7 @@ interface TypeOfModal {
 }
 
 const yupSchemaChangeData = yup.object({
-	username: yup.string().required("Name is a required"),
+	username: yup.string().max(16).required("Name is a required"),
 });
 const yupSchemaChangeEmail = yup.object({
 	email: yup.string().email().required("Email is a required"),
@@ -57,7 +59,12 @@ const yupSchemaChangePassword = yup.object({
 		.required("Repeat Password is a required"),
 });
 
+const mapState = (state) => ({
+	changeLoading: state.user.loading,
+});
+
 const AccountSettings = ({}: pageProps) => {
+	const { changeLoading } = useSelector(mapState);
 	const [modalType, setModalType] = useState<TypeOfModal>({ type: "data" });
 	const { user, loading: userLoading } = useAuth();
 	const methods = useForm<IformInputs>({
@@ -76,7 +83,6 @@ const AccountSettings = ({}: pageProps) => {
 		reset,
 	} = methods;
 	const [showModal, setShowModal] = useState<boolean>(false);
-	const [loading, setLoading] = useState<boolean>(false);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -84,101 +90,43 @@ const AccountSettings = ({}: pageProps) => {
 	}, [showModal, reset]);
 
 	const ModalBody = useMemo(() => {
-		const changeDataOnSubmit: SubmitHandler<IformInputs> = async (
+		const closeModal = () => setShowModal(false);
+
+		const changeDataOnSubmit: SubmitHandler<IformInputs> = (
 			data: IformInputs
 		) => {
 			const { username } = data;
-			setLoading(true);
-
-			try {
-				const res = await axios
-					.patch(`/api/users/changeData`, {
-						email: user.email,
-						username: username.charAt(0).toUpperCase() + username.slice(1),
-					})
-					.then((res) => res.data);
-
-				setShowModal(false);
-				dispatch(getLoggedUser());
-				dispatch(addNotification({ message: res.message }));
-				reset();
-
-				setLoading(false);
-			} catch (error) {
-				setLoading(false);
-
-				dispatch(
-					addNotification({
-						type: "error",
-						message: error.response.data.message || error,
-					})
-				);
-			}
-		};
-		const changePasswordOnSubmit: SubmitHandler<IformInputs> = async (
-			data: IformInputs
-		) => {
-			const { password, newPassword } = data;
-			setLoading(true);
-
-			try {
-				const res = await axios
-					.patch(`/api/users/changePassword`, {
-						email: user.email,
-						password,
-						newPassword,
-					})
-					.then((res) => res.data);
-
-				setShowModal(false);
-				dispatch(getLoggedUser());
-				dispatch(addNotification({ message: res.message }));
-				reset();
-
-				setLoading(false);
-			} catch (error) {
-				setLoading(false);
-
-				dispatch(
-					addNotification({
-						type: "error",
-						message: error.response.data.message || error,
-					})
-				);
-			}
+			dispatch(
+				changeUserData({
+					email: user.email,
+					username: username.charAt(0).toUpperCase() + username.slice(1),
+					closeModal,
+				})
+			);
 		};
 
-		const changeEmailOnSubmit: SubmitHandler<IformInputs> = async (
+		const changeEmailOnSubmit: SubmitHandler<IformInputs> = (
 			data: IformInputs
 		) => {
 			const { email: newEmail, password } = data;
-			setLoading(true);
+			dispatch(
+				changeUserEmail({ email: user.email, newEmail, password, closeModal })
+			);
+		};
 
-			try {
-				const res = await axios
-					.patch(`/api/users/changeEmail`, {
-						email: user.email,
-						newEmail,
-						password,
-					})
-					.then((res) => res.data);
+		const changePasswordOnSubmit: SubmitHandler<IformInputs> = (
+			data: IformInputs
+		) => {
+			const { password, newPassword } = data;
 
-				setShowModal(false);
-				dispatch(getLoggedUser());
-				dispatch(addNotification({ message: res.message }));
-				reset();
-
-				setLoading(false);
-			} catch (error) {
-				setLoading(false);
-
-				dispatch(
-					addNotification({
-						type: "error",
-						message: error.response.data.message || error,
-					})
-				);
-			}
+			dispatch(
+				changeUserPassword({
+					email: user.email,
+					currentPassword: password,
+					newPassword,
+					closeModal,
+				})
+			);
 		};
 
 		switch (modalType.type) {
@@ -203,7 +151,7 @@ const AccountSettings = ({}: pageProps) => {
 									type="submit"
 									size="small"
 									variant="contained"
-									loading={loading}
+									loading={changeLoading}
 								>
 									Save
 								</CustomButton>
@@ -250,7 +198,7 @@ const AccountSettings = ({}: pageProps) => {
 								type="submit"
 								size="small"
 								variant="contained"
-								loading={loading}
+								loading={changeLoading}
 							>
 								Save
 							</CustomButton>
@@ -304,7 +252,7 @@ const AccountSettings = ({}: pageProps) => {
 								type="submit"
 								size="small"
 								variant="contained"
-								loading={loading}
+								loading={changeLoading}
 							>
 								Save
 							</CustomButton>
@@ -318,13 +266,12 @@ const AccountSettings = ({}: pageProps) => {
 	}, [
 		modalType,
 		control,
-		loading,
 		errors,
 		user,
 		methods,
 		handleSubmit,
 		dispatch,
-		reset,
+		changeLoading,
 	]);
 
 	return (

@@ -2,7 +2,6 @@ import React, { useCallback } from "react";
 import styled, { keyframes } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import LocalMallIcon from "@material-ui/icons/LocalMall";
-import axios from "axios";
 import { useRouter } from "next/router";
 import CustomButton from "../customButton";
 import EmptyPageHeader from "../emptyPageHeader";
