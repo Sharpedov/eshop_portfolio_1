@@ -20,9 +20,24 @@ interface IformInputs {
 }
 
 const yupSchema = yup.object().shape({
-	username: yup.string().min(3).max(16).required(),
-	email: yup.string().email().required(),
-	password: yup.string().min(4).max(16).required(),
+	username: yup
+		.string()
+		.min(3, "Username must be at least 3 characters")
+		.max(16, "Username must be at least 16 characters")
+		.required("Username is required"),
+	email: yup
+		.string()
+		.email("Must be a valid email")
+		.required("Email is required"),
+	password: yup
+		.string()
+		.min(4, "Password must be at least 4 characters")
+		.max(16, "Password must be at most 16 characters")
+		.required("Password is required"),
+	repeatPassword: yup
+		.string()
+		.required("Repeat Password is required")
+		.oneOf([yup.ref("password"), null], "Password does not match"),
 });
 
 const mapState = (state) => ({
@@ -93,6 +108,20 @@ const CreateAccountTemplate = ({}: pageProps) => {
 									/>
 								)}
 								name="password"
+								control={control}
+							/>
+							<Controller
+								render={({ field }) => (
+									<FormInput
+										field={field}
+										label="Repeat Password"
+										type="password"
+										error={
+											errors.repeatPassword && errors.repeatPassword.message
+										}
+									/>
+								)}
+								name="repeatPassword"
 								control={control}
 							/>
 

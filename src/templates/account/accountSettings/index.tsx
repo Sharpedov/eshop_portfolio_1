@@ -39,24 +39,38 @@ interface TypeOfModal {
 }
 
 const yupSchemaChangeData = yup.object({
-	username: yup.string().max(16).required("Name is a required"),
+	username: yup
+		.string()
+		.min(3, "Username must be at least 3 characters")
+		.max(16, "Username must be at least 16 characters")
+		.required("Username is required"),
 });
 const yupSchemaChangeEmail = yup.object({
-	email: yup.string().email().required("Email is a required"),
-	password: yup.string().min(4).max(16).required("Password is a required"),
+	email: yup
+		.string()
+		.email("Must be a valid email")
+		.required("Email is required"),
+	password: yup
+		.string()
+		.min(4, "Password must be at least 4 characters")
+		.max(16, "Password must be at most 16 characters")
+		.required("Password is required"),
 });
 const yupSchemaChangePassword = yup.object({
-	password: yup.string().min(4).max(16).required("Password is a required"),
+	password: yup
+		.string()
+		.min(4, "Password must be at least 4 characters")
+		.max(16, "Password must be at most 16 characters")
+		.required("Password is required"),
 	newPassword: yup
 		.string()
-		.min(4)
-		.max(16)
-		.required("New Password is a required"),
+		.min(4, "New Password must be at least 4 characters")
+		.max(16, "New Password must be at most 16 characters")
+		.required("New Password is required"),
 	repeatPassword: yup
 		.string()
-		.min(4)
-		.max(16)
-		.required("Repeat Password is a required"),
+		.required("Repeat Password is required")
+		.oneOf([yup.ref("newPassword"), null], "Password does not match"),
 });
 
 const mapState = (state) => ({

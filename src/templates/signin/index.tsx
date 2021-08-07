@@ -23,8 +23,15 @@ interface IformInputs {
 }
 
 const yupSchema = yup.object().shape({
-	email: yup.string().email().required(),
-	password: yup.string().min(4).max(16).required(),
+	email: yup
+		.string()
+		.email("Must be a valid email")
+		.required("Email is required"),
+	password: yup
+		.string()
+		.min(4, "Password must be at least 4 characters")
+		.max(16, "Password must be at most 16 characters")
+		.required("Password is required"),
 });
 
 const mapState = (state) => ({
