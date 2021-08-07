@@ -13,10 +13,11 @@ export default authenticated(async (req, res) => {
 				try {
 					const { email, newEmail, password } = body;
 					const user = await User.findOne({ email }).select("+password");
+					const existingEmail = await User.findOne({ email: newEmail });
 
-					if (!user)
+					if (!user || existingEmail)
 						return res.status(401).json({
-							message: "Invalid user",
+							message: "Invalid email",
 						});
 
 					const isMatch = await compare(password, user.password);
