@@ -51,7 +51,7 @@ const NewArrivalsRows = styled.div`
 		background-repeat: no-repeat;
 		background-position: bottom left;
 		left: 0%;
-		bottom: 50%;
+		bottom: 35%;
 		background-size: 60%;
 		z-index: -1;
 	}
@@ -83,7 +83,7 @@ const NewArrivalsRows = styled.div`
 
 	@media (min-width: 768px) {
 		::before {
-			bottom: 45%;
+			bottom: 30%;
 			background-size: 30%;
 		}
 
@@ -95,7 +95,7 @@ const NewArrivalsRows = styled.div`
 
 	@media (min-width: 1024px) {
 		::before {
-			bottom: 45%;
+			bottom: 28%;
 			background-size: 20%;
 		}
 
