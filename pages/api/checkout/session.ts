@@ -8,7 +8,7 @@ export default authenticated(async (req, res) => {
 
 	if (req.method === "POST") {
 		const session = await stripe.checkout.sessions.create({
-			success_url: `${process.env.HOST}/account?tab=1`,
+			success_url: `${process.env.HOST}`,
 			cancel_url: `${process.env.HOST}`,
 			shipping_rates: ["shr_1IyiZUDo3BXslR9dpAL6M4MX"],
 			shipping_address_collection: {
