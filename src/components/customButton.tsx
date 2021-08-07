@@ -176,8 +176,6 @@ const StyledButton = styled(Button)`
 	text-transform: none;
 	transition: all 0.2s ease;
 
-	/* transition: all 0.2s cubic-bezier(0.5, 1, 0.89, 1); */
-
 	&:disabled {
 		background-color: rgba(0, 0, 0, 0.3);
 		border-color: rgba(0, 0, 0, 0.3);
@@ -208,10 +206,7 @@ const ContainedButton = styled(StyledButton)`
 			color === "secondary" ? theme.color.secondary : theme.color.primary};
 	border-radius: 2px;
 	transition: all 0.2s ease;
-	/* transition: all 0.2s cubic-bezier(0.5, 1, 0.89, 1); */
 	color: #fff;
-	/* color: ${({ theme, color }) =>
-		color === "primary" ? theme.color.white : theme.color.black}; */
 	z-index: 1;
 
 	&:after {

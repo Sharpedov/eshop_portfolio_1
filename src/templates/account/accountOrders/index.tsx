@@ -84,22 +84,6 @@ const skeletonEnter = keyframes`
 	}
 `;
 
-// const Heading = styled.div`
-// 	border-radius: 2px;
-// 	padding: 15px 0;
-
-// 	> h1 {
-// 		color: ${({ theme }) => theme.color.white};
-// 		font-size: ${({ theme }) => theme.font.xs};
-// 	}
-
-// 	@media (min-width: 1024px) {
-// 		> h1 {
-// 			font-size: ${({ theme }) => `calc(${theme.font.s})`};
-// 		}
-// 	}
-// `;
-
 const Body = styled.div`
 	display: flex;
 	flex-direction: column;

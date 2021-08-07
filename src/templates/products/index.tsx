@@ -190,6 +190,7 @@ const ProductsTemplate = ({ gender }: pageProps) => {
 							variant="toolkit"
 							onClick={() => setIsSortByOpen((prev) => !prev)}
 							Icon={SortIcon}
+							size="medium"
 						>
 							Sort by
 						</CustomButton>
@@ -206,6 +207,7 @@ const ProductsTemplate = ({ gender }: pageProps) => {
 							onClick={() => setIsOpenFiltersSidebar((prev) => !prev)}
 							variant="toolkit"
 							Icon={FilterListIcon}
+							size="medium"
 						>
 							Filter by
 						</CustomButton>

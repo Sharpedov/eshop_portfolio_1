@@ -10,7 +10,6 @@ interface pageProps {
 }
 
 const OrderDetails = ({ orderDetails, setOrderDetails }: pageProps) => {
-	console.log(orderDetails);
 	return (
 		<Container>
 			<GoBackBtn>

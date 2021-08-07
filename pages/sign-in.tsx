@@ -1,9 +1,13 @@
 import Head from "next/head";
 import React from "react";
-import cookie from "cookie";
 import SigninTemplate from "src/templates/signin";
+import { useAuth } from "src/components/authProvider";
 
 export default function SignIn() {
+	const { redirectIfLogged } = useAuth();
+
+	redirectIfLogged("/");
+
 	return (
 		<>
 			<Head>
@@ -14,17 +18,4 @@ export default function SignIn() {
 			<SigninTemplate />
 		</>
 	);
-}
-
-export async function getServerSideProps(context) {
-	const { req, res } = context;
-	const cookies = cookie.parse(req.headers.cookie || "");
-
-	if (cookies.auth) {
-		res.writeHead(302, { Location: "/" });
-		res.end();
-		return;
-	}
-
-	return { props: {} };
 }

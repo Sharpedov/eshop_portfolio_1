@@ -123,7 +123,7 @@ const userDrawlerData = [
 ];
 
 const DrawlerMenu = ({ isOpen, onClose }: pageProps) => {
-	const { pathname } = useRouter();
+	const { pathname, query } = useRouter();
 	const { isLogged } = useAuth();
 	const drawlerMenuRef = useRef(null);
 	DisableScrollbar(isOpen);
@@ -159,7 +159,11 @@ const DrawlerMenu = ({ isOpen, onClose }: pageProps) => {
 												fullWidth
 												Icon={item.icon}
 												href={item.href}
-												isActive={pathname === item.href}
+												isActive={
+													query.tab
+														? `${pathname}?tab=${query.tab}` === item.href
+														: pathname === item.href
+												}
 												size="medium"
 												onClick={onClose}
 											>
