@@ -14,8 +14,8 @@ const UserAvatar = ({ src, loading, width, onClick }: pageProps) => {
 	return loading ? (
 		<UserAvatarSkeleton width={width} variant="circle" animation="wave" />
 	) : (
-		<UserAvatarWrapper onClick={onClick}>
-			<StyledAvatar width={width} src={src} />
+		<UserAvatarWrapper aria-label="User dropdown navigation" onClick={onClick}>
+			<StyledAvatar alt="User avatar" width={width} src={src} />
 		</UserAvatarWrapper>
 	);
 };

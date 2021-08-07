@@ -36,7 +36,7 @@ const OrderDetails = ({ orderDetails, setOrderDetails }: pageProps) => {
 				{orderDetails.items.map((order) => (
 					<OrderItem key={order._id}>
 						<Link passHref href={`/product/${order._id}`}>
-							<OrderImage src={order.images[0]} />
+							<OrderImage src={order.images[0]} alt={order.title} />
 						</Link>
 						<OrderContent>
 							<Link passHref href={`/product/${order._id}`}>
@@ -69,11 +69,9 @@ const Container = styled.div`
 	border-radius: 2px;
 	min-height: 60vh;
 	margin-top: 15px;
-	/* gap: 15px; */
 	background: ${({ theme }) => theme.surface.primary};
 	padding: 15px;
 	animation: ${appear} 0.3s linear;
-	/* border-bottom: 1px solid rgba(75, 75, 75, 0.25); */
 `;
 
 const GoBackBtn = styled.div`

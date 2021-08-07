@@ -31,8 +31,10 @@ export default class CustomDocument extends Document {
 
 	render() {
 		return (
-			<Html>
+			<Html lang="en-US">
 				<Head>
+					<meta name="apple-mobile-web-app-title" content="Eshop ecommerce" />
+
 					<link rel="preconnect" href="https://fonts.gstatic.com" />
 
 					<link

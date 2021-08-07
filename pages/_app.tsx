@@ -10,23 +10,44 @@ import "styles/animations.css";
 import NotificationProvider from "src/components/notificationProvider";
 import GlobalLayout from "src/components/globalLayout";
 import AuthProvider from "src/components/authProvider";
+import { DefaultSeo } from "next-seo";
+import { useRouter } from "next/router";
+
+const meta = {
+	title: "Eshop",
+	description: "You can buy there clothes and shoes",
+};
 
 function MyApp({ Component, pageProps }) {
+	const { asPath } = useRouter();
 	return (
-		<ReduxProvider store={store}>
-			<AuthProvider>
-				<StylesProvider injectFirst>
-					<ThemeProvider theme={theme}>
-						<GlobalStyle />
-						<NotificationProvider>
-							<GlobalLayout>
-								<Component {...pageProps} />
-							</GlobalLayout>
-						</NotificationProvider>
-					</ThemeProvider>
-				</StylesProvider>
-			</AuthProvider>
-		</ReduxProvider>
+		<>
+			<DefaultSeo
+				title={meta.title}
+				description={meta.description}
+				openGraph={{
+					type: "website",
+					title: meta.title,
+					url: `https://${process.env.HOST}${asPath}`,
+					description: meta.description,
+					site_name: meta.title,
+				}}
+			/>
+			<ReduxProvider store={store}>
+				<AuthProvider>
+					<StylesProvider injectFirst>
+						<ThemeProvider theme={theme}>
+							<GlobalStyle />
+							<NotificationProvider>
+								<GlobalLayout>
+									<Component {...pageProps} />
+								</GlobalLayout>
+							</NotificationProvider>
+						</ThemeProvider>
+					</StylesProvider>
+				</AuthProvider>
+			</ReduxProvider>
+		</>
 	);
 }
 

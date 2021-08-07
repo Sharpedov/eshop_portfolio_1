@@ -41,7 +41,7 @@ const AvatarEditRow = ({ user }: pageProps) => {
 					editedAvatar ? setEditedAvatar(null) : avatarPickerRef.current.click()
 				}
 			>
-				<UserAvatar src={editedAvatar ?? user.avatar} />
+				<UserAvatar alt="User avatar" src={editedAvatar ?? user.avatar} />
 				<EditBadge>
 					{editedAvatar ? "Clear" : "Edit"}
 					<EditIcon className="editAvatar__icon" />

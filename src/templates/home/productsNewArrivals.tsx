@@ -63,12 +63,14 @@ const ProductsNewArrivals = ({}: pageProps) => {
 				</HeaderTitle>
 				<HeaderControls>
 					<HeaderControlButton
+						aria-label="Previous products"
 						disabled={itemOffset >= 0}
 						onClick={() => handlePrevAndNext("prev")}
 					>
 						<NavigateBeforeRoundedIcon className="headerControl__icon" />
 					</HeaderControlButton>
 					<HeaderControlButton
+						aria-label="Next products"
 						disabled={itemOffset === lastSlide}
 						onClick={() => handlePrevAndNext("next")}
 					>

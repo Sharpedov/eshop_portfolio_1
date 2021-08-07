@@ -191,7 +191,7 @@ const Filters = ({
 				}}
 				headerText="Filters"
 				displayNone={1024}
-				slideFrom="Bottom"
+				slideFrom="Right"
 			>
 				<MobileWrapperTop>
 					<FiltersRow>

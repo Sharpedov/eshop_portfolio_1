@@ -35,7 +35,7 @@ const OrderCard = ({ orderData, setOrderDetails }: pageProps) => {
 									<ImageWrapper key={item._id}>
 										<Image
 											src={item.images[0]}
-											alt={item._id}
+											alt={item.title}
 											layout="fill"
 											objectFit="cover"
 										/>
@@ -44,7 +44,7 @@ const OrderCard = ({ orderData, setOrderDetails }: pageProps) => {
 									<ImageWrapper key={item._id}>
 										<Image
 											src="/empty-img.png"
-											alt={item._id}
+											alt={item.title}
 											layout="fill"
 											objectFit="cover"
 										/>

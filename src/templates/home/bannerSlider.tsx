@@ -95,10 +95,10 @@ const BannerSlider = ({}: pageProps) => {
 					);
 				})}
 				<NavigationIcons>
-					<NavigationIcon onClick={handlePrevSlide}>
+					<NavigationIcon aria-label="Previous slide" onClick={handlePrevSlide}>
 						<NavigateBeforeRoundedIcon className="homeBannerNavigation__icon" />
 					</NavigationIcon>
-					<NavigationIcon onClick={handleNextSlide}>
+					<NavigationIcon aria-label="Next slide" onClick={handleNextSlide}>
 						<NavigateNextRoundedIcon className="homeBannerNavigation__icon" />
 					</NavigationIcon>
 				</NavigationIcons>

@@ -37,7 +37,7 @@ const mapState = (state) => ({
 
 const AccountTemplate = ({}: pageProps) => {
 	const { cartLength, favouriteLength } = useSelector(mapState);
-	const { user, loading, isLogged } = useAuth();
+	const { user, loading } = useAuth();
 	const { query } = useRouter();
 	const [currentTab, setCurrentTab] = useState<number>(0);
 
@@ -51,7 +51,11 @@ const AccountTemplate = ({}: pageProps) => {
 			<Header>
 				<HeaderWrapper>
 					<UserAvatarWrap>
-						{loading ? <CustomSkeleton /> : <UserAvatar src={user?.avatar} />}
+						{loading ? (
+							<CustomSkeleton />
+						) : (
+							<UserAvatar alt="User avatar" src={user?.avatar} />
+						)}
 					</UserAvatarWrap>
 					<UserNameAndEmail>
 						{loading ? (

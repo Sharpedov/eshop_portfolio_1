@@ -55,7 +55,6 @@ const StyledIconButton = styled(IconButton)`
 	opacity: ${({ loading }) => (loading ? "0.37" : "1")};
 	padding: 7px;
 	cursor: ${({ loading }) => (loading ? "not-allowed" : "pointer")};
-	/* pointer-events: ${({ loading }) => (loading ? "none" : "all")}; */
 	transition: all 0.15s ease-in-out;
 
 	.customIconButton__icon {

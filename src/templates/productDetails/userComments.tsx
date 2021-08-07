@@ -27,7 +27,10 @@ const UserComments = ({}: pageProps) => {
 					return (
 						<Comment key={value}>
 							<CommentLeftSide>
-								<UserAvatar src={thumbnail} />
+								<UserAvatar
+									alt={`User ${first} ${last} avatar`}
+									src={thumbnail}
+								/>
 								<LineDown />
 							</CommentLeftSide>
 							<CommentRightSide>
