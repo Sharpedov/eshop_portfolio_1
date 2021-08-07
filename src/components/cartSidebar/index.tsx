@@ -21,15 +21,25 @@ interface pageProps {
 
 const mapState = (state) => ({
 	cart: state.cart.items,
-	cartLength: state.cart.items.length,
+	cartLength: state.cart.items.reduce((acc, item) => acc + item.qty, 0),
 	cartSubtotal: state.cart.items
 		.reduce((acc, item) => acc + item.price * item.qty, 0)
 		.toFixed(2),
+	cartAddLoading: state.cart.add.loading,
+	cartRemoveLoading: state.cart.remove.loading,
+	cartChangeQtyLoading: state.cart.changeQty.loading,
 });
 
 const CartSidebar = ({ isOpen, onClose }: pageProps) => {
 	const { user, loading, isLogged } = useAuth();
-	const { cart, cartLength, cartSubtotal } = useSelector(mapState);
+	const {
+		cart,
+		cartLength,
+		cartSubtotal,
+		cartAddLoading,
+		cartRemoveLoading,
+		cartChangeQtyLoading,
+	} = useSelector(mapState);
 	const { push } = useRouter();
 	const dispatch = useDispatch();
 
@@ -105,6 +115,12 @@ const CartSidebar = ({ isOpen, onClose }: pageProps) => {
 								fullWidth
 								size="medium"
 								onClick={handleCheckout}
+								loading={
+									loading ||
+									cartAddLoading ||
+									cartRemoveLoading ||
+									cartChangeQtyLoading
+								}
 							>
 								{isLogged
 									? "Proceed to checkout"
