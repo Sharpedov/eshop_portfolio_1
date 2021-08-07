@@ -8,6 +8,7 @@ import { fetcher } from "src/utils/swrFetcher";
 import ProductCard from "src/components/productCard";
 import EmptyPageHeader from "src/components/emptyPageHeader";
 import SearchInput from "src/components/input/searchInput";
+import SpinnerLoading from "src/components/loadingIndicators/spinnerLoading";
 
 interface pageProps {}
 
@@ -40,13 +41,18 @@ const SearchProductsTemplate = ({}: pageProps) => {
 				{searchTerm && products?.length === 0 && (
 					<p style={{ textAlign: "center" }}>No search results.</p>
 				)}
-				<ProductsList>
-					{!products ||
-						(products?.length !== 0 &&
+				{!products ? (
+					searchTerm && (
+						<SpinnerLoading color="primary" style={{ margin: "0 auto" }} />
+					)
+				) : (
+					<ProductsList>
+						{products?.length !== 0 &&
 							products.map((product) => (
 								<ProductCard key={product.id} gridView="fill" data={product} />
-							)))}
-				</ProductsList>
+							))}
+					</ProductsList>
+				)}
 			</Wrapper>
 		</Container>
 	);
@@ -80,11 +86,13 @@ const Heading = styled.div`
 	flex-direction: column;
 	align-items: flex-start;
 	margin-bottom: 25px;
-	color: ${({ theme }) => theme.color.white} > h2 {
+	color: ${({ theme }) => theme.color.white};
+	overflow: hidden;
+
+	> h2 {
 		display: none;
 		font-size: ${({ theme }) => `calc(${theme.font.xs} + 3vw)`};
 	}
-	overflow: hidden;
 
 	> span {
 		margin-top: 10px;
