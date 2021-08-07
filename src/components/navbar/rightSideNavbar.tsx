@@ -18,7 +18,7 @@ interface pageProps {
 }
 
 const mapState = (state) => ({
-	cartLength: state.cart.items.length,
+	cartLength: state.cart.items.reduce((acc, item) => acc + item.qty, 0),
 	favouriteLength: state.favourite.items.length,
 });
 
@@ -55,7 +55,11 @@ const RightSideNavbar = ({
 									active={pathname === "/favourite"}
 								/>
 								{favouriteLength >= 1 && (
-									<CartAndFavBadge>{favouriteLength}</CartAndFavBadge>
+									<CartAndFavBadge>
+										<span className={`${cartLength >= 99 && "favBadgeSmall"}`}>
+											{favouriteLength}
+										</span>
+									</CartAndFavBadge>
 								)}
 							</div>
 							<div style={{ position: "relative" }}>
@@ -67,7 +71,11 @@ const RightSideNavbar = ({
 									active={cartSidebarIsOpen}
 								/>
 								{cartLength >= 1 && (
-									<CartAndFavBadge>{cartLength}</CartAndFavBadge>
+									<CartAndFavBadge>
+										<span className={`${cartLength >= 99 && "cartBadgeSmall"}`}>
+											{cartLength >= 99 ? "99+" : cartLength}
+										</span>
+									</CartAndFavBadge>
 								)}
 							</div>
 						</>
@@ -132,12 +140,21 @@ const CartAndFavBadge = styled.div`
 	transform: translate(3px, -3px);
 	background: ${({ theme }) => theme.color.primary};
 	border-radius: 50%;
-	height: 17px;
-	width: 17px;
+	height: 20px;
+	width: 20px;
 	/* text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8); */
-	font-size: 14px;
 	font-weight: 400;
 	box-shadow: ${({ theme }) => theme.boxShadow.primary};
+
+	> span {
+		font-size: 14px;
+	}
+	.favBadgeSmall {
+		font-size: 10px;
+	}
+	.cartBadgeSmall {
+		font-size: 10px;
+	}
 
 	@media (min-width: 576px) {
 		display: grid;
