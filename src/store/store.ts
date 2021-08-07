@@ -7,6 +7,7 @@ import favouriteSlice from "./slices/favouriteSlice";
 import productsSlice from "./slices/productsSlice";
 import cartSlice from "./slices/cartSlice";
 import searchSlice from "./slices/searchSlice";
+import checkoutSlice from "./slices/checkoutSlice";
 
 const middlewares = [thunk];
 
@@ -17,6 +18,7 @@ const reducer = combineReducers({
 	notifications: notificationSlice,
 	favourite: favouriteSlice,
 	search: searchSlice,
+	checkout: checkoutSlice,
 });
 
 const store = createStore(

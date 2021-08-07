@@ -6,13 +6,12 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import CustomButton from "../customButton";
 import EmptyPageHeader from "../emptyPageHeader";
-import { loadStripe } from "@stripe/stripe-js";
 import Sidebar from "../sidebar";
 import SpinnerLoading from "../loadingIndicators/spinnerLoading";
 import { useAuth } from "../authProvider";
 import { clearCart } from "src/store/slices/cartSlice";
 import CartProduct from "./cartProduct";
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
+import { createCheckoutSession } from "src/store/slices/checkoutSlice";
 
 interface pageProps {
 	isOpen: boolean;
@@ -28,6 +27,7 @@ const mapState = (state) => ({
 	cartAddLoading: state.cart.add.loading,
 	cartRemoveLoading: state.cart.remove.loading,
 	cartChangeQtyLoading: state.cart.changeQty.loading,
+	checkoutLoading: state.checkout.loading,
 });
 
 const CartSidebar = ({ isOpen, onClose }: pageProps) => {
@@ -39,33 +39,18 @@ const CartSidebar = ({ isOpen, onClose }: pageProps) => {
 		cartAddLoading,
 		cartRemoveLoading,
 		cartChangeQtyLoading,
+		checkoutLoading,
 	} = useSelector(mapState);
 	const { push } = useRouter();
 	const dispatch = useDispatch();
 
 	const createCheckout = useCallback(async () => {
-		const stripe = await stripePromise;
-
-		const checkoutSession = await axios.post(
-			"/api/checkout/session",
-			{
-				items: cart,
-				email: user.email,
-			},
-			{ headers: { "Content-Type": "application/json" } }
-		);
-
-		const result = await stripe.redirectToCheckout({
-			sessionId: checkoutSession.data.id,
-		});
-
-		if (!result.error) return dispatch(clearCart());
-	}, [cart, user, dispatch]);
+		dispatch(createCheckoutSession({ email: user.email, cartItems: cart }));
+	}, [dispatch, cart, user]);
 
 	const handleCheckout = useCallback(() => {
 		isLogged ? createCheckout() : push("/sign-in");
-		onClose();
-	}, [isLogged, createCheckout, onClose, push]);
+	}, [isLogged, createCheckout, push]);
 
 	return (
 		<>
@@ -86,6 +71,11 @@ const CartSidebar = ({ isOpen, onClose }: pageProps) => {
 					</EmptyBasketContainer>
 				) : (
 					<>
+						{checkoutLoading && (
+							<LoadingOverlay loading={checkoutLoading}>
+								<SpinnerLoading color="primary" />
+							</LoadingOverlay>
+						)}
 						<ProductsList>
 							{cart.map((product, i) => (
 								<CartProduct
@@ -119,7 +109,8 @@ const CartSidebar = ({ isOpen, onClose }: pageProps) => {
 									loading ||
 									cartAddLoading ||
 									cartRemoveLoading ||
-									cartChangeQtyLoading
+									cartChangeQtyLoading ||
+									checkoutLoading
 								}
 							>
 								{isLogged
@@ -145,34 +136,21 @@ const appear = keyframes`
 	}
 `;
 
+const LoadingOverlay = styled.div`
+	display: grid;
+	place-items: center;
+	position: absolute;
+	inset: 0;
+	background-color: rgba(0, 0, 0, 0.3);
+	z-index: 3;
+	transition: all 0.2s ease-in-out;
+`;
+
 const EmptyBasketContainer = styled.div`
 	display: grid;
 	place-items: center;
 	flex: 1;
 	animation: ${appear} 0.25s ease-in-out;
-`;
-
-const EmptyBasketWrapper = styled.div`
-	display: grid;
-	place-items: center;
-
-	> h2 {
-		margin-top: 25px;
-		font-weight: 700px;
-		text-align: center;
-	}
-`;
-
-const BasketIconWrap = styled.div`
-	display: grid;
-	place-items: center;
-	padding: 18px;
-	border-radius: 50%;
-	border: 1px dashed ${({ theme }) => theme.color.white};
-
-	.emptyBasket__icon {
-		font-size: ${({ theme }) => `calc(${theme.font.m} + 2px)`};
-	}
 `;
 
 const ProductsList = styled.div`
