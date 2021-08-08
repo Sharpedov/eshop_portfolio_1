@@ -11,7 +11,7 @@ const UserSchema = new mongoose.Schema(
 		favouriteList: { type: [] },
 	},
 	{
-		timestamps: { createdAt: "createdAt" },
+		timestamps: true,
 	}
 );
 

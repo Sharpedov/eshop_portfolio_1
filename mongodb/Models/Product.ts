@@ -11,7 +11,7 @@ const ProductSchema = new mongoose.Schema(
 		images: { type: [String] },
 	},
 	{
-		timestamps: { createdAt: "createdAt" },
+		timestamps: true,
 	}
 );
 
