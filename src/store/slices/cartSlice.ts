@@ -16,21 +16,6 @@ interface IChangeQtyItem {
 	qty: number;
 }
 
-export const getCartFromCookies = createAsyncThunk(
-	"cart/getCartFromCookies",
-	async () => {
-		try {
-			const data = await axios.get("/api/cart").then((res) => res.data);
-
-			if (data.success === false) return [];
-
-			return data.cart;
-		} catch (error) {
-			throw error.response.data.message;
-		}
-	}
-);
-
 export const addToCart = createAsyncThunk(
 	"cart/addProductToCart",
 	async ({ productId, qty }: IAddProductToCart, { dispatch, getState }) => {
@@ -147,22 +132,6 @@ export const changeQtyItem = createAsyncThunk(
 		}
 	}
 );
-
-// export function getCookie(key: string) {
-// 	let result = [];
-// 	if (key) {
-// 		const localData = cookie.get(key);
-// 		if (localData && localData.length > 0) {
-// 			result = JSON.parse(localData);
-// 		}
-// 	}
-
-// 	return result;
-// }
-
-// export function setCookie(key: string, value) {
-// 	cookie.set(key, JSON.stringify(value));
-// }
 
 const initialState = {
 	items: [],
