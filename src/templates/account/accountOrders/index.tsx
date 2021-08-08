@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import OrderCard from "./orderCard";
 import Pagination from "src/components/pagination";
@@ -18,11 +18,19 @@ const AccountOrdersContent = ({}: pageProps) => {
 		user && `/api/users/orders?email=${user.email}`,
 		fetcher
 	);
+	const [orderDetails, setOrderDetails] = useState(null);
+	const sortByNewestOrder = useMemo(() => {
+		if (orders) {
+			return orders.sort(
+				(a, b) =>
+					new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+			);
+		}
+	}, [orders]);
 	const { currentItemsInPage, renderPagePagination } = Pagination({
-		items: orders,
+		items: sortByNewestOrder,
 		perPage: 3,
 	});
-	const [orderDetails, setOrderDetails] = useState(null);
 
 	if (orderDetails)
 		return (

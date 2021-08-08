@@ -86,6 +86,7 @@ const ProductGallery = ({ productDetails, loading }: pageProps) => {
 						component="li"
 						onClick={handlePrevSlide}
 						disabled={currentImg === 0}
+						aria-label="Previous product image button"
 					>
 						<NavigateBeforeRoundedIcon className="carousel__icon" />
 					</NavigationIcon>
@@ -93,6 +94,7 @@ const ProductGallery = ({ productDetails, loading }: pageProps) => {
 						component="li"
 						onClick={handleNextSlide}
 						disabled={currentImg === sliderLength - 1}
+						aria-label="Next product image button"
 					>
 						<NavigateNextRoundedIcon className="carousel__icon" />
 					</NavigationIcon>

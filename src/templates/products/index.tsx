@@ -72,7 +72,6 @@ const ProductsTemplate = ({ gender }: pageProps) => {
 	// const [products, setProducts] = useState([]);
 	const { query } = useRouter();
 	const observer = useRef(null);
-	const [lastDoc, setLastDoc] = useState(null);
 	const [sortBy, setSortBy] = useState(sortByOptions[0]);
 	const [isSortByOpen, setIsSortByOpen] = useState<boolean>(false);
 	const [isOpenFiltersSidebar, setIsOpenFiltersSidebar] = useState(false);
@@ -88,14 +87,14 @@ const ProductsTemplate = ({ gender }: pageProps) => {
 		fetcher
 	);
 
-	const appendQueries = useMemo(
-		() =>
-			Object.entries(query)
-				.map(([key, value]) => key && value && `&${key}=${value}`)
-				.map((query) => query)
-				.join(""),
-		[query]
-	);
+	// const appendQueries = useMemo(
+	// 	() =>
+	// 		Object.entries(query)
+	// 			.map(([key, value]) => key && value && `&${key}=${value}`)
+	// 			.map((query) => query)
+	// 			.join(""),
+	// 	[query]
+	// );
 
 	const handleSortBy = useCallback((value) => {
 		setSortBy(value);
@@ -166,7 +165,6 @@ const ProductsTemplate = ({ gender }: pageProps) => {
 				isOpenFiltersSidebar={isOpenFiltersSidebar}
 				onCloseFiltersSidebar={() => setIsOpenFiltersSidebar(false)}
 			/>
-
 			<Body>
 				<BodyFilters>
 					<ViewGrid>
@@ -224,21 +222,23 @@ const ProductsTemplate = ({ gender }: pageProps) => {
 					) : error ? (
 						<div>{error}</div>
 					) : (
-						products.map((product, i) =>
-							products.length === i + 1 ? (
-								<div
-									key={product._id}
-									// ref={lastItemRef}
-								>
-									<ProductCard data={product} gridView={gridView} />
-								</div>
-							) : (
+						products.map(
+							(product, i) => (
+								// products.length === i + 1 ? (
+								// 	<div
+								// 		key={product._id}
+								// 		// ref={lastItemRef}
+								// 	>
+								// 		<ProductCard data={product} gridView={gridView} />
+								// 	</div>
+								// ) : (
 								<ProductCard
 									key={product._id}
 									data={product}
 									gridView={gridView}
 								/>
 							)
+							// )
 						)
 					)}
 				</ProductsList>
@@ -247,7 +247,7 @@ const ProductsTemplate = ({ gender }: pageProps) => {
 						<div>loading more products...</div>
 					</Row>
 				)}
-				{!lastDoc && <Row>No more results</Row>}
+				{/* {!lastDoc && <Row>No more results</Row>} */}
 			</Body>
 		</Container>
 	);
@@ -338,7 +338,7 @@ const ProductsList = styled.div`
 	display: grid;
 	grid-template-columns: ${({ gridView }) =>
 		gridView === "fill"
-			? "repeat(2,1fr)"
+			? "repeat(2, 1fr)"
 			: gridView === "fit" && "repeat(auto-fit, minmax(260px, 1fr))"};
 	grid-gap: 15px 10px;
 	transition: all 0.2s ease-in-out;
