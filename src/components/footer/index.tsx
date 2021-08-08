@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import GitHubIcon from "@material-ui/icons/GitHub";
 
 const FooterItems = {
 	Resources: [
@@ -83,9 +84,32 @@ const FooterItems = {
 	],
 };
 
+const authorSocials = [
+	{
+		title: "GitHub",
+		icon: GitHubIcon,
+		href: "https://github.com/Sharpedov/eshop_portfolio_1",
+	},
+];
+
 const Footer = () => {
 	return (
 		<FooterContainer>
+			<AuthorSocialsList>
+				{authorSocials.map((social, i) => (
+					<a
+						target="_blank"
+						href={social.href}
+						rel="noopener noreferrer"
+						key={`${social.title}-authorSocial${i}`}
+					>
+						<AuthorSocial>
+							<social.icon className="footerAuthorSocial__icon" />
+							<SocialTitle>{social.title}</SocialTitle>
+						</AuthorSocial>
+					</a>
+				))}
+			</AuthorSocialsList>
 			<Wrapper>
 				<Logo>
 					eshop<span>.</span>com
@@ -124,12 +148,90 @@ const FooterContainer = styled.footer`
 	transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 `;
 
+const AuthorSocialsList = styled.ul`
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(70px, 90px));
+	grid-gap: 40px 10px;
+	align-items: center;
+	justify-content: center;
+	max-width: 1040px;
+	width: 100%;
+	margin: 0 auto;
+	padding: 40px 24px 20px;
+`;
+
+const AuthorSocial = styled.li`
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	color: ${({ theme }) => theme.color.white};
+	cursor: pointer;
+
+	.footerAuthorSocial__icon {
+		font-size: 28px;
+		opacity: 0.9;
+	}
+
+	@media (min-width: 768px) {
+		.footerAuthorSocial__icon {
+			font-size: 30px;
+			opacity: 0.75;
+			transition: transform 0.3s cubic-bezier(0.33, 1, 0.68, 1),
+				opacity 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+		}
+
+		&:hover {
+			.footerAuthorSocial__icon {
+				opacity: 1;
+				transform: scale(1.18);
+			}
+		}
+	}
+	@media (min-width: 1024px) {
+		.footerAuthorSocial__icon {
+			font-size: 32px;
+		}
+	}
+	@media (min-width: 1440px) {
+		.footerAuthorSocial__icon {
+			font-size: 36px;
+		}
+	}
+`;
+
+const SocialTitle = styled.span`
+	position: absolute;
+	bottom: 0;
+	transform: translateY(calc(100% + 7px));
+	opacity: 0.9;
+	font-size: 13px;
+
+	&:focus {
+		opacity: 1;
+	}
+
+	@media (min-width: 768px) {
+		font-size: 14px;
+		transform: translateY(100%) scale(0.85);
+		opacity: 0;
+		transition: transform 0.3s cubic-bezier(0.33, 1, 0.68, 1),
+			opacity 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+
+		${AuthorSocial}:hover & {
+			opacity: 1;
+			transform: translateY(160%) scale(1);
+		}
+	}
+`;
+
 const Wrapper = styled.div`
 	position: relative;
 	max-width: 1040px;
 	width: 100%;
 	margin: 0 auto;
-	padding: 60px 24px 80px 24px;
+	padding: 40px 24px 80px 24px;
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
 	grid-gap: 30px 5px;
