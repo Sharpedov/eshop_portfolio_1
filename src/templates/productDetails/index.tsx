@@ -115,8 +115,16 @@ const BackPageBtn = styled(IconButton)`
 		color: #fff;
 	}
 
+	&:hover {
+		background: ${({ theme }) => theme.color.primary};
+	}
+
 	.backPageBtn__icon {
 		color: ${({ theme }) => theme.color.white};
 		font-size: 25px;
+	}
+
+	@media (min-width: 768px) {
+		display: none;
 	}
 `;
