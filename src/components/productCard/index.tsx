@@ -95,11 +95,12 @@ const ProductCard = ({ data, gridView }: pageProps) => {
 							<Title>{title}</Title>
 						</a>
 					</Link>
-					<ContentRow>
-						<span>{`${brand}`}</span>
-						{/* <span>{`${brand} / ${category}`}</span> */}
-					</ContentRow>
-					<Price>${price.$numberDecimal ?? price}</Price>
+					<BrandAndPriceRow>
+						<Brand>
+							<span>{`${brand}`}</span>
+						</Brand>
+						<Price>${price.$numberDecimal ?? price}</Price>
+					</BrandAndPriceRow>
 				</Content>
 				<Actions>
 					<CustomIconButton
@@ -191,16 +192,14 @@ const Body = styled.div`
 `;
 
 const Content = styled.div`
-	display: grid;
-	grid-template-areas: "title title" "category price";
-	grid-template-columns: 2fr 1fr;
+	display: flex;
+	flex-direction: column;
 	gap: 7px;
 	padding: 10px 5px 0px 5px;
 	color: ${({ theme }) => theme.color.white};
 `;
 
 const Title = styled.div`
-	grid-area: title;
 	color: ${({ theme }) => theme.color.white};
 	align-self: flex-start;
 	font-size: calc(15px + 0.1vw);
@@ -219,8 +218,14 @@ const Title = styled.div`
 	}
 `;
 
-const ContentRow = styled.div`
-	grid-area: category;
+const BrandAndPriceRow = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 7px;
+`;
+
+const Brand = styled.div`
 	opacity: 0.65;
 	font-size: calc(14px + 0.05vw);
 	text-transform: capitalize;
