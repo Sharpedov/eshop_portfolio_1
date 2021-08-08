@@ -7,9 +7,9 @@ import DrawlerMenu from "../drawlerMenu";
 import MobileNavBottom from "./mobileNavBottom";
 import CartSidebar from "../cartSidebar";
 import { useDispatch } from "react-redux";
-import { useDetectOutsideClick } from "src/utils/useDetectOutsideClick";
 import { clearNotifications } from "src/store/slices/notificationSlice";
 import SearchInput from "../input/searchInput";
+import { useDetectOutsideClick } from "src/hooks/useDetectOutsideClick";
 
 interface pageProps {}
 

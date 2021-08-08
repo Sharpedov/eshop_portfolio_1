@@ -5,7 +5,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import CustomIconButton from "../customIconButton";
 import LocalMallIcon from "@material-ui/icons/LocalMall";
 import UserAvatar from "../userTools/userAvatar";
-import { useDetectOutsideClick } from "src/utils/useDetectOutsideClick";
+import { useDetectOutsideClick } from "src/hooks/useDetectOutsideClick";
 import UserDropdownNavMenu from "../userTools/userDropdownNavMenu";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
