@@ -1,7 +1,8 @@
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import Notification from "./notification";
+import { createPortal } from "react-dom";
 
 interface pageProps {
 	children;
@@ -14,22 +15,31 @@ const mapState = (state) => ({
 });
 
 const NotificationProvider = ({ children }: pageProps) => {
+	const [isBrowser, setIsBrowser] = useState<boolean>(false);
 	const { notifications } = useSelector(mapState);
 
+	useEffect(() => {
+		setIsBrowser(true);
+	}, []);
+
 	return (
-		<>
-			<Wrapper>
-				{notifications.map((note, i) => (
-					<Notification
-						key={note.id}
-						id={note.id}
-						message={note.message}
-						type={note.type}
-					/>
-				))}
-			</Wrapper>
-			{children}
-		</>
+		isBrowser &&
+		createPortal(
+			<>
+				<Wrapper>
+					{notifications.map((note, i) => (
+						<Notification
+							key={note.id}
+							id={note.id}
+							message={note.message}
+							type={note.type}
+						/>
+					))}
+				</Wrapper>
+				{children}
+			</>,
+			document.getElementById("notifications")
+		)
 	);
 };
 

@@ -53,9 +53,9 @@ export default class CustomDocument extends Document {
 					/>
 				</Head>
 				<body>
+					<div id="notifications" />
+					<div id="sidebar" />
 					<Main />
-					<div id="modal" />
-
 					<NextScript />
 				</body>
 			</Html>

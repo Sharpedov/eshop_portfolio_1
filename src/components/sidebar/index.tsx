@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { CSSTransition } from "react-transition-group";
 import styled from "styled-components";
 import CustomIconButton from "../customIconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import { DisableScrollbar } from "src/utils/disableScrollbar";
+import { createPortal } from "react-dom";
 
 interface pageProps {
 	children: React.ReactNode;
@@ -22,39 +23,47 @@ const Sidebar = ({
 	displayNone,
 	slideFrom,
 }: pageProps) => {
+	const [isBrowser, setIsBrowser] = useState<boolean>(false);
 	DisableScrollbar(isOpen);
 
+	useEffect(() => {
+		setIsBrowser(true);
+	}, []);
 	return (
-		<>
-			<CSSTransition
-				in={isOpen}
-				timeout={300}
-				classNames={`sidebar${slideFrom}-`}
-				unmountOnExit={true}
-			>
-				<Container displayNone={displayNone}>
-					<HeaderBreak>
-						<>
-							<span>{headerText}</span>
-							<HeaderIcon>
-								<CustomIconButton
-									ariaLabel="Close cart sidebar"
-									onClick={() => onClose()}
-									Icon={CloseIcon}
-								/>
-							</HeaderIcon>
-						</>
-					</HeaderBreak>
-					<Wrapper>{children}</Wrapper>
-				</Container>
-			</CSSTransition>
+		isBrowser &&
+		createPortal(
+			<>
+				<CSSTransition
+					in={isOpen}
+					timeout={300}
+					classNames={`sidebar${slideFrom}-`}
+					unmountOnExit={true}
+				>
+					<Container displayNone={displayNone}>
+						<HeaderBreak>
+							<>
+								<span>{headerText}</span>
+								<HeaderIcon>
+									<CustomIconButton
+										ariaLabel="Close cart sidebar"
+										onClick={() => onClose()}
+										Icon={CloseIcon}
+									/>
+								</HeaderIcon>
+							</>
+						</HeaderBreak>
+						<Wrapper>{children}</Wrapper>
+					</Container>
+				</CSSTransition>
 
-			<Background
-				isOpen={isOpen}
-				onClick={() => onClose()}
-				displayNone={displayNone}
-			/>
-		</>
+				<Background
+					isOpen={isOpen}
+					onClick={() => onClose()}
+					displayNone={displayNone}
+				/>
+			</>,
+			document.getElementById("sidebar")
+		)
 	);
 };
 
