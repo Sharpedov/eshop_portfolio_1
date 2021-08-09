@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import BannerSlider from "./bannerSlider";
+import GoogleMapLocationOfLocalStores from "./googleMapLocationOfLocalStores";
 import ProductsNewArrivals from "./productsNewArrivals";
 
 import Workflow from "./workflow";
@@ -15,6 +16,7 @@ const HomeTemplate = ({}: pageProps) => {
 				<ProductsNewArrivals />
 			</NewArrivalsRows>
 			<Workflow />
+			<GoogleMapLocationOfLocalStores />
 		</Container>
 	);
 };
