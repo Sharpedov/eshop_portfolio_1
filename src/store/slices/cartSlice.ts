@@ -3,6 +3,7 @@ import {
 	createDraftSafeSelector,
 	createSelector,
 	createSlice,
+	PayloadAction,
 } from "@reduxjs/toolkit";
 import axios from "axios";
 import { addNotification } from "./notificationSlice";
@@ -139,6 +140,7 @@ export const changeQtyItem = createAsyncThunk(
 );
 
 const initialState = {
+	isOpen: false,
 	items: [],
 	add: {
 		loading: false,
@@ -158,6 +160,10 @@ const cartSlice = createSlice({
 	name: "cart",
 	initialState,
 	reducers: {
+		toggleCart: (state, action: PayloadAction<boolean>) => {
+			state.isOpen = action.payload;
+		},
+
 		setShoppingCart: (state, action) => {
 			state.items = action.payload;
 		},
@@ -209,6 +215,6 @@ const cartSlice = createSlice({
 	},
 });
 
-export const { clearCart, setShoppingCart } = cartSlice.actions;
+export const { toggleCart, clearCart, setShoppingCart } = cartSlice.actions;
 
 export default cartSlice.reducer;

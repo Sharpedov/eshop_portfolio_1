@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
 import { RiMenLine, RiMenFill, RiWomenLine, RiWomenFill } from "react-icons/ri";
 import SearchIcon from "@material-ui/icons/Search";
@@ -7,27 +7,28 @@ import SearchOutlinedIcon from "@material-ui/icons/SearchOutlined";
 import LocalMallOutlinedIcon from "@material-ui/icons/LocalMallOutlined";
 import LocalMallIcon from "@material-ui/icons/LocalMall";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { IconButton } from "@material-ui/core";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { toggleCart } from "src/store/slices/cartSlice";
 
-interface pageProps {
-	toggleCartSidebar: () => void;
-	cartSidebarIsOpen: boolean;
-}
+interface pageProps {}
 
 const mapState = (state) => ({
 	cartLength: state.cart.items.length >= 1,
 	favLength: state.favourite.items.length >= 1,
+	cartIsOpen: state.cart.isOpen,
 });
 
-const MobileNavBottom = ({
-	toggleCartSidebar,
-	cartSidebarIsOpen,
-}: pageProps) => {
+const MobileNavBottom = ({}: pageProps) => {
 	const { asPath, pathname } = useRouter();
-	const { cartLength, favLength } = useSelector(mapState);
+	const { cartLength, favLength, cartIsOpen } = useSelector(mapState);
+	const dispatch = useDispatch();
+
+	const toggleCartHandler = useCallback(() => {
+		dispatch(toggleCart(cartIsOpen ? false : true));
+	}, [dispatch, cartIsOpen]);
 
 	const mobileNavData = [
 		{
@@ -35,30 +36,34 @@ const MobileNavBottom = ({
 			icon: RiWomenLine,
 			ActiveIcon: RiWomenFill,
 			href: "/products/women",
+			onClick: () => dispatch(toggleCart(false)),
 		},
 		{
 			text: "Men",
 			icon: RiMenLine,
 			ActiveIcon: RiMenFill,
 			href: "/products/men",
+			onClick: () => dispatch(toggleCart(false)),
 		},
 		{
 			text: "Search",
 			icon: SearchOutlinedIcon,
 			ActiveIcon: SearchIcon,
 			href: "/search",
+			onClick: () => dispatch(toggleCart(false)),
 		},
 		{
 			text: "Favourite",
 			icon: FavoriteBorderOutlinedIcon,
 			ActiveIcon: FavoriteIcon,
 			href: "/favourite",
+			onClick: () => dispatch(toggleCart(false)),
 		},
 		{
 			text: "Cart",
 			icon: LocalMallOutlinedIcon,
 			ActiveIcon: LocalMallIcon,
-			onClick: toggleCartSidebar,
+			onClick: toggleCartHandler,
 		},
 	];
 
@@ -87,7 +92,7 @@ const MobileNavBottom = ({
 				) : (
 					<StyledIconButton
 						aria-label={item.text}
-						active={pathname === item.href || cartSidebarIsOpen}
+						active={pathname === item.href || cartIsOpen}
 						key={`mobileNavBottom-${item.text}-${i}`}
 						onClick={item.onClick}
 						badge={

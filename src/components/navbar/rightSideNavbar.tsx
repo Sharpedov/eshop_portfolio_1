@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useCallback, useRef } from "react";
 import styled from "styled-components";
 import CustomButton from "../customButton";
 import FavoriteIcon from "@material-ui/icons/Favorite";
@@ -8,32 +8,33 @@ import UserAvatar from "../userTools/userAvatar";
 import { useDetectOutsideClick } from "src/hooks/useDetectOutsideClick";
 import UserDropdownNavMenu from "../userTools/userDropdownNavMenu";
 import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CustomSkeleton from "../loadingSkeletons/customSkeleton";
 import { useAuth } from "../authProvider";
+import { toggleCart } from "src/store/slices/cartSlice";
 
-interface pageProps {
-	toggleCartSidebar: () => void;
-	cartSidebarIsOpen: boolean;
-}
+interface pageProps {}
 
 const mapState = (state) => ({
 	cartLength: state.cart.items.reduce((acc, item) => acc + item.qty, 0),
 	favouriteLength: state.favourite.items.length,
+	cartIsOpen: state.cart.isOpen,
 });
 
-const RightSideNavbar = ({
-	toggleCartSidebar,
-	cartSidebarIsOpen,
-}: pageProps) => {
+const RightSideNavbar = ({}: pageProps) => {
 	const { user, loading, isLogged } = useAuth();
-	const { cartLength, favouriteLength } = useSelector(mapState);
+	const { cartLength, favouriteLength, cartIsOpen } = useSelector(mapState);
 	const userDropdownRef = useRef<HTMLDivElement>(null);
 	const [isUserDropdownActive, setIsUserDropdownActive] = useDetectOutsideClick(
 		userDropdownRef,
 		false
 	);
 	const { pathname } = useRouter();
+	const dispatch = useDispatch();
+
+	const toggleCartSidebarHandler = useCallback(() => {
+		dispatch(toggleCart(cartIsOpen ? false : true));
+	}, [dispatch, cartIsOpen]);
 
 	return (
 		<>
@@ -66,11 +67,11 @@ const RightSideNavbar = ({
 							</div>
 							<div style={{ position: "relative" }}>
 								<CustomIconButton
-									onClick={toggleCartSidebar}
+									onClick={toggleCartSidebarHandler}
 									ariaLabel="Cart"
 									size="medium"
 									Icon={LocalMallIcon}
-									active={cartSidebarIsOpen}
+									active={cartIsOpen}
 								/>
 								{cartLength >= 1 && (
 									<CartAndFavBadge>

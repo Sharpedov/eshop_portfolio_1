@@ -10,11 +10,9 @@ import SpinnerLoading from "../loadingIndicators/spinnerLoading";
 import { useAuth } from "../authProvider";
 import CartProduct from "./cartProduct";
 import { createCheckoutSession } from "src/store/slices/checkoutSlice";
+import { toggleCart } from "src/store/slices/cartSlice";
 
-interface pageProps {
-	isOpen: boolean;
-	onClose: () => void;
-}
+interface pageProps {}
 
 const mapState = (state) => ({
 	cart: state.cart.items,
@@ -26,9 +24,10 @@ const mapState = (state) => ({
 	cartRemoveLoading: state.cart.remove.loading,
 	cartChangeQtyLoading: state.cart.changeQty.loading,
 	checkoutLoading: state.checkout.loading,
+	cartIsOpen: state.cart.isOpen,
 });
 
-const CartSidebar = ({ isOpen, onClose }: pageProps) => {
+const CartSidebar = ({}: pageProps) => {
 	const { user, loading, isLogged } = useAuth();
 	const {
 		cart,
@@ -38,6 +37,7 @@ const CartSidebar = ({ isOpen, onClose }: pageProps) => {
 		cartRemoveLoading,
 		cartChangeQtyLoading,
 		checkoutLoading,
+		cartIsOpen,
 	} = useSelector(mapState);
 	const { push } = useRouter();
 	const dispatch = useDispatch();
@@ -50,12 +50,16 @@ const CartSidebar = ({ isOpen, onClose }: pageProps) => {
 		isLogged ? createCheckout() : push("/sign-in");
 	}, [isLogged, createCheckout, push]);
 
+	const toggleCartHandler = useCallback(() => {
+		dispatch(toggleCart(cartIsOpen ? false : true));
+	}, [dispatch, cartIsOpen]);
+
 	return (
 		<>
 			<Sidebar
 				slideFrom="Right"
-				isOpen={isOpen}
-				onClose={onClose}
+				isOpen={cartIsOpen}
+				onClose={toggleCartHandler}
 				headerText={`MY BASKET ${cartLength >= 1 ? `(${cartLength})` : ""}`}
 			>
 				{loading ? (
@@ -78,7 +82,7 @@ const CartSidebar = ({ isOpen, onClose }: pageProps) => {
 							{cart.map((product, i) => (
 								<CartProduct
 									key={product._id}
-									onClose={onClose}
+									onClose={toggleCartHandler}
 									product={product}
 								/>
 							))}

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import RightSideNavbar from "./rightSideNavbar";
 import LeftSideNavbar from "./leftSideNavbar";
@@ -6,8 +6,6 @@ import { useRouter } from "next/router";
 import DrawlerMenu from "../drawlerMenu";
 import MobileNavBottom from "./mobileNavBottom";
 import CartSidebar from "../cartSidebar";
-import { useDispatch } from "react-redux";
-import { clearNotifications } from "src/store/slices/notificationSlice";
 import SearchInput from "../input/searchInput";
 import { useDetectOutsideClick } from "src/hooks/useDetectOutsideClick";
 
@@ -21,8 +19,6 @@ const Navbar = ({}: pageProps) => {
 		drawlerMenuRef,
 		false
 	);
-	const [cartSidebarIsOpen, setCartSidebarIsOpen] = useState<boolean>(false);
-	const dispatch = useDispatch();
 
 	useEffect(() => {
 		if (pathname === "/") {
@@ -35,11 +31,6 @@ const Navbar = ({}: pageProps) => {
 		}
 	}, [isScrolling, pathname]);
 
-	const handleToggleCartSidebar = useCallback(() => {
-		dispatch(clearNotifications());
-		setCartSidebarIsOpen((prev) => !prev);
-	}, [dispatch, setCartSidebarIsOpen]);
-
 	return (
 		<>
 			<div ref={drawlerMenuRef}>
@@ -48,14 +39,8 @@ const Navbar = ({}: pageProps) => {
 					onClose={() => setDrawlerIsOpen(false)}
 				/>
 			</div>
-			<CartSidebar
-				isOpen={cartSidebarIsOpen}
-				onClose={() => setCartSidebarIsOpen(false)}
-			/>
-			<MobileNavBottom
-				toggleCartSidebar={handleToggleCartSidebar}
-				cartSidebarIsOpen={cartSidebarIsOpen}
-			/>
+			<CartSidebar />
+			<MobileNavBottom />
 			<Container isScrolling={pathname === "/" ? isScrolling : true}>
 				<LeftSideNavbar
 					toggleDrawler={() => setDrawlerIsOpen((prev) => !prev)}
@@ -63,10 +48,7 @@ const Navbar = ({}: pageProps) => {
 				<Middle>
 					<SearchInput onClick={() => push("/search")} />
 				</Middle>
-				<RightSideNavbar
-					toggleCartSidebar={handleToggleCartSidebar}
-					cartSidebarIsOpen={cartSidebarIsOpen}
-				/>
+				<RightSideNavbar />
 			</Container>
 		</>
 	);
