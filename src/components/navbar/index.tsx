@@ -21,11 +21,7 @@ const Navbar = ({}: pageProps) => {
 		drawlerMenuRef,
 		false
 	);
-	const cartSidebarRef = useRef(null);
-	const [cartSidebarIsOpen, setCartSidebarIsOpen] = useDetectOutsideClick(
-		cartSidebarRef,
-		false
-	);
+	const [cartSidebarIsOpen, setCartSidebarIsOpen] = useState<boolean>(false);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -52,12 +48,10 @@ const Navbar = ({}: pageProps) => {
 					onClose={() => setDrawlerIsOpen(false)}
 				/>
 			</div>
-			<div ref={cartSidebarRef}>
-				<CartSidebar
-					isOpen={cartSidebarIsOpen}
-					onClose={() => setCartSidebarIsOpen(false)}
-				/>
-			</div>
+			<CartSidebar
+				isOpen={cartSidebarIsOpen}
+				onClose={() => setCartSidebarIsOpen(false)}
+			/>
 			<MobileNavBottom
 				toggleCartSidebar={handleToggleCartSidebar}
 				cartSidebarIsOpen={cartSidebarIsOpen}

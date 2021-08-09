@@ -31,7 +31,7 @@ const TabsData = [
 ];
 
 const mapState = (state) => ({
-	cartLength: state.cart.items.length,
+	cartLength: state.cart.items.reduce((acc, item) => acc + item.qty, 0),
 	favouriteLength: state.favourite.items.length,
 });
 
@@ -47,7 +47,9 @@ const AccountTemplate = ({}: pageProps) => {
 
 	return (
 		<Container>
-			<Banner></Banner>
+			<Banner>
+				<h5>Account</h5>
+			</Banner>
 			<Header>
 				<HeaderWrapper>
 					<UserAvatarWrap>
@@ -166,10 +168,16 @@ const Wrapper = styled.div`
 `;
 
 const Banner = styled.div`
+	display: grid;
+	place-items: center;
 	background: #181819;
-	height: 50vw;
-	max-height: 300px;
 	width: 100%;
+	height: clamp(150px, 40vw, 250px);
+
+	> h5 {
+		font-size: 24px;
+		opacity: 0.9;
+	}
 `;
 
 const Header = styled.div`

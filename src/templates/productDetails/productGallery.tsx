@@ -15,13 +15,13 @@ const ProductGallery = ({ productDetails, loading }: pageProps) => {
 	const [x, setX] = useState<number>(0);
 	const [currentImg, setCurrentImg] = useState<number>(0);
 	const sliderLength = productDetails?.images.length;
-	const [offset, setOffset] = useState<number>(0);
+	const [offsetY, setOffsetY] = useState<number>(0);
 	const [changeOpacityOfContainer, setChangeOpacityOfContainer] =
 		useState<boolean>(
 			typeof window !== "undefined" && window.innerWidth >= 768 ? false : true
 		);
 
-	const handleScroll = useCallback(() => setOffset(window.pageYOffset), []);
+	const handleScroll = useCallback(() => setOffsetY(window.pageYOffset), []);
 	const disableScrolling = useCallback(() => {
 		if (typeof window !== "undefined") {
 			return setChangeOpacityOfContainer(
@@ -69,7 +69,7 @@ const ProductGallery = ({ productDetails, loading }: pageProps) => {
 	}, []);
 
 	return (
-		<Container opacity={`${35 / offset}`}>
+		<Container opacity={`${35 / offsetY}`}>
 			<Slider>
 				{productDetails.images.map((img, i) => (
 					<Slide key={img} style={{ transform: `translateX(${x}%)` }}>

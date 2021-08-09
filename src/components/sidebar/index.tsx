@@ -29,6 +29,23 @@ const Sidebar = ({
 	useEffect(() => {
 		setIsBrowser(true);
 	}, []);
+
+	useEffect(() => {
+		const escapeListener = (e: KeyboardEvent) => {
+			if (e.key === "Escape") {
+				onClose();
+			}
+		};
+
+		if (onClose) {
+			document.addEventListener("keydown", escapeListener);
+		}
+
+		return () => {
+			document.removeEventListener("keydown", escapeListener);
+		};
+	}, [onClose]);
+
 	return (
 		isBrowser &&
 		createPortal(
@@ -56,7 +73,7 @@ const Sidebar = ({
 					</Container>
 				</CSSTransition>
 
-				<Background
+				<Overlay
 					isOpen={isOpen}
 					onClick={() => onClose()}
 					displayNone={displayNone}
@@ -69,7 +86,7 @@ const Sidebar = ({
 
 export default Sidebar;
 
-const Background = styled.div`
+const Overlay = styled.div`
 	position: fixed;
 	top: 0;
 	right: 0;

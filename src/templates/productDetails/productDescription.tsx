@@ -56,7 +56,7 @@ const ProductDescription = ({ productDetails, loading }: pageProps) => {
 	const [qty, setQty] = useState<number>(1);
 	const [currentTab, setCurrentTab] = useState<number>(0);
 	const contentSliderRef = useRef(null);
-	const { isInCart, isInFavourite } = IsInCartOrFavourite({
+	const { isInFavourite } = IsInCartOrFavourite({
 		id: productDetails?._id,
 	});
 	const router = useRouter();

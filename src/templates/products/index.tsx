@@ -1,11 +1,5 @@
-import React, {
-	useCallback,
-	useEffect,
-	useMemo,
-	useRef,
-	useState,
-} from "react";
-import styled from "styled-components";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import styled, { keyframes } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import AppsIcon from "@material-ui/icons/Apps";
 import ViewColumnIcon from "@material-ui/icons/ViewColumn";
@@ -21,6 +15,7 @@ import CustomButton from "src/components/customButton";
 import useSWR from "swr";
 import { fetcher } from "src/utils/swrFetcher";
 import Filters from "./filters";
+import BannerProducts from "./bannerProducts";
 
 interface pageProps {
 	gender: string;
@@ -161,116 +156,134 @@ const ProductsTemplate = ({ gender }: pageProps) => {
 
 	return (
 		<Container>
-			<Filters
-				isOpenFiltersSidebar={isOpenFiltersSidebar}
-				onCloseFiltersSidebar={() => setIsOpenFiltersSidebar(false)}
-			/>
-			<Body>
-				<BodyFilters>
-					<ViewGrid>
-						<CustomIconButton
-							onClick={() => handleChangeGridView("fill")}
-							size="medium"
-							Icon={AppsIcon}
-							active={gridView === "fill"}
-							ariaLabel="Fill products view"
-						/>
-						<CustomIconButton
-							onClick={() => handleChangeGridView("fit")}
-							size="medium"
-							Icon={ViewColumnIcon}
-							active={gridView === "fit"}
-							ariaLabel="Fit products view"
-						/>
-					</ViewGrid>
-					<SortBy>
-						<CustomButton
-							variant="toolkit"
-							onClick={() => setIsSortByOpen((prev) => !prev)}
-							Icon={SortIcon}
-							size="medium"
-						>
-							Sort by
-						</CustomButton>
-						<SelectMenu
-							isOpen={isSortByOpen}
-							onClose={() => setIsSortByOpen(false)}
-							activeOption={sortBy}
-							setValue={handleSortBy}
-							options={sortByOptions}
-						/>
-					</SortBy>
-					<FilterBy>
-						<CustomButton
-							onClick={() => setIsOpenFiltersSidebar((prev) => !prev)}
-							variant="toolkit"
-							Icon={FilterListIcon}
-							size="medium"
-						>
-							Filter by
-						</CustomButton>
-					</FilterBy>
-				</BodyFilters>
-				<SortByText>
-					Sorted by <span>{sortBy.value}</span>
-				</SortByText>
-				<ProductsList gridView={gridView}>
-					{!products ? (
-						[1, 2, 3, 4, 5, 6, 7, 8, 9].map((_, i) => (
-							<ProductSkeleton gridView={gridView} key={i} />
-						))
-					) : error ? (
-						<div>{error}</div>
-					) : (
-						products.map(
-							(product, i) => (
-								// products.length === i + 1 ? (
-								// 	<div
-								// 		key={product._id}
-								// 		// ref={lastItemRef}
-								// 	>
-								// 		<ProductCard data={product} gridView={gridView} />
-								// 	</div>
-								// ) : (
-								<ProductCard
-									key={product._id}
-									data={product}
-									gridView={gridView}
-								/>
+			<BannerProducts gender={gender} />
+			<GridContainer>
+				<Filters
+					isOpenFiltersSidebar={isOpenFiltersSidebar}
+					onCloseFiltersSidebar={() => setIsOpenFiltersSidebar(false)}
+				/>
+				<Wrapper>
+					<FiltersBar>
+						<ViewGrid>
+							<CustomIconButton
+								onClick={() => handleChangeGridView("fill")}
+								size="medium"
+								Icon={AppsIcon}
+								active={gridView === "fill"}
+								ariaLabel="Fill products view"
+							/>
+							<CustomIconButton
+								onClick={() => handleChangeGridView("fit")}
+								size="medium"
+								Icon={ViewColumnIcon}
+								active={gridView === "fit"}
+								ariaLabel="Fit products view"
+							/>
+						</ViewGrid>
+						<SortBy>
+							<CustomButton
+								variant="toolkit"
+								onClick={() => setIsSortByOpen((prev) => !prev)}
+								Icon={SortIcon}
+								size="medium"
+							>
+								Sort by
+							</CustomButton>
+							<SelectMenu
+								isOpen={isSortByOpen}
+								onClose={() => setIsSortByOpen(false)}
+								activeOption={sortBy}
+								setValue={handleSortBy}
+								options={sortByOptions}
+							/>
+						</SortBy>
+						<FilterBy>
+							<CustomButton
+								onClick={() => setIsOpenFiltersSidebar((prev) => !prev)}
+								variant="toolkit"
+								Icon={FilterListIcon}
+								size="medium"
+							>
+								Filter by
+							</CustomButton>
+						</FilterBy>
+					</FiltersBar>
+					<SortByText>
+						Sorted by <span>{sortBy.value}</span>
+					</SortByText>
+					<ProductsList gridView={gridView}>
+						{!products ? (
+							[1, 2, 3, 4, 5, 6, 7, 8, 9].map((_, i) => (
+								<ProductSkeleton gridView={gridView} key={i} />
+							))
+						) : error ? (
+							<div>{error}</div>
+						) : (
+							products.map(
+								(product, i) => (
+									// products.length === i + 1 ? (
+									// 	<div
+									// 		key={product._id}
+									// 		// ref={lastItemRef}
+									// 	>
+									// 		<ProductCard data={product} gridView={gridView} />
+									// 	</div>
+									// ) : (
+									<ProductCard
+										key={product._id}
+										data={product}
+										gridView={gridView}
+									/>
+								)
+								// )
 							)
-							// )
-						)
+						)}
+					</ProductsList>
+					{loadingMoreItems && (
+						<Row>
+							<div>loading more products...</div>
+						</Row>
 					)}
-				</ProductsList>
-				{loadingMoreItems && (
-					<Row>
-						<div>loading more products...</div>
-					</Row>
-				)}
-				{/* {!lastDoc && <Row>No more results</Row>} */}
-			</Body>
+					{/* {!lastDoc && <Row>No more results</Row>} */}
+				</Wrapper>
+			</GridContainer>
 		</Container>
 	);
 };
 
 export default ProductsTemplate;
 
+const appear = keyframes`
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+`;
+
 const Container = styled.div`
+	display: flex;
+	flex-direction: column;
+	background-color: ${({ theme }) => theme.surface.primary};
+`;
+
+const GridContainer = styled.div`
 	display: grid;
 	grid-template-columns: 1fr;
 	grid-gap: 25px;
-	background-color: ${({ theme }) => theme.surface.primary};
 	align-items: flex-start;
-	padding: 20px 15px;
+	padding: 0 15px 20px;
 	max-width: 1720px;
 	width: 100%;
 	margin: 0 auto;
 	min-height: 70vh;
+	background-color: ${({ theme }) => theme.surface.primary};
+	z-index: 2;
 
-	@media (min-width: 576px) {
-	}
 	@media (min-width: 1024px) {
 		grid-template-columns: 275px 1fr;
+		padding: 20px 15px;
 	}
 
 	@media (min-width: 1300px) {
@@ -278,15 +291,19 @@ const Container = styled.div`
 	}
 `;
 
-const Body = styled.div`
+const Wrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 `;
 
-const BodyFilters = styled.div`
+const FiltersBar = styled.div`
 	display: flex;
-	border-top: 1px solid ${({ theme }) => theme.surface.secondary};
-	border-bottom: 1px solid ${({ theme }) => theme.surface.secondary};
+	animation: ${appear} 0.3s ease;
+
+	@media (min-width: 1024px) {
+		border-top: 1px solid ${({ theme }) => theme.surface.secondary};
+		border-bottom: 1px solid ${({ theme }) => theme.surface.secondary};
+	}
 `;
 
 const ViewGrid = styled.div`
@@ -294,10 +311,10 @@ const ViewGrid = styled.div`
 	align-items: center;
 	gap: 0 5px;
 	padding: 5px;
-	border-right: 1px solid ${({ theme }) => theme.surface.secondary};
 
 	@media (min-width: 1024px) {
 		padding: 5px 10px;
+		border-right: 1px solid ${({ theme }) => theme.surface.secondary};
 	}
 `;
 
@@ -306,7 +323,6 @@ const SortBy = styled.div`
 	display: flex;
 	align-items: center;
 	gap: 0 5px;
-	border-right: 1px solid ${({ theme }) => theme.surface.secondary};
 	font-size: 14px;
 
 	@media (min-width: 1024px) {

@@ -56,7 +56,9 @@ const RightSideNavbar = ({
 								/>
 								{favouriteLength >= 1 && (
 									<CartAndFavBadge>
-										<span className={`${cartLength >= 99 && "favBadgeSmall"}`}>
+										<span
+											className={`${favouriteLength >= 99 && "favBadgeSmall"}`}
+										>
 											{favouriteLength}
 										</span>
 									</CartAndFavBadge>
