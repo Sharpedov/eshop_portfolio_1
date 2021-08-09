@@ -157,96 +157,98 @@ const ProductsTemplate = ({ gender }: pageProps) => {
 	return (
 		<Container>
 			<BannerProducts gender={gender} />
-			<GridContainer>
-				<Filters
-					isOpenFiltersSidebar={isOpenFiltersSidebar}
-					onCloseFiltersSidebar={() => setIsOpenFiltersSidebar(false)}
-				/>
-				<Wrapper>
-					<FiltersBar>
-						<ViewGrid>
-							<CustomIconButton
-								onClick={() => handleChangeGridView("fill")}
-								size="medium"
-								Icon={AppsIcon}
-								active={gridView === "fill"}
-								ariaLabel="Fill products view"
-							/>
-							<CustomIconButton
-								onClick={() => handleChangeGridView("fit")}
-								size="medium"
-								Icon={ViewColumnIcon}
-								active={gridView === "fit"}
-								ariaLabel="Fit products view"
-							/>
-						</ViewGrid>
-						<SortBy>
-							<CustomButton
-								variant="toolkit"
-								onClick={() => setIsSortByOpen((prev) => !prev)}
-								Icon={SortIcon}
-								size="medium"
-							>
-								Sort by
-							</CustomButton>
-							<SelectMenu
-								isOpen={isSortByOpen}
-								onClose={() => setIsSortByOpen(false)}
-								activeOption={sortBy}
-								setValue={handleSortBy}
-								options={sortByOptions}
-							/>
-						</SortBy>
-						<FilterBy>
-							<CustomButton
-								onClick={() => setIsOpenFiltersSidebar((prev) => !prev)}
-								variant="toolkit"
-								Icon={FilterListIcon}
-								size="medium"
-							>
-								Filter by
-							</CustomButton>
-						</FilterBy>
-					</FiltersBar>
-					<SortByText>
-						Sorted by <span>{sortBy.value}</span>
-					</SortByText>
-					<ProductsList gridView={gridView}>
-						{!products ? (
-							[1, 2, 3, 4, 5, 6, 7, 8, 9].map((_, i) => (
-								<ProductSkeleton gridView={gridView} key={i} />
-							))
-						) : error ? (
-							<div>{error}</div>
-						) : (
-							products.map(
-								(product, i) => (
-									// products.length === i + 1 ? (
-									// 	<div
-									// 		key={product._id}
-									// 		// ref={lastItemRef}
-									// 	>
-									// 		<ProductCard data={product} gridView={gridView} />
-									// 	</div>
-									// ) : (
-									<ProductCard
-										key={product._id}
-										data={product}
-										gridView={gridView}
-									/>
+			<Wrapper>
+				<GridContainer>
+					<Filters
+						isOpenFiltersSidebar={isOpenFiltersSidebar}
+						onCloseFiltersSidebar={() => setIsOpenFiltersSidebar(false)}
+					/>
+					<Body>
+						<FiltersBar>
+							<ViewGrid>
+								<CustomIconButton
+									onClick={() => handleChangeGridView("fill")}
+									size="medium"
+									Icon={AppsIcon}
+									active={gridView === "fill"}
+									ariaLabel="Fill products view"
+								/>
+								<CustomIconButton
+									onClick={() => handleChangeGridView("fit")}
+									size="medium"
+									Icon={ViewColumnIcon}
+									active={gridView === "fit"}
+									ariaLabel="Fit products view"
+								/>
+							</ViewGrid>
+							<SortBy>
+								<CustomButton
+									variant="toolkit"
+									onClick={() => setIsSortByOpen((prev) => !prev)}
+									Icon={SortIcon}
+									size="medium"
+								>
+									Sort by
+								</CustomButton>
+								<SelectMenu
+									isOpen={isSortByOpen}
+									onClose={() => setIsSortByOpen(false)}
+									activeOption={sortBy}
+									setValue={handleSortBy}
+									options={sortByOptions}
+								/>
+							</SortBy>
+							<FilterBy>
+								<CustomButton
+									onClick={() => setIsOpenFiltersSidebar((prev) => !prev)}
+									variant="toolkit"
+									Icon={FilterListIcon}
+									size="medium"
+								>
+									Filter by
+								</CustomButton>
+							</FilterBy>
+						</FiltersBar>
+						<SortByText>
+							Sorted by <span>{sortBy.value}</span>
+						</SortByText>
+						<ProductsList gridView={gridView}>
+							{!products ? (
+								[1, 2, 3, 4, 5, 6, 7, 8, 9].map((_, i) => (
+									<ProductSkeleton gridView={gridView} key={i} />
+								))
+							) : error ? (
+								<div>{error}</div>
+							) : (
+								products.map(
+									(product, i) => (
+										// products.length === i + 1 ? (
+										// 	<div
+										// 		key={product._id}
+										// 		// ref={lastItemRef}
+										// 	>
+										// 		<ProductCard data={product} gridView={gridView} />
+										// 	</div>
+										// ) : (
+										<ProductCard
+											key={product._id}
+											data={product}
+											gridView={gridView}
+										/>
+									)
+									// )
 								)
-								// )
-							)
+							)}
+						</ProductsList>
+						{loadingMoreItems && (
+							<Row>
+								<div>loading more products...</div>
+							</Row>
 						)}
-					</ProductsList>
-					{loadingMoreItems && (
-						<Row>
-							<div>loading more products...</div>
-						</Row>
-					)}
-					{/* {!lastDoc && <Row>No more results</Row>} */}
-				</Wrapper>
-			</GridContainer>
+						{/* {!lastDoc && <Row>No more results</Row>} */}
+					</Body>
+				</GridContainer>
+			</Wrapper>
 		</Container>
 	);
 };
@@ -268,22 +270,30 @@ const Container = styled.div`
 	background-color: ${({ theme }) => theme.surface.primary};
 `;
 
+const Wrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	background-color: ${({ theme }) => theme.surface.primary};
+	z-index: 2;
+	padding: 0 15px 20px;
+
+	@media (min-width: 1024px) {
+		padding: 20px 15px;
+	}
+`;
+
 const GridContainer = styled.div`
 	display: grid;
 	grid-template-columns: 1fr;
 	grid-gap: 25px;
 	align-items: flex-start;
-	padding: 0 15px 20px;
 	max-width: 1720px;
 	width: 100%;
 	margin: 0 auto;
 	min-height: 70vh;
-	background-color: ${({ theme }) => theme.surface.primary};
-	z-index: 2;
 
 	@media (min-width: 1024px) {
 		grid-template-columns: 275px 1fr;
-		padding: 20px 15px;
 	}
 
 	@media (min-width: 1300px) {
@@ -291,7 +301,7 @@ const GridContainer = styled.div`
 	}
 `;
 
-const Wrapper = styled.div`
+const Body = styled.div`
 	display: flex;
 	flex-direction: column;
 `;
