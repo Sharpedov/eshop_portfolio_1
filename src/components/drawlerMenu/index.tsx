@@ -146,7 +146,7 @@ const DrawlerMenu = ({ isOpen, onClose }: pageProps) => {
 
 	const onClickDrawlerItemHandler = useCallback(
 		(action) => {
-			dispatch(action());
+			action && dispatch(action());
 			onClose();
 		},
 		[dispatch, onClose]
@@ -182,7 +182,7 @@ const DrawlerMenu = ({ isOpen, onClose }: pageProps) => {
 														: pathname === item.href
 												}
 												size="medium"
-												onClick={() => onClickDrawlerItemHandler(item?.action)}
+												onClick={() => onClickDrawlerItemHandler(item.action)}
 											>
 												{item.text}
 											</CustomButton>
