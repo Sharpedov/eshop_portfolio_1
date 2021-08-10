@@ -39,16 +39,20 @@ const Filters = ({
 	}, [pathname, query.brand, query.category, query.minPrice, query.maxPrice]);
 
 	const handleApplyFilters = useCallback(() => {
-		push({
-			pathname,
-			query: {
-				...query,
-				brand: brands.join("+"),
-				category: categories.join("+"),
-				minPrice: minMaxPrice.min,
-				maxPrice: minMaxPrice.max,
+		push(
+			{
+				pathname,
+				query: {
+					...query,
+					brand: brands.join("+"),
+					category: categories.join("+"),
+					minPrice: minMaxPrice.min,
+					maxPrice: minMaxPrice.max,
+				},
 			},
-		});
+			undefined,
+			{ scroll: false }
+		);
 		onCloseFiltersSidebar();
 	}, [
 		brands,
@@ -67,7 +71,7 @@ const Filters = ({
 			min: 0,
 			max: 9999,
 		});
-		push(pathname);
+		push(pathname, undefined, { scroll: false });
 	}, [push, pathname]);
 
 	const onKeyPress = (event) => {
