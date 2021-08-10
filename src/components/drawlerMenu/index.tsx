@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from "react";
+import React, { useCallback, useMemo, useRef } from "react";
 import styled from "styled-components";
 import HomeIcon from "@material-ui/icons/Home";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
@@ -14,6 +14,9 @@ import ListAltIcon from "@material-ui/icons/ListAlt";
 import SettingsIcon from "@material-ui/icons/Settings";
 import { useAuth } from "../authProvider";
 import { DisableScrollbar } from "src/utils/disableScrollbar";
+import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
+import { logout } from "src/store/slices/authSlice";
+import { useDispatch } from "react-redux";
 
 interface pageProps {
 	isOpen: boolean;
@@ -108,6 +111,11 @@ const userDrawlerData = [
 			href: "/account?tab=2",
 			icon: SettingsIcon,
 		},
+		{
+			text: "Log out",
+			icon: PowerSettingsNewIcon,
+			action: logout,
+		},
 	],
 	[
 		{
@@ -126,6 +134,7 @@ const DrawlerMenu = ({ isOpen, onClose }: pageProps) => {
 	const { pathname, query } = useRouter();
 	const { isLogged } = useAuth();
 	const drawlerMenuRef = useRef(null);
+	const dispatch = useDispatch();
 	DisableScrollbar(isOpen);
 
 	const drawlerFilter = useMemo(() => {
@@ -134,6 +143,14 @@ const DrawlerMenu = ({ isOpen, onClose }: pageProps) => {
 		}
 		return defaultDrawlerData;
 	}, [isLogged]);
+
+	const onClickDrawlerItemHandler = useCallback(
+		(action) => {
+			dispatch(action());
+			onClose();
+		},
+		[dispatch, onClose]
+	);
 
 	return (
 		<>
@@ -165,7 +182,7 @@ const DrawlerMenu = ({ isOpen, onClose }: pageProps) => {
 														: pathname === item.href
 												}
 												size="medium"
-												onClick={onClose}
+												onClick={() => onClickDrawlerItemHandler(item?.action)}
 											>
 												{item.text}
 											</CustomButton>
