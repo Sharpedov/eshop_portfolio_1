@@ -1,6 +1,11 @@
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
-import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
+import {
+	GoogleMap,
+	InfoWindow,
+	Marker,
+	useLoadScript,
+} from "@react-google-maps/api";
 import mapStyles from "./mapStyles";
 import SpinnerLoading from "src/components/loadingIndicators/spinnerLoading";
 import { CardActionArea } from "@material-ui/core";
@@ -19,6 +24,7 @@ const mapCenter = {
 const mapOptions = {
 	styles: mapStyles,
 	disableDefaultUI: true,
+	zoomControl: true,
 };
 const localStores = [
 	{
@@ -51,10 +57,11 @@ const GoogleMapLocationOfLocalStores = ({}: pageProps) => {
 	const { isLoaded, loadError } = useLoadScript({
 		googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
 	});
-	const [currentStore, setCurrentStore] = useState(null);
+	const [selectedStore, setSelectedStore] = useState(null);
+	const [selectedMarker, setSelectedMarker] = useState(null);
 
-	const currentStoreOnClickHandler = useCallback((store) => {
-		setCurrentStore((prev) => (prev?.id === store.id ? null : store));
+	const onStoreClick = useCallback((store) => {
+		setSelectedStore((prev) => (prev?.id === store.id ? null : store));
 	}, []);
 
 	return (
@@ -66,10 +73,10 @@ const GoogleMapLocationOfLocalStores = ({}: pageProps) => {
 						<Store
 							key={`${store.city}-${store.lat}-${store.lng}`}
 							component="li"
-							onClick={() => currentStoreOnClickHandler(store)}
+							onClick={() => onStoreClick(store)}
 						>
 							<StoreLeftSide
-								active={currentStore && currentStore.id === store.id}
+								active={selectedStore && selectedStore.id === store.id}
 							>
 								<LocationOnIcon className="storeLocation__icon" />
 							</StoreLeftSide>
@@ -90,10 +97,10 @@ const GoogleMapLocationOfLocalStores = ({}: pageProps) => {
 				) : (
 					<GoogleMap
 						mapContainerStyle={mapContainerStyle}
-						zoom={currentStore ? 11 : 9}
+						zoom={selectedStore ? 11 : 9}
 						center={
-							currentStore
-								? { lat: currentStore.lat, lng: currentStore.lng }
+							selectedStore
+								? { lat: selectedStore.lat, lng: selectedStore.lng }
 								: mapCenter
 						}
 						options={mapOptions}
@@ -103,8 +110,21 @@ const GoogleMapLocationOfLocalStores = ({}: pageProps) => {
 								animation={2}
 								key={`${marker.lat}-${marker.lng}`}
 								position={{ lat: marker.lat, lng: marker.lng }}
+								onClick={() => setSelectedMarker(marker)}
 							/>
 						))}
+						{selectedMarker && (
+							<InfoWindow
+								position={{ lat: selectedMarker.lat, lng: selectedMarker.lng }}
+								onCloseClick={() => setSelectedMarker(null)}
+							>
+								<MarkerInfoWindow>
+									<span>{selectedMarker.city}</span>
+									<span>{selectedMarker.street}</span>
+									<span>{selectedMarker.postalcode}</span>
+								</MarkerInfoWindow>
+							</InfoWindow>
+						)}
 					</GoogleMap>
 				)}
 			</Map>
@@ -209,4 +229,12 @@ const Map = styled.div`
 	min-height: 360px;
 	max-height: 480px;
 	height: 50vw;
+`;
+
+const MarkerInfoWindow = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 7px 0;
+	color: ${({ theme }) => theme.color.black};
+	font-size: 14px;
 `;

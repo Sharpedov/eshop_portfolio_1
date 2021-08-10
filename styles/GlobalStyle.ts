@@ -8,10 +8,6 @@ const GlobalStyle = createGlobalStyle`
         behavior: "smooth";
     }
 
-    #nprogress .bar {
-        background: ${({ theme }) => theme.color.primary};
-    }
-
     html {
         font-size: 62.5%;
     }
