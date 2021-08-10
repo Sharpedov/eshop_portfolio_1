@@ -142,11 +142,10 @@ const IconBox = styled.div`
 	justify-content: center;
 	background: ${({ theme }) => theme.color.primary};
 	color: ${({ theme }) => theme.color.white};
-	max-width: 50px;
 	width: 100%;
-	font-weight: 700;
-	font-size: 25px;
-	height: 50px;
+	font-size: 24px;
+	max-width: 47px;
+	height: 47px;
 	border-radius: 20px;
 	margin-bottom: 20px;
 `;
@@ -159,19 +158,29 @@ const CardContent = styled.div`
 	> h3 {
 		text-align: center;
 		margin-bottom: 20px;
-		font-weight: 700;
-		font-size: ${({ theme }) => `calc( ${theme.font.xs} + 1px)`};
+		font-weight: 500;
+		font-size: 16px;
 	}
 	> p {
 		text-align: center;
 		font-weight: 400;
-		font-size: ${({ theme }) => `calc( ${theme.font.xs} - 1px)`};
+		font-size: 15px;
 		opacity: 0.65;
 	}
 
 	@media (min-width: 768px) {
 		> h3 {
 			text-align: left;
+		}
+
+		> p {
+			text-align: left;
+		}
+	}
+	@media (min-width: 1024px) {
+		> h3 {
+			text-align: left;
+			font-size: 17px;
 		}
 
 		> p {

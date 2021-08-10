@@ -38,14 +38,6 @@ export const theme = {
 		bold: "700",
 	},
 
-	mq: {
-		miniMobile: `@media (min-width: 360px)`,
-		mobile: `@media (min-width: 576px)`,
-		tablet: `@media (min-width: 768px)`,
-		desktop: `@media (min-width: 1024px)`,
-		huge: `@media (min-width: 1440px)`,
-	},
-
 	boxShadow: {
 		primary: `0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);`,
 	},
