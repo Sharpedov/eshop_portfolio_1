@@ -65,7 +65,7 @@ const GoogleMapLocationOfLocalStores = ({}: pageProps) => {
 	}, []);
 
 	return (
-		<Container>
+		<Container id="googleMapLocalStores">
 			<Header>
 				<h6>Local stores locations</h6>
 				<StoresList>

@@ -17,6 +17,8 @@ import { DisableScrollbar } from "src/utils/disableScrollbar";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 import { logout } from "src/store/slices/authSlice";
 import { useDispatch } from "react-redux";
+import LocationOnIcon from "@material-ui/icons/LocationOn";
+import { scroller } from "react-scroll";
 
 interface pageProps {
 	isOpen: boolean;
@@ -62,6 +64,12 @@ const defaultDrawlerData = [
 	[
 		{
 			heading: "Others",
+		},
+		{
+			text: "Local Stores",
+			icon: LocationOnIcon,
+			href: "/",
+			scrollTo: "googleMapLocalStores",
 		},
 
 		{
@@ -121,7 +129,12 @@ const userDrawlerData = [
 		{
 			heading: "Others",
 		},
-
+		{
+			text: "Local Stores",
+			icon: LocationOnIcon,
+			href: "/",
+			scrollTo: "googleMapLocalStores",
+		},
 		{
 			text: "Contact Us",
 			href: "/contact",
@@ -131,7 +144,7 @@ const userDrawlerData = [
 ];
 
 const DrawlerMenu = ({ isOpen, onClose }: pageProps) => {
-	const { pathname, query } = useRouter();
+	const { pathname, query, push } = useRouter();
 	const { isLogged } = useAuth();
 	const drawlerMenuRef = useRef(null);
 	const dispatch = useDispatch();
@@ -145,11 +158,24 @@ const DrawlerMenu = ({ isOpen, onClose }: pageProps) => {
 	}, [isLogged]);
 
 	const onClickDrawlerItemHandler = useCallback(
-		(action) => {
-			action && dispatch(action());
+		(item) => {
+			item.href &&
+				push(item.href).then(
+					() =>
+						item.scrollTo &&
+						scroller.scrollTo(item.scrollTo, {
+							duration: 750,
+							delay: 50,
+							spy: true,
+							smooth: true,
+							offset: -58,
+						})
+				);
+			item.action && dispatch(item.action());
+
 			onClose();
 		},
-		[dispatch, onClose]
+		[dispatch, onClose, push]
 	);
 
 	return (
@@ -175,14 +201,13 @@ const DrawlerMenu = ({ isOpen, onClose }: pageProps) => {
 												left
 												fullWidth
 												Icon={item.icon}
-												href={item.href}
 												isActive={
-													query.tab
+													!item.scrollTo && query.tab
 														? `${pathname}?tab=${query.tab}` === item.href
-														: pathname === item.href
+														: !item.scrollTo && pathname === item.href
 												}
 												size="medium"
-												onClick={() => onClickDrawlerItemHandler(item.action)}
+												onClick={() => onClickDrawlerItemHandler(item)}
 											>
 												{item.text}
 											</CustomButton>
@@ -216,11 +241,12 @@ const Background = styled.div`
 
 const Container = styled.div`
 	position: fixed;
-	top: 0;
-	left: 0;
-	bottom: 0;
 	display: flex;
 	flex-direction: column;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 55px;
 	max-width: 250px;
 	width: 100%;
 	background: ${({ theme }) => theme.surface.primary};
@@ -231,14 +257,18 @@ const Container = styled.div`
 	&::-webkit-scrollbar {
 		display: none;
 	}
+
+	@media (min-width: 768px) {
+		bottom: 0;
+	}
 `;
 
 const HeaderBreak = styled.div`
-	height: 54px;
+	min-height: 54px;
 	border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 
 	@media (min-width: 480px) {
-		height: 58px;
+		min-height: 58px;
 	}
 `;
 
