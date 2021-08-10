@@ -1,13 +1,10 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import styled from "styled-components";
-import {
-	GoogleMap,
-	InfoWindow,
-	Marker,
-	useLoadScript,
-} from "@react-google-maps/api";
+import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import mapStyles from "./mapStyles";
 import SpinnerLoading from "src/components/loadingIndicators/spinnerLoading";
+import { CardActionArea } from "@material-ui/core";
+import LocationOnIcon from "@material-ui/icons/LocationOn";
 
 interface pageProps {}
 
@@ -15,18 +12,38 @@ const mapContainerStyle = {
 	width: "100%",
 	height: "100%",
 };
-const center = {
-	lat: 51,
-	lng: 17.1,
+const mapCenter = {
+	lat: 51.107883,
+	lng: 17.038538,
 };
-const options = {
+const mapOptions = {
 	styles: mapStyles,
 	disableDefaultUI: true,
 };
 const localStores = [
 	{
+		id: 1,
+		city: "Wrocław",
+		street: "Lorem ipsum...",
+		postalcode: "52-340",
 		lat: 51.107883,
 		lng: 17.038538,
+	},
+	{
+		id: 2,
+		city: "Kraków",
+		street: "Lorem ipsum...",
+		postalcode: "30-063",
+		lat: 50.049683,
+		lng: 19.944544,
+	},
+	{
+		id: 3,
+		city: "Warszawa",
+		street: "Lorem ipsum...",
+		postalcode: "01-376",
+		lat: 52.237049,
+		lng: 21.017532,
 	},
 ];
 
@@ -34,12 +51,36 @@ const GoogleMapLocationOfLocalStores = ({}: pageProps) => {
 	const { isLoaded, loadError } = useLoadScript({
 		googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
 	});
+	const [currentStore, setCurrentStore] = useState(null);
+
+	const currentStoreOnClickHandler = useCallback((store) => {
+		setCurrentStore((prev) => (prev?.id === store.id ? null : store));
+	}, []);
 
 	return (
 		<Container>
 			<Header>
 				<h6>Local stores locations</h6>
-				<StoresList></StoresList>
+				<StoresList>
+					{localStores.map((store) => (
+						<Store
+							key={`${store.city}-${store.lat}-${store.lng}`}
+							component="li"
+							onClick={() => currentStoreOnClickHandler(store)}
+						>
+							<StoreLeftSide
+								active={currentStore && currentStore.id === store.id}
+							>
+								<LocationOnIcon className="storeLocation__icon" />
+							</StoreLeftSide>
+							<StoreRightSide>
+								<span>{store.city}</span>
+								<span>{store.street}</span>
+								<span>{store.postalcode}</span>
+							</StoreRightSide>
+						</Store>
+					))}
+				</StoresList>
 			</Header>
 			<Map>
 				{!isLoaded ? (
@@ -49,12 +90,17 @@ const GoogleMapLocationOfLocalStores = ({}: pageProps) => {
 				) : (
 					<GoogleMap
 						mapContainerStyle={mapContainerStyle}
-						zoom={9}
-						center={center}
-						options={options}
+						zoom={currentStore ? 11 : 9}
+						center={
+							currentStore
+								? { lat: currentStore.lat, lng: currentStore.lng }
+								: mapCenter
+						}
+						options={mapOptions}
 					>
 						{localStores.map((marker) => (
 							<Marker
+								animation={2}
 								key={`${marker.lat}-${marker.lng}`}
 								position={{ lat: marker.lat, lng: marker.lng }}
 							/>
@@ -92,16 +138,75 @@ const Header = styled.div`
 	}
 `;
 
-const StoresList = styled.ul``;
+const StoresList = styled.ul`
+	display: grid;
+	grid-template-columns: repeat(auto-fill, 130px);
+	justify-content: center;
+	grid-gap: 15px;
+	margin-top: 15px;
 
-const Store = styled.li`
+	@media (min-width: 360px) {
+		grid-template-columns: repeat(auto-fill, 145px);
+		grid-gap: 20px;
+		margin-top: 20px;
+	}
+	@media (min-width: 480px) {
+		grid-template-columns: repeat(auto-fill, 150px);
+	}
+`;
+
+const Store = styled(CardActionArea)`
+	display: flex;
+	align-items: flex-start;
+	flex-basis: 100%;
 	list-style: none;
+	padding: 5px;
+	color: ${({ theme }) => theme.color.white};
+
+	@media (min-width: 360px) {
+		padding: 7px;
+	}
+`;
+
+const StoreLeftSide = styled.div`
+	display: flex;
+	margin-right: 10px;
+
+	.storeLocation__icon {
+		font-size: 24px;
+		opacity: ${({ active }) => (active ? "1" : "0.4")};
+		color: ${({ active, theme }) => (active ? theme.color.primary : "inherit")};
+		transition: opacity 0.2s ease, color 0.2s ease;
+	}
+
+	@media (min-width: 1440px) {
+		.storeLocation__icon {
+			font-size: 26px;
+		}
+	}
+`;
+
+const StoreRightSide = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 7px 0;
+	font-size: 13px;
+
+	> span {
+		opacity: 0.9;
+	}
+	@media (min-width: 360px) {
+		font-size: 14px;
+	}
+	@media (min-width: 1440px) {
+		font-size: 15px;
+	}
 `;
 
 const Map = styled.div`
 	display: grid;
 	place-items: center;
-	min-height: 300px;
-	max-height: 450px;
+	min-height: 360px;
+	max-height: 480px;
 	height: 50vw;
 `;
