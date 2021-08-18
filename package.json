@@ -26,6 +26,7 @@
     "bcryptjs": "^2.4.3",
     "cookie": "^0.4.1",
     "cookie-parser": "^1.4.5",
+    "framer-motion": "^4.1.17",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
