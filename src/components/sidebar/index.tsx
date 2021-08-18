@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { CSSTransition } from "react-transition-group";
 import styled from "styled-components";
 import CustomIconButton from "../customIconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import { DisableScrollbar } from "src/utils/disableScrollbar";
 import { createPortal } from "react-dom";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface pageProps {
 	children: React.ReactNode;
@@ -15,13 +15,30 @@ interface pageProps {
 	slideFrom: "Right" | "Bottom";
 }
 
+const backdropAnimation = {
+	hidden: { opacity: 0 },
+	show: {
+		opacity: 1,
+	},
+};
+const sidebarAnimation = {
+	hidden: { x: "100%" },
+	show: {
+		x: "0",
+	},
+	transition: {
+		type: "spring",
+		bounce: 0,
+		duration: 0.5,
+	},
+};
+
 const Sidebar = ({
 	children,
 	isOpen,
 	onClose,
 	headerText,
 	displayNone,
-	slideFrom,
 }: pageProps) => {
 	const [isBrowser, setIsBrowser] = useState<boolean>(false);
 	DisableScrollbar(isOpen);
@@ -50,34 +67,39 @@ const Sidebar = ({
 		isBrowser &&
 		createPortal(
 			<>
-				<CSSTransition
-					in={isOpen}
-					timeout={300}
-					classNames={`sidebar${slideFrom}-`}
-					unmountOnExit={true}
-				>
-					<Container displayNone={displayNone}>
-						<HeaderBreak>
-							<>
-								<span>{headerText}</span>
-								<HeaderIcon>
-									<CustomIconButton
-										ariaLabel="Close cart sidebar"
-										onClick={() => onClose()}
-										Icon={CloseIcon}
-									/>
-								</HeaderIcon>
-							</>
-						</HeaderBreak>
-						<Wrapper>{children}</Wrapper>
-					</Container>
-				</CSSTransition>
-
-				<Overlay
-					isOpen={isOpen}
-					onClick={() => onClose()}
-					displayNone={displayNone}
-				/>
+				<AnimatePresence>
+					{isOpen && (
+						<>
+							<Backdrop
+								onClick={onClose}
+								displayNone={displayNone}
+								variants={backdropAnimation}
+								initial="hidden"
+								animate="show"
+								exit="hidden"
+							/>
+							<SidebarContainer
+								variants={sidebarAnimation}
+								initial="hidden"
+								animate="show"
+								exit="hidden"
+								transition="transition"
+							>
+								<Header>
+									<span>{headerText}</span>
+									<HeaderIcon>
+										<CustomIconButton
+											ariaLabel="Close cart sidebar"
+											onClick={() => onClose()}
+											Icon={CloseIcon}
+										/>
+									</HeaderIcon>
+								</Header>
+								<ContentWrapper>{children}</ContentWrapper>
+							</SidebarContainer>
+						</>
+					)}
+				</AnimatePresence>
 			</>,
 			document.getElementById("sidebar")
 		)
@@ -86,7 +108,7 @@ const Sidebar = ({
 
 export default Sidebar;
 
-const Overlay = styled.div`
+const Backdrop = styled(motion.div)`
 	position: fixed;
 	top: 0;
 	right: 0;
@@ -94,16 +116,13 @@ const Overlay = styled.div`
 	left: 0;
 	background-color: rgba(0, 0, 0, 0.5);
 	z-index: 100;
-	visibility: ${({ isOpen }) => (isOpen ? "visible" : "hidden")};
-	opacity: ${({ isOpen }) => (isOpen ? "1" : "0")};
-	transition: all 0.25s 0.05s cubic-bezier(0.5, 1, 0.89, 1);
 
 	@media (min-width: ${({ displayNone }) => `${displayNone}px`}) {
 		display: none;
 	}
 `;
 
-const Container = styled.div`
+const SidebarContainer = styled(motion.div)`
 	position: fixed;
 	top: 0;
 	right: 0;
@@ -127,7 +146,7 @@ const Container = styled.div`
 	}
 `;
 
-const HeaderBreak = styled.div`
+const Header = styled.div`
 	position: relative;
 	display: flex;
 	align-items: center;
@@ -158,7 +177,7 @@ const HeaderIcon = styled.div`
 	transform: translateX(8px);
 `;
 
-const Wrapper = styled.div`
+const ContentWrapper = styled.div`
 	position: absolute;
 	top: 52px;
 	bottom: 0;
