@@ -79,7 +79,7 @@ const CreateAccountTemplate = ({}: pageProps) => {
 								render={({ field }) => (
 									<FormInput
 										field={field}
-										label="First Name"
+										label="Username"
 										error={errors.username && errors.username.message}
 									/>
 								)}
