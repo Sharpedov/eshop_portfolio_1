@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import {
 	GoogleMap,
@@ -57,12 +57,26 @@ const GoogleMapLocationOfLocalStores = ({}: pageProps) => {
 	const { isLoaded, loadError } = useLoadScript({
 		googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
 	});
+	const mapRef = useRef(null);
 	const [selectedStore, setSelectedStore] = useState(null);
 	const [selectedMarker, setSelectedMarker] = useState(null);
+	const onMapLoad = useCallback((map) => (mapRef.current = map), []);
 
 	const onStoreClick = useCallback((store) => {
 		setSelectedStore((prev) => (prev?.id === store.id ? null : store));
 	}, []);
+
+	const panTo = useCallback(({ lat, lng, zoom }) => {
+		mapRef.current.panTo({ lat, lng });
+		mapRef.current.setZoom(zoom);
+	}, []);
+
+	useEffect(() => {
+		if (selectedStore)
+			panTo({ lat: selectedStore.lat, lng: selectedStore.lng, zoom: 11 });
+
+		return () => panTo({ lat: mapCenter.lat, lng: mapCenter.lng, zoom: 9 });
+	}, [selectedStore, panTo]);
 
 	return (
 		<Container id="googleMapLocalStores">
@@ -97,13 +111,10 @@ const GoogleMapLocationOfLocalStores = ({}: pageProps) => {
 				) : (
 					<GoogleMap
 						mapContainerStyle={mapContainerStyle}
-						zoom={selectedStore ? 11 : 9}
-						center={
-							selectedStore
-								? { lat: selectedStore.lat, lng: selectedStore.lng }
-								: mapCenter
-						}
+						zoom={9}
+						center={mapCenter}
 						options={mapOptions}
+						onLoad={onMapLoad}
 					>
 						{localStores.map((marker) => (
 							<Marker
@@ -142,14 +153,14 @@ const Header = styled.div`
 	display: flex;
 	flex-direction: column;
 	max-width: 1720px;
-	padding: 20px 16px;
+	padding: 50px 16px 25px;
 
 	> h6 {
 		font-size: 20px;
 	}
 
 	@media (min-width: 480px) {
-		padding: 20px 31px;
+		padding: 60px 31px 30px;
 	}
 	@media (min-width: 768px) {
 		> h6 {
@@ -168,7 +179,7 @@ const StoresList = styled.ul`
 	@media (min-width: 360px) {
 		grid-template-columns: repeat(auto-fill, 145px);
 		grid-gap: 20px;
-		margin-top: 20px;
+		margin-top: 25px;
 	}
 	@media (min-width: 480px) {
 		grid-template-columns: repeat(auto-fill, 150px);
