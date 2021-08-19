@@ -9,7 +9,6 @@ export default function Custom404() {
 		<>
 			<Head>
 				<title>404 Page Not Found - Eshop</title>
-				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<Container>
 				<Wrapper>

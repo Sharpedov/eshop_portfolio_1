@@ -9,6 +9,7 @@ import ProductCard from "src/components/productCard";
 import { clearFavouriteList } from "src/store/slices/favouriteSlice";
 import SpinnerLoading from "src/components/loadingIndicators/spinnerLoading";
 import { useAuth } from "src/components/authProvider";
+import { motion } from "framer-motion";
 
 interface pageProps {}
 
@@ -22,7 +23,7 @@ const FavouriteTemplate = ({}: pageProps) => {
 	const { favList, loadingFavouriteClear } = useSelector(mapState);
 	const dispatch = useDispatch();
 
-	const handleClearFavourite = useCallback(() => {
+	const clearFavouriteListHandler = useCallback(() => {
 		dispatch(clearFavouriteList({}));
 	}, [dispatch]);
 
@@ -39,7 +40,7 @@ const FavouriteTemplate = ({}: pageProps) => {
 						{favList.length >= 1 && (
 							<Toolbar>
 								<ClearFavList
-									onClick={handleClearFavourite}
+									onClick={clearFavouriteListHandler}
 									loading={loadingFavouriteClear}
 								>
 									<DeleteIcon className="favouriteToolbar__icon" />
@@ -55,7 +56,13 @@ const FavouriteTemplate = ({}: pageProps) => {
 								/>
 							</EmptyFavouriteContainer>
 						) : (
-							<FavouriteProductsList loading={loadingFavouriteClear}>
+							<FavouriteProductsList
+								animate={{
+									scale: loadingFavouriteClear ? 0.97 : 1,
+									opacity: loadingFavouriteClear ? 0.6 : 1,
+								}}
+								layout
+							>
 								{favList.map((product) => (
 									<ProductCard key={product._id} data={product} />
 								))}
@@ -154,14 +161,11 @@ const ClearFavList = styled(ButtonBase)`
 	}
 `;
 
-const FavouriteProductsList = styled.ul`
+const FavouriteProductsList = styled(motion.ul)`
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
 	gap: 10px;
 	animation: ${appear} 0.25s ease-in-out;
-	opacity: ${({ loading }) => (loading ? "0.6" : "1")};
-	transform: ${({ loading }) => (loading ? "scale(0.97)" : "none")};
-	transition: transform 0.2s cubic-bezier(0.37, 0, 0.63, 1);
 
 	@media (min-width: 500px) {
 		grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));

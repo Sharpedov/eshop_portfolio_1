@@ -8,6 +8,7 @@ import ProductCard from "src/components/productCard";
 import EmptyPageHeader from "src/components/emptyPageHeader";
 import SearchInput from "src/components/input/searchInput";
 import SpinnerLoading from "src/components/loadingIndicators/spinnerLoading";
+import { motion } from "framer-motion";
 
 interface pageProps {}
 
@@ -45,7 +46,7 @@ const SearchProductsTemplate = ({}: pageProps) => {
 						<SpinnerLoading color="primary" style={{ margin: "0 auto" }} />
 					)
 				) : (
-					<ProductsList>
+					<ProductsList layout>
 						{products?.length !== 0 &&
 							products.map((product) => (
 								<ProductCard key={product.id} gridView="fill" data={product} />
@@ -108,7 +109,7 @@ const Heading = styled.div`
 	}
 `;
 
-const ProductsList = styled.div`
+const ProductsList = styled(motion.div)`
 	display: grid;
 	grid-gap: 15px;
 	grid-template-columns: repeat(2, 1fr);

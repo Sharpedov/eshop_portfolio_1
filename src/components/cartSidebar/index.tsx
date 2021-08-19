@@ -56,7 +56,7 @@ const CartSidebar = ({}: pageProps) => {
 		dispatch(createCheckoutSession({ email: user.email, cartItems: cart }));
 	}, [dispatch, cart, user]);
 
-	const handleCheckout = useCallback(() => {
+	const checkoutHandler = useCallback(() => {
 		isLogged ? createCheckout() : push("/sign-in");
 	}, [isLogged, createCheckout, push]);
 
@@ -121,7 +121,7 @@ const CartSidebar = ({}: pageProps) => {
 								variant="contained"
 								fullWidth
 								size="medium"
-								onClick={handleCheckout}
+								onClick={checkoutHandler}
 								loading={
 									loading ||
 									cartAddLoading ||

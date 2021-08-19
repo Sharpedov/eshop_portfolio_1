@@ -9,7 +9,6 @@ export default function Custom500() {
 		<>
 			<Head>
 				<title>500 Server-side error occurred - Eshop</title>
-				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<Container>
 				<Wrapper>

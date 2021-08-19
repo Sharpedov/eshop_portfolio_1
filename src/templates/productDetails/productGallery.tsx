@@ -12,9 +12,8 @@ interface pageProps {
 }
 
 const ProductGallery = ({ productDetails, loading }: pageProps) => {
-	const [x, setX] = useState<number>(0);
-	const [currentImg, setCurrentImg] = useState<number>(0);
-	const sliderLength = productDetails?.images.length;
+	const [selectedImage, setSelectedImage] = useState<number>(0);
+	const imagesLength = productDetails?.images.length;
 	const [offsetY, setOffsetY] = useState<number>(0);
 	const [changeOpacityOfContainer, setChangeOpacityOfContainer] =
 		useState<boolean>(
@@ -45,34 +44,33 @@ const ProductGallery = ({ productDetails, loading }: pageProps) => {
 		}
 	}, [changeOpacityOfContainer, disableScrolling, handleScroll]);
 
-	const handleNextSlide = useCallback(() => {
-		if (sliderLength - 1 === currentImg) {
-			setCurrentImg(0);
-		} else {
-			setCurrentImg((prev) => prev + 1);
-		}
-		if (x === -100 * (sliderLength - 1)) {
-			setX(0);
-		} else {
-			setX((prev) => prev - 100);
-		}
-	}, [currentImg, sliderLength, x]);
+	const navigationArrowsHandler = useCallback(
+		(typeAction: "prev" | "next") => {
+			if (typeAction === "prev")
+				setSelectedImage((prev) => (prev === 0 ? 0 : prev - 1));
 
-	const handlePrevSlide = useCallback(() => {
-		setCurrentImg((prev) => (currentImg === 0 ? sliderLength - 1 : prev - 1));
-		setX((prev) => (x === 0 ? -100 * (sliderLength - 1) : prev + 100));
-	}, [currentImg, sliderLength, x]);
+			if (typeAction === "next")
+				setSelectedImage((prev) =>
+					prev === imagesLength - 1 ? imagesLength - 1 : prev + 1
+				);
 
-	const handleDotClick = useCallback((i) => {
-		setX(-100 * i);
-		setCurrentImg(i);
+			return;
+		},
+		[imagesLength]
+	);
+
+	const navigationDotsHandler = useCallback((index: number) => {
+		setSelectedImage(index);
 	}, []);
 
 	return (
 		<Container opacity={`${35 / offsetY}`}>
 			<Slider>
 				{productDetails.images.map((img, i) => (
-					<Slide key={img} style={{ transform: `translateX(${x}%)` }}>
+					<Slide
+						key={img}
+						style={{ transform: `translateX(${selectedImage * -100}%)` }}
+					>
 						<Image
 							src={img}
 							layout="fill"
@@ -81,42 +79,42 @@ const ProductGallery = ({ productDetails, loading }: pageProps) => {
 						/>
 					</Slide>
 				))}
-				<ArrowActions>
-					<NavigationIcon
+				<ArrowsNav>
+					<ArrowNav
 						component="li"
-						onClick={handlePrevSlide}
-						disabled={currentImg === 0}
+						onClick={() => navigationArrowsHandler("prev")}
+						disabled={selectedImage === 0}
 						aria-label="Previous product image button"
 					>
 						<NavigateBeforeRoundedIcon className="carousel__icon" />
-					</NavigationIcon>
-					<NavigationIcon
+					</ArrowNav>
+					<ArrowNav
 						component="li"
-						onClick={handleNextSlide}
-						disabled={currentImg === sliderLength - 1}
+						onClick={() => navigationArrowsHandler("next")}
+						disabled={selectedImage === imagesLength - 1}
 						aria-label="Next product image button"
 					>
 						<NavigateNextRoundedIcon className="carousel__icon" />
-					</NavigationIcon>
-				</ArrowActions>
+					</ArrowNav>
+				</ArrowsNav>
 
-				<Dots>
+				<DotsNav>
 					{productDetails.images.map((_, i) => (
-						<Dot
+						<DotNav
 							key={`productGalleryDot-${i}`}
-							onClick={() => handleDotClick(i)}
-							active={i === currentImg ? 1 : 0}
+							onClick={() => navigationDotsHandler(i)}
+							active={i === selectedImage ? 1 : 0}
 						/>
 					))}
-				</Dots>
+				</DotsNav>
 			</Slider>
 			<Thumbnails>
 				{productDetails.images.map((img, i) => (
 					<Thumbnail
 						component="li"
 						key={`productGalleryThumnbail-${i}`}
-						onClick={() => handleDotClick(i)}
-						active={i === currentImg ? 1 : 0}
+						onClick={() => navigationDotsHandler(i)}
+						active={i === selectedImage ? 1 : 0}
 					>
 						<Image
 							src={img}
@@ -132,30 +130,6 @@ const ProductGallery = ({ productDetails, loading }: pageProps) => {
 };
 
 export default ProductGallery;
-
-const NavigationIcon = styled(ButtonBase)`
-	padding: 6px 3px;
-	background: ${({ theme }) => theme.surface.secondary};
-	border-radius: 5px;
-	z-index: 2;
-	transition: all 0.2s cubic-bezier(0.5, 1, 0.89, 1);
-
-	span {
-		color: #fff;
-	}
-	&.Mui-disabled {
-		opacity: 0.7;
-	}
-
-	:hover {
-		background-color: ${({ theme }) => theme.surface.secondary};
-	}
-
-	.carousel__icon {
-		font-size: 34px;
-		color: #fff;
-	}
-`;
 
 const Container = styled.div`
 	display: flex;
@@ -249,7 +223,7 @@ const Slide = styled.div`
 	}
 `;
 
-const ArrowActions = styled.ul`
+const ArrowsNav = styled.ul`
 	position: absolute;
 	display: flex;
 	align-items: center;
@@ -261,7 +235,31 @@ const ArrowActions = styled.ul`
 	transform: translateY(-50%);
 `;
 
-const Dots = styled.ul`
+const ArrowNav = styled(ButtonBase)`
+	padding: 6px 3px;
+	background: ${({ theme }) => theme.surface.secondary};
+	border-radius: 5px;
+	z-index: 2;
+	transition: all 0.2s cubic-bezier(0.5, 1, 0.89, 1);
+
+	span {
+		color: #fff;
+	}
+	&.Mui-disabled {
+		opacity: 0.7;
+	}
+
+	:hover {
+		background-color: ${({ theme }) => theme.surface.secondary};
+	}
+
+	.carousel__icon {
+		font-size: 34px;
+		color: #fff;
+	}
+`;
+
+const DotsNav = styled.ul`
 	position: absolute;
 	bottom: 3%;
 	left: 0;
@@ -278,7 +276,7 @@ const Dots = styled.ul`
 	}
 `;
 
-const Dot = styled.li`
+const DotNav = styled.li`
 	height: 16px;
 	width: 16px;
 	border-radius: 50%;

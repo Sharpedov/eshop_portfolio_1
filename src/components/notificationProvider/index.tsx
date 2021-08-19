@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import Notification from "./notification";
@@ -7,8 +7,6 @@ import { createPortal } from "react-dom";
 interface pageProps {
 	children;
 }
-
-const NotificationContext = createContext(null);
 
 const mapState = (state) => ({
 	notifications: state.notifications.notifications,
@@ -41,24 +39,6 @@ const NotificationProvider = ({ children }: pageProps) => {
 			document.getElementById("notifications")
 		)
 	);
-};
-
-interface notification {
-	type?: string;
-	message: string;
-}
-
-export const useNotification = () => {
-	const dispatch = useContext(NotificationContext);
-
-	return ({ type, message }: notification) =>
-		dispatch({
-			type: "ADD",
-			payload: {
-				type: type ? type.toUpperCase() : "SUCCESS",
-				message,
-			},
-		});
 };
 
 export default NotificationProvider;

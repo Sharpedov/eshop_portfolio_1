@@ -17,48 +17,41 @@ interface pageProps {
 	onClose: () => void;
 }
 
+const MenuList = [
+	{
+		text: "My account",
+		icon: AccountBoxIcon,
+		href: "/account",
+	},
+	{
+		text: "Orders History",
+		icon: ListAltIcon,
+		href: "/account?tab=1",
+	},
+	{
+		text: "Settings",
+		icon: SettingsIcon,
+		href: "/account?tab=2",
+	},
+
+	{
+		text: "Log out",
+		icon: PowerSettingsNewIcon,
+		action: () => logout(),
+	},
+];
+
 const UserDropdownNavMenu = ({ user, isOpen, onClose }: pageProps) => {
 	const { push } = useRouter();
 	const dispatch = useDispatch();
 
-	const MenuList = [
-		{
-			text: "My account",
-			icon: AccountBoxIcon,
-			href: "/account",
-		},
-		{
-			text: "Orders History",
-			icon: ListAltIcon,
-			href: "/account?tab=1",
-		},
-		{
-			text: "Settings",
-			icon: SettingsIcon,
-			href: "/account?tab=2",
-		},
-
-		{
-			text: "Log out",
-			icon: PowerSettingsNewIcon,
-			action: () => dispatch(logout()),
-		},
-	];
-
-	const handleOnClick = useCallback(
-		(to) => {
-			push(to);
+	const onClickHandler = useCallback(
+		(item) => {
+			item.href && push(item.href);
+			item.action && dispatch(item.action());
 			onClose();
 		},
-		[onClose, push]
-	);
-
-	const handleOnClickAction = useCallback(
-		(action) => {
-			action();
-			onClose();
-		},
-		[onClose]
+		[onClose, push, dispatch]
 	);
 
 	return (
@@ -80,11 +73,7 @@ const UserDropdownNavMenu = ({ user, isOpen, onClose }: pageProps) => {
 						fullWidth
 						left
 						size="medium"
-						onClick={
-							item.href
-								? () => handleOnClick(item.href)
-								: () => handleOnClickAction(item.action)
-						}
+						onClick={() => onClickHandler(item)}
 					>
 						{item.text}
 					</CustomButton>

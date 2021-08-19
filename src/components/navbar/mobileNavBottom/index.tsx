@@ -22,7 +22,7 @@ const mapState = (state) => ({
 });
 
 const MobileNavBottom = ({}: pageProps) => {
-	const { asPath, pathname } = useRouter();
+	const { pathname } = useRouter();
 	const { cartLength, favLength, cartIsOpen } = useSelector(mapState);
 	const dispatch = useDispatch();
 

@@ -39,10 +39,10 @@ const AccountTemplate = ({}: pageProps) => {
 	const { cartLength, favouriteLength } = useSelector(mapState);
 	const { user, loading } = useAuth();
 	const { query } = useRouter();
-	const [currentTab, setCurrentTab] = useState<number>(0);
+	const [selectedTab, setSelectedTab] = useState<number>(0);
 
 	useEffect(() => {
-		setCurrentTab(Number(query.tab) || 0);
+		setSelectedTab(Number(query.tab) || 0);
 	}, [query]);
 
 	return (
@@ -123,25 +123,25 @@ const AccountTemplate = ({}: pageProps) => {
 				<Content>
 					<Tabs
 						tabs={TabsData}
-						currentTab={currentTab}
-						setCurrentTab={setCurrentTab}
+						currentTab={selectedTab}
+						setCurrentTab={setSelectedTab}
 						fullWidth
 						background="primary"
 					/>
 
 					<ContentSlider
 						style={{
-							transform: `translateX(calc(-${currentTab * 100}%))`,
+							transform: `translateX(calc(-${selectedTab * 100}%))`,
 						}}
 					>
 						<ContentSlide>
-							{currentTab === 0 && <AccountDefaultContent />}
+							{selectedTab === 0 && <AccountDefaultContent />}
 						</ContentSlide>
 						<ContentSlide>
-							{currentTab === 1 && <AccountOrdersContent />}
+							{selectedTab === 1 && <AccountOrdersContent />}
 						</ContentSlide>
 						<ContentSlide>
-							{currentTab === 2 && <AccountSettings />}
+							{selectedTab === 2 && <AccountSettings />}
 						</ContentSlide>
 					</ContentSlider>
 				</Content>

@@ -17,6 +17,7 @@ import RemoveShoppingCartIcon from "@material-ui/icons/RemoveShoppingCart";
 import { useAuth } from "../authProvider";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 interface pageProps {
 	data;
@@ -43,7 +44,7 @@ const ProductCard = ({ data, gridView }: pageProps) => {
 	const { isInCart, isInFavourite } = IsInCartOrFavourite({ id: data._id });
 	const router = useRouter();
 
-	const handleAddToCart = useCallback(async () => {
+	const addToCartHandler = useCallback(async () => {
 		if (isLogged) {
 			if (isInCart) {
 				return dispatch(removeFromCart({ product: data }));
@@ -58,7 +59,7 @@ const ProductCard = ({ data, gridView }: pageProps) => {
 		return;
 	}, [data, dispatch, isInCart, _id, isLogged, router]);
 
-	const handleAddToFavourite = useCallback(() => {
+	const addToFavouriteHandler = useCallback(() => {
 		if (isLogged) {
 			if (isInFavourite) {
 				return dispatch(removeFromFavourite({ product: data }));
@@ -74,7 +75,7 @@ const ProductCard = ({ data, gridView }: pageProps) => {
 	}, [dispatch, isInFavourite, data, isLogged, router]);
 
 	return (
-		<Card component="div">
+		<Card component={motion.div} layout>
 			<Link passHref href={`/product/${_id}`}>
 				<ImageWrapper gridwiew={gridView}>
 					<a href={`/product/${_id}`}>
@@ -104,7 +105,7 @@ const ProductCard = ({ data, gridView }: pageProps) => {
 				</Content>
 				<Actions>
 					<CustomIconButton
-						onClick={handleAddToFavourite}
+						onClick={addToFavouriteHandler}
 						ariaLabel={
 							isInFavourite
 								? "Remove product from favourite list"
@@ -116,7 +117,7 @@ const ProductCard = ({ data, gridView }: pageProps) => {
 						loading={loadingFavouriteAdd || loadingFavouriteRemove || loading}
 					/>
 					<CustomIconButton
-						onClick={handleAddToCart}
+						onClick={addToCartHandler}
 						ariaLabel={
 							isInCart ? "Remove product from cart" : "Add product to cart"
 						}

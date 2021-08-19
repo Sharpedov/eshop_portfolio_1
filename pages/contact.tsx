@@ -7,7 +7,6 @@ export default function Contact({}) {
 		<>
 			<Head>
 				<title>Contact - Eshop</title>
-				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<Container>
 				<Wrapper>

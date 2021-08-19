@@ -46,7 +46,7 @@ const CartProduct = ({ product, onClose }: pageProps) => {
 	const [quantity, setQty] = useState<number>(qty);
 	const [loading, setLoading] = useState<boolean>(false);
 
-	const handleRemoveFromCart = useCallback(() => {
+	const removeFromCartHandler = useCallback(() => {
 		dispatch(removeFromCart({ product }));
 		setLoading(true);
 	}, [dispatch, product]);
@@ -61,49 +61,56 @@ const CartProduct = ({ product, onClose }: pageProps) => {
 
 	return (
 		<>
-			<motion.div variants={productItemVariants} layout>
-				<ProductItem component="li" loading={loading}>
-					<ImageWrapper>
+			<ProductItem
+				component={motion.li}
+				loading={loading}
+				layout
+				animate={{
+					opacity: loading ? 0.65 : 1,
+					scale: loading ? 0.95 : 1,
+				}}
+				variants={productItemVariants}
+			>
+				<ImageWrapper>
+					<Link passHref href={`/product/${_id}`}>
+						<Image
+							onClick={() => onClose()}
+							src={images[0]}
+							alt={title}
+							layout="fill"
+							objectFit="cover"
+						/>
+					</Link>
+				</ImageWrapper>
+				<Content component="div">
+					<ContentTop>
 						<Link passHref href={`/product/${_id}`}>
-							<Image
-								onClick={() => onClose()}
-								src={images[0]}
-								alt={title}
-								layout="fill"
-								objectFit="cover"
-							/>
+							<Title onClick={() => onClose()}>{title}</Title>
 						</Link>
-					</ImageWrapper>
-					<Content component="div">
-						<ContentTop>
-							<Link passHref href={`/product/${_id}`}>
-								<Title onClick={() => onClose()}>{title}</Title>
-							</Link>
-							<Delete>
-								<CustomIconButton
-									size="medium"
-									ariaLabel="Remove from cart"
-									Icon={DeleteIcon}
-									onClick={handleRemoveFromCart}
-									loading={loading}
-								/>
-							</Delete>
-						</ContentTop>
-						<ContentBottom>
-							<Quantity>
-								<QuantityProduct
-									loading={loadingChangeQty}
-									productId={_id}
-									qty={quantity}
-									setQty={setQty}
-								/>
-							</Quantity>
+						<Delete>
+							<CustomIconButton
+								size="medium"
+								ariaLabel="Remove from cart"
+								Icon={DeleteIcon}
+								onClick={removeFromCartHandler}
+								loading={loading}
+							/>
+						</Delete>
+					</ContentTop>
+					<ContentBottom>
+						<Quantity>
+							<QuantityProduct
+								loading={loadingChangeQty}
+								productId={_id}
+								qty={quantity}
+								setQty={setQty}
+							/>
+						</Quantity>
 
-							<Price>{`$${(qty * price).toFixed(2)}`}</Price>
-						</ContentBottom>
-					</Content>
-				</ProductItem>
-			</motion.div>
+						<Price>{`$${(qty * price).toFixed(2)}`}</Price>
+					</ContentBottom>
+				</Content>
+			</ProductItem>
 		</>
 	);
 };
@@ -118,10 +125,6 @@ const ProductItem = styled(CardActionArea)`
 	background: ${({ theme }) => theme.surface.primary};
 	border-radius: 2px;
 	cursor: default;
-	opacity: ${({ loading }) => (loading ? "0.65" : "1")};
-	transform: ${({ loading }) => (loading ? "scale(0.95)" : "none")};
-	transition: transform 0.25s cubic-bezier(0.5, 1, 0.89, 1),
-		opacity 0.25s cubic-bezier(0.5, 1, 0.89, 1);
 
 	> span {
 		background: transparent;

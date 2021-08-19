@@ -147,6 +147,7 @@ const CartAndFavBadge = styled.div`
 	width: 20px;
 	font-weight: 400;
 	box-shadow: ${({ theme }) => theme.boxShadow.primary};
+	pointer-events: none;
 
 	> span {
 		font-size: 14px;

@@ -48,7 +48,7 @@ const Notification = ({ message, type, id }: pageProps) => {
 		clearInterval(intervalID);
 	};
 
-	const handleCloseNotification = useCallback(() => {
+	const closeNotificationHandler = useCallback(() => {
 		if (notificationRef && notificationRef.current) {
 			setExit(true);
 			setTimeout(() => {
@@ -58,8 +58,8 @@ const Notification = ({ message, type, id }: pageProps) => {
 	}, [dispatch, id]);
 
 	useEffect(() => {
-		width === 0 && handleCloseNotification();
-	}, [width, handleCloseNotification]);
+		width === 0 && closeNotificationHandler();
+	}, [width, closeNotificationHandler]);
 
 	useEffect(() => {
 		handleStartTimer();
@@ -86,12 +86,12 @@ const Notification = ({ message, type, id }: pageProps) => {
 			ref={notificationRef}
 			onMouseEnter={handlePauseTimer}
 			onMouseLeave={handleStartTimer}
-			exit={exit}
+			whileExit={exit}
 			colorPalette={colorTypePalette}
 		>
 			<StyledIconButton
 				aria-label="Proceed to checkout"
-				onClick={handleCloseNotification}
+				onClick={closeNotificationHandler}
 			>
 				<CloseRoundedIcon />
 			</StyledIconButton>
@@ -127,12 +127,12 @@ const Container = styled.div`
 	background: ${({ colorPalette }) => colorPalette};
 	overflow-x: hidden;
 	margin-bottom: 12px;
-	animation: ${({ exit }) =>
-		exit
+	animation: ${({ whileExit }) =>
+		whileExit
 			? `exit 0.3s cubic-bezier(0.5, 1, 0.89, 1)`
 			: `open 0.3s cubic-bezier(0.5, 1, 0.89, 1)`};
 	animation-fill-mode: forwards;
-	pointer-events: ${({ exit }) => !exit && "all"};
+	pointer-events: ${({ whileExit }) => !whileExit && "all"};
 	box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 
 	:last-of-type {

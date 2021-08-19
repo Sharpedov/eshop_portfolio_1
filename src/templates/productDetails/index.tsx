@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import styled, { keyframes } from "styled-components";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { useRouter } from "next/router";
@@ -14,13 +14,7 @@ interface pageProps {
 }
 
 const ProductDetailsTemplate = ({ productData, productError }: pageProps) => {
-	const productGalleryRef = useRef(null);
 	const { back } = useRouter();
-
-	console.log(
-		"productGalleryRef",
-		productGalleryRef.current?.getBoundingClientRect()
-	);
 
 	return (
 		<Container>

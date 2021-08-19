@@ -137,7 +137,7 @@ const SidebarContainer = styled(motion.div)`
 		display: none;
 	}
 
-	@media (min-width: 576px) {
+	@media (min-width: 768px) {
 		bottom: 0;
 	}
 

@@ -61,7 +61,7 @@ const ProductDescription = ({ productDetails, loading }: pageProps) => {
 	});
 	const router = useRouter();
 
-	const handleAddToFavourite = useCallback(() => {
+	const addToFavouriteHandler = useCallback(() => {
 		if (isLogged) {
 			if (isInFavourite) {
 				return dispatch(removeFromFavourite({ product: productDetails }));
@@ -75,7 +75,7 @@ const ProductDescription = ({ productDetails, loading }: pageProps) => {
 		return;
 	}, [isInFavourite, dispatch, productDetails, isLogged, router]);
 
-	const handleAddToCart = useCallback(() => {
+	const addToCartHandler = useCallback(() => {
 		if (isLogged) {
 			return dispatch(addToCart({ productId: productDetails._id, qty }));
 		}
@@ -83,10 +83,6 @@ const ProductDescription = ({ productDetails, loading }: pageProps) => {
 		router.push(`/sign-in?redirect=${router.asPath}`);
 		return;
 	}, [dispatch, productDetails, qty, isLogged, router]);
-
-	const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-		setCurrentTab(newValue);
-	};
 
 	return (
 		<Container>
@@ -103,7 +99,7 @@ const ProductDescription = ({ productDetails, loading }: pageProps) => {
 				<QuantityProduct qty={qty} setQty={setQty} />
 				<CustomButton
 					variant="contained"
-					onClick={handleAddToCart}
+					onClick={addToCartHandler}
 					loading={loadingCartAdd || loadingCartRemove || loadingUser}
 				>
 					Add to Cart
@@ -114,7 +110,7 @@ const ProductDescription = ({ productDetails, loading }: pageProps) => {
 							isInFavourite ? "Remove from favourite" : "Add to favourite"
 						}
 						active={isInFavourite}
-						onClick={handleAddToFavourite}
+						onClick={addToFavouriteHandler}
 						Icon={isInFavourite ? FavoriteIcon : FavoriteBorderIcon}
 						loading={
 							loadingFavouriteAdd || loadingFavouriteRemove || loadingUser

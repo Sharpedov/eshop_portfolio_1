@@ -38,14 +38,14 @@ const Pagination = ({ items, perPage }: pageProps) => {
 		}
 	}, [items, itemsPerPage]);
 
-	const handlePaginationClick = useCallback(
+	const paginationClickHandler = useCallback(
 		(e) => {
 			setCurrentPage(Number(e.target.id));
 		},
 		[setCurrentPage]
 	);
 
-	const handlePrev = useCallback(() => {
+	const prevHandler = useCallback(() => {
 		setCurrentPage((prev) => (prev === 1 ? 1 : prev - 1));
 
 		if ((currentPage - 1) % pageNumberLimit === 0) {
@@ -70,7 +70,7 @@ const Pagination = ({ items, perPage }: pageProps) => {
 
 	const renderPagePagination = (
 		<Container>
-			<StyledButton onClick={handlePrev} disabled={currentPage === 1}>
+			<StyledButton onClick={prevHandler} disabled={currentPage === 1}>
 				Prev Page
 			</StyledButton>
 			<NumbersList>
@@ -81,7 +81,7 @@ const Pagination = ({ items, perPage }: pageProps) => {
 							<NumberItem
 								key={num}
 								id={num}
-								onClick={handlePaginationClick}
+								onClick={paginationClickHandler}
 								isactive={currentPage === num}
 							>
 								{num}

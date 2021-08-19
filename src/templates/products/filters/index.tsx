@@ -11,10 +11,6 @@ interface pageProps {
 	onCloseFiltersSidebar: () => void;
 }
 
-const mapState = (state) => ({
-	filters: state.products.filters,
-});
-
 const Filters = ({
 	isOpenFiltersSidebar,
 	onCloseFiltersSidebar,
@@ -38,7 +34,7 @@ const Filters = ({
 			});
 	}, [pathname, query.brand, query.category, query.minPrice, query.maxPrice]);
 
-	const handleApplyFilters = useCallback(() => {
+	const applyFiltersHandler = useCallback(() => {
 		push(
 			{
 				pathname,
@@ -64,7 +60,7 @@ const Filters = ({
 		push,
 	]);
 
-	const handleResetFilters = useCallback(() => {
+	const resetFiltersHandler = useCallback(() => {
 		setBrands([]);
 		setCategories([]);
 		setMinMaxPrice({
@@ -73,12 +69,6 @@ const Filters = ({
 		});
 		push(pathname, undefined, { scroll: false });
 	}, [push, pathname]);
-
-	const onKeyPress = (event) => {
-		const keyCode = event.keyCode || event.which;
-		const keyValue = String.fromCharCode(keyCode);
-		if (/\+|-/.test(keyValue)) event.preventDefault();
-	};
 
 	const handleMinMaxPrice = (action: "min" | "max", e) => {
 		action === "min" &&
@@ -174,13 +164,13 @@ const Filters = ({
 				<Divider />
 
 				<div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
-					<CustomButton size="small" onClick={handleResetFilters}>
+					<CustomButton size="small" onClick={resetFiltersHandler}>
 						Reset filters
 					</CustomButton>
 					<CustomButton
 						variant="contained"
 						size="small"
-						onClick={handleApplyFilters}
+						onClick={applyFiltersHandler}
 					>
 						Apply filters
 					</CustomButton>
@@ -191,7 +181,7 @@ const Filters = ({
 				isOpen={isOpenFiltersSidebar}
 				onClose={() => {
 					onCloseFiltersSidebar();
-					handleApplyFilters();
+					applyFiltersHandler();
 				}}
 				headerText="Filters"
 				displayNone={1024}
@@ -272,13 +262,13 @@ const Filters = ({
 					<Divider />
 				</MobileWrapperTop>
 				<MobileWrapperBottom>
-					<CustomButton size="small" onClick={handleResetFilters}>
+					<CustomButton size="small" onClick={resetFiltersHandler}>
 						Reset filters
 					</CustomButton>
 					<CustomButton
 						variant="contained"
 						size="small"
-						onClick={handleApplyFilters}
+						onClick={applyFiltersHandler}
 					>
 						View products
 					</CustomButton>

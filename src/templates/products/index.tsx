@@ -16,6 +16,7 @@ import useSWR from "swr";
 import { fetcher } from "src/utils/swrFetcher";
 import Filters from "./filters";
 import BannerProducts from "./bannerProducts";
+import { AnimateSharedLayout, motion } from "framer-motion";
 
 interface pageProps {
 	gender: string;
@@ -91,7 +92,7 @@ const ProductsTemplate = ({ gender }: pageProps) => {
 	// 	[query]
 	// );
 
-	const handleSortBy = useCallback((value) => {
+	const sortByHandler = useCallback((value) => {
 		setSortBy(value);
 	}, []);
 
@@ -141,7 +142,7 @@ const ProductsTemplate = ({ gender }: pageProps) => {
 	// 	[loadingMoreItems, lastDoc]
 	// );
 
-	const handleChangeGridView = useCallback((typeView) => {
+	const changeGridViewHandler = useCallback((typeView: "fit" | "fill") => {
 		if (typeof window !== "undefined") {
 			setGridView(typeView);
 			localStorage.setItem("productGridView", JSON.stringify(typeView));
@@ -167,14 +168,14 @@ const ProductsTemplate = ({ gender }: pageProps) => {
 						<FiltersBar>
 							<ViewGrid>
 								<CustomIconButton
-									onClick={() => handleChangeGridView("fill")}
+									onClick={() => changeGridViewHandler("fill")}
 									size="medium"
 									Icon={AppsIcon}
 									active={gridView === "fill"}
 									ariaLabel="Fill products view"
 								/>
 								<CustomIconButton
-									onClick={() => handleChangeGridView("fit")}
+									onClick={() => changeGridViewHandler("fit")}
 									size="medium"
 									Icon={ViewColumnIcon}
 									active={gridView === "fit"}
@@ -194,7 +195,7 @@ const ProductsTemplate = ({ gender }: pageProps) => {
 									isOpen={isSortByOpen}
 									onClose={() => setIsSortByOpen(false)}
 									activeOption={sortBy}
-									setValue={handleSortBy}
+									setValue={sortByHandler}
 									options={sortByOptions}
 								/>
 							</SortBy>
@@ -367,7 +368,6 @@ const ProductsList = styled.div`
 			? "repeat(2, 1fr)"
 			: gridView === "fit" && "repeat(auto-fit, minmax(260px, 1fr))"};
 	grid-gap: 15px 10px;
-	transition: all 0.2s ease-in-out;
 
 	@media (min-width: 480px) {
 		grid-template-columns: ${({ gridView }) =>
