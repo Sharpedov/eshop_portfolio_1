@@ -11,6 +11,7 @@ import { useAuth } from "../authProvider";
 import CartProduct from "./cartProduct";
 import { createCheckoutSession } from "src/store/slices/checkoutSlice";
 import { toggleCart } from "src/store/slices/cartSlice";
+import { motion } from "framer-motion";
 
 interface pageProps {}
 
@@ -26,6 +27,15 @@ const mapState = (state) => ({
 	checkoutLoading: state.checkout.loading,
 	cartIsOpen: state.cart.isOpen,
 });
+
+const productsListVariants = {
+	show: {
+		transition: { staggerChildren: 0.07, delayChildren: 0.2 },
+	},
+	hidden: {
+		transition: { staggerChildren: 0.05, staggerDirection: -1 },
+	},
+};
 
 const CartSidebar = ({}: pageProps) => {
 	const { user, loading, isLogged } = useAuth();
@@ -78,8 +88,13 @@ const CartSidebar = ({}: pageProps) => {
 								<SpinnerLoading color="primary" />
 							</LoadingOverlay>
 						)}
-						<ProductsList>
-							{cart.map((product, i) => (
+						<ProductsList
+							variants={productsListVariants}
+							initial="hidden"
+							animate="show"
+							layout
+						>
+							{cart.map((product) => (
 								<CartProduct
 									key={product._id}
 									onClose={toggleCartHandler}
@@ -88,16 +103,16 @@ const CartSidebar = ({}: pageProps) => {
 							))}
 						</ProductsList>
 						<SummaryBody>
-							<DetailsList>
-								<DetailsItem>
+							<PriceDetailsList>
+								<PriceDetailItem>
 									<span>Subtotal</span>
 									<span>{`$${cartSubtotal}`}</span>
-								</DetailsItem>
-								<DetailsItem>
+								</PriceDetailItem>
+								<PriceDetailItem>
 									<span>Estimated Shipping</span>
 									<span>FREE</span>
-								</DetailsItem>
-							</DetailsList>
+								</PriceDetailItem>
+							</PriceDetailsList>
 							<SummaryTotal>
 								<span>Total</span>
 								<span>{`$${cartSubtotal}`}</span>
@@ -155,7 +170,7 @@ const EmptyBasketContainer = styled.div`
 	animation: ${appear} 0.25s ease-in-out;
 `;
 
-const ProductsList = styled.div`
+const ProductsList = styled(motion.ul)`
 	display: flex;
 	flex-direction: column;
 	height: 100%;
@@ -187,7 +202,7 @@ const SummaryBody = styled.div`
 	animation: ${appear} 0.25s ease-in-out;
 `;
 
-const DetailsList = styled.ul`
+const PriceDetailsList = styled.ul`
 	display: flex;
 	flex-direction: column;
 	width: 100%;
@@ -201,7 +216,7 @@ const DetailsList = styled.ul`
 	}
 `;
 
-const DetailsItem = styled.li`
+const PriceDetailItem = styled.li`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;

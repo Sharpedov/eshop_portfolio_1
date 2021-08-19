@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import DeleteIcon from "@material-ui/icons/Delete";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,6 +8,7 @@ import QuantityProduct from "../quantityProduct";
 import CustomIconButton from "../customIconButton";
 import { removeFromCart } from "src/store/slices/cartSlice";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 interface pageProps {
 	product;
@@ -20,12 +21,29 @@ const mapState = (state) => ({
 	loadingChangeQty: state.cart.changeQty.loading,
 });
 
+const productItemVariants = {
+	show: {
+		y: 0,
+		opacity: 1,
+		transition: {
+			stiffness: 1000,
+			velocity: -100,
+		},
+	},
+	hidden: {
+		y: 50,
+		opacity: 0,
+		transition: {
+			stiffness: 1000,
+		},
+	},
+};
+
 const CartProduct = ({ product, onClose }: pageProps) => {
 	const { loadingRemove, loadingChangeQty } = useSelector(mapState);
 	const { _id, title, price, images, qty } = product;
 	const dispatch = useDispatch();
 	const [quantity, setQty] = useState<number>(qty);
-	const basketProductRef = useRef(null);
 	const [loading, setLoading] = useState<boolean>(false);
 
 	const handleRemoveFromCart = useCallback(() => {
@@ -43,54 +61,56 @@ const CartProduct = ({ product, onClose }: pageProps) => {
 
 	return (
 		<>
-			<ProductLi ref={basketProductRef} component="li" loading={loading}>
-				<ImageWrapper>
-					<Link passHref href={`/product/${_id}`}>
-						<Image
-							onClick={() => onClose()}
-							src={images[0]}
-							alt={title}
-							layout="fill"
-							objectFit="cover"
-						/>
-					</Link>
-				</ImageWrapper>
-				<Content component="div">
-					<ContentTop>
+			<motion.div variants={productItemVariants} layout>
+				<ProductItem component="li" loading={loading}>
+					<ImageWrapper>
 						<Link passHref href={`/product/${_id}`}>
-							<Title onClick={() => onClose()}>{title}</Title>
+							<Image
+								onClick={() => onClose()}
+								src={images[0]}
+								alt={title}
+								layout="fill"
+								objectFit="cover"
+							/>
 						</Link>
-						<Delete>
-							<CustomIconButton
-								size="medium"
-								ariaLabel="Remove from cart"
-								Icon={DeleteIcon}
-								onClick={handleRemoveFromCart}
-								loading={loading}
-							/>
-						</Delete>
-					</ContentTop>
-					<ContentBottom>
-						<Quantity>
-							<QuantityProduct
-								loading={loadingChangeQty}
-								productId={_id}
-								qty={quantity}
-								setQty={setQty}
-							/>
-						</Quantity>
+					</ImageWrapper>
+					<Content component="div">
+						<ContentTop>
+							<Link passHref href={`/product/${_id}`}>
+								<Title onClick={() => onClose()}>{title}</Title>
+							</Link>
+							<Delete>
+								<CustomIconButton
+									size="medium"
+									ariaLabel="Remove from cart"
+									Icon={DeleteIcon}
+									onClick={handleRemoveFromCart}
+									loading={loading}
+								/>
+							</Delete>
+						</ContentTop>
+						<ContentBottom>
+							<Quantity>
+								<QuantityProduct
+									loading={loadingChangeQty}
+									productId={_id}
+									qty={quantity}
+									setQty={setQty}
+								/>
+							</Quantity>
 
-						<Price>{`$${(qty * price).toFixed(2)}`}</Price>
-					</ContentBottom>
-				</Content>
-			</ProductLi>
+							<Price>{`$${(qty * price).toFixed(2)}`}</Price>
+						</ContentBottom>
+					</Content>
+				</ProductItem>
+			</motion.div>
 		</>
 	);
 };
 
 export default CartProduct;
 
-const ProductLi = styled(CardActionArea)`
+const ProductItem = styled(CardActionArea)`
 	display: flex;
 	align-items: center;
 	height: 90px;
@@ -100,7 +120,8 @@ const ProductLi = styled(CardActionArea)`
 	cursor: default;
 	opacity: ${({ loading }) => (loading ? "0.65" : "1")};
 	transform: ${({ loading }) => (loading ? "scale(0.95)" : "none")};
-	transition: all 0.25s cubic-bezier(0.5, 1, 0.89, 1);
+	transition: transform 0.25s cubic-bezier(0.5, 1, 0.89, 1),
+		opacity 0.25s cubic-bezier(0.5, 1, 0.89, 1);
 
 	> span {
 		background: transparent;
