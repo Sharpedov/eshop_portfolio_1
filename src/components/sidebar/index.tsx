@@ -54,14 +54,14 @@ const Sidebar = ({
 			}
 		};
 
-		if (onClose) {
+		if (isOpen) {
 			document.addEventListener("keydown", escapeListener);
 		}
 
 		return () => {
 			document.removeEventListener("keydown", escapeListener);
 		};
-	}, [onClose]);
+	}, [onClose, isOpen]);
 
 	return (
 		isBrowser &&
