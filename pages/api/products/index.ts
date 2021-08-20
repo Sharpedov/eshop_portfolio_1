@@ -21,6 +21,11 @@ export default async function handler(req, res) {
 		case "GET":
 			{
 				try {
+					const page = parseInt(req.query.page);
+					const limit = parseInt(req.query.limit);
+
+					const startIndex = (Number(page) - 1) * Number(limit);
+
 					const regex = (arr) =>
 						arr.split(",").map((el) => new RegExp(el, "i"));
 
@@ -29,11 +34,13 @@ export default async function handler(req, res) {
 						brand: regex(brand),
 						category: regex(category),
 						price: { $gte: minPrice, $lte: maxPrice },
-					}).sort(sort);
-
+					})
+						.sort(sort)
+						.limit(limit)
+						.skip(startIndex);
 					res.status(200).json(products);
 				} catch (error) {
-					res.status(400).json({ success: false, message: error });
+					res.status(400).json({ success: false, message: error.message });
 				}
 			}
 			break;
