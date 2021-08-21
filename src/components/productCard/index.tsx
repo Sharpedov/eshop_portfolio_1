@@ -1,5 +1,5 @@
 import { CardActionArea } from "@material-ui/core";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import CustomIconButton from "../customIconButton";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
@@ -42,9 +42,12 @@ const ProductCard = ({ data }: pageProps) => {
 	const dispatch = useDispatch();
 	const { isInCart, isInFavourite } = IsInCartOrFavourite({ id: data._id });
 	const router = useRouter();
+	const [cartLoading, setCartLoading] = useState<boolean>(false);
+	const [favouriteLoading, setFavouriteLoading] = useState<boolean>(false);
 
 	const addToCartHandler = useCallback(async () => {
 		if (isLogged) {
+			setCartLoading(true);
 			if (isInCart) {
 				return dispatch(removeFromCart({ product: data }));
 			}
@@ -60,6 +63,7 @@ const ProductCard = ({ data }: pageProps) => {
 
 	const addToFavouriteHandler = useCallback(() => {
 		if (isLogged) {
+			setFavouriteLoading(true);
 			if (isInFavourite) {
 				return dispatch(removeFromFavourite({ product: data }));
 			}
@@ -72,6 +76,21 @@ const ProductCard = ({ data }: pageProps) => {
 
 		return;
 	}, [dispatch, isInFavourite, data, isLogged, router]);
+
+	useEffect(() => {
+		!loadingCartAdd && !loadingCartRemove && setCartLoading(false);
+		!loadingFavouriteAdd &&
+			!loadingFavouriteRemove &&
+			setFavouriteLoading(false);
+	}, [
+		loadingCartAdd,
+		loadingCartRemove,
+		loadingFavouriteAdd,
+		loadingFavouriteRemove,
+	]);
+
+	console.log("loadingCartAdd", loadingCartAdd);
+	console.log("loadingCartRemove", loadingCartRemove);
 
 	return (
 		<Card component={motion.div} layout>
@@ -113,7 +132,7 @@ const ProductCard = ({ data }: pageProps) => {
 						size="medium"
 						Icon={isInFavourite ? FavoriteIcon : FavoriteBorderIcon}
 						active={isInFavourite}
-						loading={loadingFavouriteAdd || loadingFavouriteRemove || loading}
+						loading={favouriteLoading || loading}
 					/>
 					<CustomIconButton
 						onClick={addToCartHandler}
@@ -123,7 +142,7 @@ const ProductCard = ({ data }: pageProps) => {
 						size="medium"
 						Icon={isInCart ? RemoveShoppingCartIcon : AddShoppingCartIcon}
 						active={isInCart}
-						loading={loadingCartAdd || loadingCartRemove || loading}
+						loading={cartLoading || loading}
 					/>
 				</Actions>
 			</Body>
