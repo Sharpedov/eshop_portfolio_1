@@ -39,7 +39,7 @@ const sortByOptions = [
 
 const ProductsTemplate = ({ gender }: pageProps) => {
 	const [sortBy, setSortBy] = useState(sortByOptions[0]);
-	const [gridView, setGridView] = useState("fill");
+	const [gridView, setGridView] = useState<"fit" | "fill">("fill");
 	const { query } = useRouter();
 	const observer = useRef(null);
 	const [isSortByOpen, setIsSortByOpen] = useState<boolean>(false);
@@ -156,7 +156,7 @@ const ProductsTemplate = ({ gender }: pageProps) => {
 						<ProductsList gridView={gridView}>
 							{isLoadingInitialData ? (
 								[1, 2, 3, 4, 5, 6, 7, 8, 9].map((_, i) => (
-									<ProductSkeleton gridView={gridView} key={i} />
+									<ProductSkeleton key={i} />
 								))
 							) : error ? (
 								<div>{error}</div>
@@ -164,14 +164,10 @@ const ProductsTemplate = ({ gender }: pageProps) => {
 								fetchedData.map((product, i) =>
 									fetchedData.length === i + 1 ? (
 										<div key={product._id} ref={lastItemRef}>
-											<ProductCard data={product} gridView={gridView} />
+											<ProductCard data={product} />
 										</div>
 									) : (
-										<ProductCard
-											key={product._id}
-											data={product}
-											gridView={gridView}
-										/>
+										<ProductCard key={product._id} data={product} />
 									)
 								)
 							)}
@@ -293,19 +289,20 @@ const ProductsList = styled.div`
 	grid-template-columns: ${({ gridView }) =>
 		gridView === "fill"
 			? "repeat(2, 1fr)"
-			: gridView === "fit" && "repeat(auto-fit, minmax(260px, 1fr))"};
+			: gridView === "fit" && "repeat(1, 1fr)"};
 	grid-gap: 15px 10px;
+
 	@media (min-width: 480px) {
 		grid-template-columns: ${({ gridView }) =>
 			gridView === "fill"
 				? "repeat(auto-fill, minmax(200px, 1fr))"
-				: gridView === "fit" && "repeat(auto-fit, minmax(260px, 1fr))"};
+				: gridView === "fit" && "repeat(2, 1fr)"};
 	}
 	@media (min-width: 768px) {
 		grid-template-columns: ${({ gridView }) =>
 			gridView === "fill"
 				? "repeat(auto-fill, minmax(250px, 1fr))"
-				: gridView === "fit" && "repeat(auto-fit, minmax(280px, 1fr))"};
+				: gridView === "fit" && "repeat(3, 1fr)"};
 		grid-gap: 15px;
 	}
 	@media (min-width: 1024px) {

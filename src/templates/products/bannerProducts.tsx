@@ -54,7 +54,12 @@ const BannerProducts = ({ gender }: pageProps) => {
 	}, [gender]);
 
 	return (
-		<BannerWrapper offsetY={offsetY}>
+		<BannerWrapper
+			style={{
+				opacity: `${1 - offsetY / 200}`,
+				transform: `translateY(${offsetY * -0.4}px)`,
+			}}
+		>
 			<Banner bgUrl={filteredBannerProductsData.image}>
 				<BannerText>{filteredBannerProductsData.title}</BannerText>
 			</Banner>
@@ -80,14 +85,10 @@ const BannerWrapper = styled.div`
 	right: 0;
 	z-index: 1;
 	background: ${({ theme }) => theme.surface.primary};
-	opacity: ${({ offsetY }) => `${1 - offsetY / 150}`};
-	transform: ${({ offsetY }) => `translateY(${offsetY * -0.4}px)`};
 	transition: opacity 0.2s ease;
 	animation: ${appear} 0.3s ease;
 
 	@media (min-width: 480px) {
-		opacity: ${({ offsetY }) => `${1 - offsetY / 225}`};
-
 		top: 58px;
 	}
 `;

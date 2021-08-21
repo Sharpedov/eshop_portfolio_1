@@ -21,7 +21,6 @@ import { motion } from "framer-motion";
 
 interface pageProps {
 	data;
-	gridView?: string;
 }
 
 const mapState = (state) => ({
@@ -31,7 +30,7 @@ const mapState = (state) => ({
 	loadingFavouriteRemove: state.favourite.remove.loading,
 });
 
-const ProductCard = ({ data, gridView }: pageProps) => {
+const ProductCard = ({ data }: pageProps) => {
 	const { loading, isLogged } = useAuth();
 	const {
 		loadingCartAdd,
@@ -77,7 +76,7 @@ const ProductCard = ({ data, gridView }: pageProps) => {
 	return (
 		<Card component={motion.div} layout>
 			<Link passHref href={`/product/${_id}`}>
-				<ImageWrapper gridwiew={gridView}>
+				<ImageWrapper>
 					<a href={`/product/${_id}`}>
 						<Image
 							draggable={false}
@@ -165,8 +164,7 @@ const ImageWrapper = styled.div`
 	position: relative;
 	display: flex;
 	overflow: hidden;
-	height: ${({ gridwiew }) =>
-		gridwiew === "fit" ? "325px" : "clamp(100px, 60vw, 350px)"};
+	height: clamp(100px, 60vw, 350px);
 	cursor: pointer;
 	width: 100%;
 	transition: height 0.15s ease-in-out;

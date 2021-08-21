@@ -2,14 +2,12 @@ import React from "react";
 import Skeleton from "@material-ui/lab/Skeleton";
 import styled, { keyframes } from "styled-components";
 
-interface pageProps {
-	gridView?;
-}
+interface pageProps {}
 
-const ProductSkeleton = ({ gridView }: pageProps) => {
+const ProductSkeleton = ({}: pageProps) => {
 	return (
 		<StyledProduct>
-			<StyledImgWrap gridView={gridView}>
+			<StyledImgWrap>
 				<StyledSkeleton
 					animation="wave"
 					height="100%"
@@ -47,11 +45,11 @@ const StyledProduct = styled.div`
 const StyledImgWrap = styled.div`
 	position: relative;
 	border-radius: 3px;
-	height: ${({ gridView }) => (gridView === "fill" ? "325px" : "350px")};
+	height: 350px;
 	overflow: hidden;
 
 	@media (min-width: 768px) {
-		height: ${({ gridView }) => (gridView === "fill" ? "425px" : "430px")};
+		height: 480px;
 	}
 `;
 
