@@ -13,9 +13,9 @@ import OrderDetails from "./orderDetails";
 interface pageProps {}
 
 const AccountOrdersContent = ({}: pageProps) => {
-	const { user, loading } = useAuth();
+	const { user, isLogged, loading } = useAuth();
 	const { data: orders, error } = useSWR(
-		user && `/api/users/orders?email=${user.email}`,
+		isLogged && `/api/users/orders?email=${user.email}`,
 		fetcher
 	);
 	const [orderDetails, setOrderDetails] = useState(null);

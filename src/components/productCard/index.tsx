@@ -18,6 +18,7 @@ import { useAuth } from "../authProvider";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import moment from "moment";
 
 interface pageProps {
 	data;
@@ -88,9 +89,6 @@ const ProductCard = ({ data }: pageProps) => {
 		loadingFavouriteAdd,
 		loadingFavouriteRemove,
 	]);
-
-	console.log("loadingCartAdd", loadingCartAdd);
-	console.log("loadingCartRemove", loadingCartRemove);
 
 	return (
 		<Card component={motion.div} layout>
