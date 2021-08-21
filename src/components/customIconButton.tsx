@@ -59,7 +59,7 @@ const StyledIconButton = styled(IconButton)`
 
 	.customIconButton__icon {
 		font-size: ${({ size }) =>
-			size === "small" ? "20px" : size === "medium" ? "24px" : "28px"};
+			size === "small" ? "2rem" : size === "medium" ? "2.4rem" : "2.8rem"};
 	}
 
 	&:hover {

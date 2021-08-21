@@ -119,14 +119,14 @@ const NavbarMobileBottom = styled.nav`
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
-	background: ${({ theme }) => theme.surface.primary};
+	background: ${({ theme }) => theme.background.primary};
 	height: 55px;
 	transition: all 0.2s ease-in;
 	z-index: 110;
 	overflow: hidden;
-	border-top: 1px solid ${({ theme }) => theme.surface.secondary};
+	border-top: 1px solid ${({ theme }) => theme.background.secondary};
 
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.md} {
 		display: none;
 	}
 `;
@@ -148,7 +148,7 @@ const StyledIconButton = styled(IconButton)`
 
 		> span {
 			user-select: none;
-			font-size: 11px;
+			font-size: 1.1rem;
 			line-height: 1.3;
 			color: ${({ theme, active }) =>
 				active ? theme.color.primary : theme.color.white};

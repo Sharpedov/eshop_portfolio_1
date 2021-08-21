@@ -69,7 +69,7 @@ const Container = styled.div`
 	border-radius: 2px;
 	min-height: 60vh;
 	margin-top: 15px;
-	background: ${({ theme }) => theme.surface.primary};
+	background: ${({ theme }) => theme.background.primary};
 	padding: 15px;
 	animation: ${appear} 0.3s linear;
 `;
@@ -81,17 +81,17 @@ const GoBackBtn = styled.div`
 const OrderDate = styled.div`
 	display: flex;
 	color: ${({ theme }) => theme.color.white};
-	font-size: 23px;
+	font-size: 2.3rem;
 	padding: 15px 0;
 
-	@media (min-width: 480px) {
-		font-size: 25px;
+	@media ${({ theme }) => theme.breakpoints.sm} {
+		font-size: 2.5rem;
 	}
-	@media (min-width: 768px) {
-		font-size: 27px;
+	@media ${({ theme }) => theme.breakpoints.md} {
+		font-size: 2.7rem;
 	}
-	@media (min-width: 1024px) {
-		font-size: 29px;
+	@media ${({ theme }) => theme.breakpoints.lg} {
+		font-size: 2.9rem;
 	}
 	> h2 {
 		font-size: inherit;
@@ -105,31 +105,31 @@ const OrderDate = styled.div`
 
 const Heading = styled.h2`
 	padding: 15px 0;
-	font-size: 18px;
+	font-size: 1.8rem;
 	color: ${({ theme }) => theme.color.white};
 
-	@media (min-width: 480px) {
-		font-size: 19px;
+	@media ${({ theme }) => theme.breakpoints.sm} {
+		font-size: 1.9rem;
 	}
-	@media (min-width: 768px) {
-		font-size: 21px;
+	@media ${({ theme }) => theme.breakpoints.md} {
+		font-size: 2.1rem;
 	}
-	@media (min-width: 1024px) {
-		font-size: 22px;
+	@media ${({ theme }) => theme.breakpoints.lg} {
+		font-size: 2.2rem;
 	}
 `;
 
 const Subheading = styled.p`
 	opacity: 0.65;
-	font-size: 15px;
+	font-size: 1.5rem;
 	color: ${({ theme }) => theme.color.white};
 	margin-bottom: 5px;
 
-	@media (min-width: 768px) {
-		font-size: 16px;
+	@media ${({ theme }) => theme.breakpoints.md} {
+		font-size: 1.6rem;
 	}
-	@media (min-width: 1024px) {
-		font-size: 17px;
+	@media ${({ theme }) => theme.breakpoints.lg} {
+		font-size: 1.7rem;
 	}
 `;
 
@@ -162,9 +162,7 @@ const OrderContent = styled.div`
 	margin-left: 15px;
 	grid-template-areas: "title title" "qty price";
 
-	@media (min-width: 768px) {
-	}
-	@media (min-width: 1024px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
 		grid-gap: 15px;
 		grid-template-areas: inherit;
@@ -188,10 +186,10 @@ const OrderTitle = styled.h3`
 		color: ${({ theme }) => theme.color.primary};
 	}
 
-	@media (min-width: 1024px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		grid-area: inherit;
 	}
-	@media (min-width: 1440px) {
+	@media ${({ theme }) => theme.breakpoints.xl} {
 		font-size: calc(13px + 0.2vw);
 	}
 `;
@@ -202,7 +200,7 @@ const OrderQty = styled.div`
 	place-items: center;
 	font-size: calc(13px + 0.2vw);
 
-	@media (min-width: 1024px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		grid-area: inherit;
 	}
 `;
@@ -213,7 +211,7 @@ const OrderPrice = styled.div`
 	place-items: center;
 	font-size: calc(13px + 0.2vw);
 
-	@media (min-width: 1024px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		grid-area: inherit;
 	}
 `;

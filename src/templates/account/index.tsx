@@ -156,15 +156,7 @@ const Container = styled.div`
 	display: flex;
 	flex-direction: column;
 	min-height: 100vh;
-	background: ${({ theme }) => theme.surface.secondary};
-`;
-
-const Wrapper = styled.div`
-	display: flex;
-	flex-direction: column;
-	max-width: 1440px;
-	width: 100%;
-	margin: 0 auto;
+	background: ${({ theme }) => theme.background.secondary};
 `;
 
 const Banner = styled.div`
@@ -175,36 +167,36 @@ const Banner = styled.div`
 	height: clamp(150px, 40vw, 250px);
 
 	> h5 {
-		font-size: 24px;
+		font-size: 2.4rem;
 		opacity: 0.9;
 	}
 `;
 
 const Header = styled.div`
-	background: ${({ theme }) => theme.surface.primary};
+	background: ${({ theme }) => theme.background.primary};
 `;
 
 const HeaderWrapper = styled.div`
 	position: relative;
 	display: flex;
 	align-items: center;
-	max-width: 1440px;
+	max-width: 1400px;
 	width: 100%;
 	margin: 0 auto;
 	height: 50px;
 	padding: 0 10px;
 	transition: all 0.2s ease-in-out;
 
-	@media (min-width: 576px) {
+	@media ${({ theme }) => theme.breakpoints.sm} {
 		height: 60px;
 		padding: 0 15px;
 	}
 
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.md} {
 		height: 70px;
 		padding: 0 20px;
 	}
-	@media (min-width: 1024px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		height: 75px;
 		padding: 0 24px;
 	}
@@ -217,21 +209,21 @@ const UserAvatarWrap = styled.div`
 	border-radius: 50%;
 	overflow: hidden;
 	transition: all 0.2s ease-in-out;
-	background-color: ${({ theme }) => theme.surface.primary};
+	background-color: ${({ theme }) => theme.background.primary};
 	height: 80px;
 	width: 80px;
 
-	@media (min-width: 480px) {
+	@media ${({ theme }) => theme.breakpoints.sm} {
 		height: 95px;
 		width: 95px;
 	}
 
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.md} {
 		height: 105px;
 		width: 105px;
 	}
 
-	@media (min-width: 1024px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		height: 120px;
 		width: 120px;
 	}
@@ -240,7 +232,7 @@ const UserAvatarWrap = styled.div`
 const UserAvatar = styled(Avatar)`
 	height: inherit;
 	width: inherit;
-	border: 4px solid ${({ theme }) => theme.surface.primary};
+	border: 4px solid ${({ theme }) => theme.background.primary};
 `;
 
 const UserNameAndEmail = styled.div`
@@ -259,7 +251,7 @@ const UserNameAndEmail = styled.div`
 		opacity: 0.65;
 	}
 
-	@media (min-width: 480px) {
+	@media ${({ theme }) => theme.breakpoints.sm} {
 		padding: 0 15px 0 110px;
 
 		> h2 {
@@ -267,7 +259,7 @@ const UserNameAndEmail = styled.div`
 		}
 	}
 
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.md} {
 		padding: 0 15px 0 130px;
 		gap: 6px 0;
 
@@ -280,7 +272,7 @@ const UserNameAndEmail = styled.div`
 		}
 	}
 
-	@media (min-width: 1024px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		padding: 0 15px 0 140px;
 
 		> h2 {
@@ -295,18 +287,18 @@ const ContentBox = styled.div`
 	align-items: flex-start;
 	grid-gap: 10px;
 	transition: all 0.2 ease-in-out;
-	max-width: 1440px;
+	max-width: 1400px;
 	width: 100%;
 	margin: 15px auto;
 
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.md} {
 		grid-template-columns: 300px 1fr;
 		padding: 0 16px;
 	}
-	@media (min-width: 1024px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		grid-template-columns: 350px 1fr;
 	}
-	@media (min-width: 1440px) {
+	@media ${({ theme }) => theme.breakpoints.xl} {
 		grid-template-columns: 375px 1fr;
 		grid-gap: 25px;
 		margin: 25px auto;
@@ -314,7 +306,7 @@ const ContentBox = styled.div`
 `;
 
 const SidePanel = styled.div`
-	background: ${({ theme }) => theme.surface.primary};
+	background: ${({ theme }) => theme.background.primary};
 	border-radius: 2px;
 `;
 
@@ -331,17 +323,17 @@ const SidePanelTile = styled.li`
 	justify-content: center;
 	color: ${({ theme }) => theme.color.white};
 	font-weight: 400;
-	font-size: 15px;
+	font-size: 1.5rem;
 
 	&:nth-child(1),
 	&:nth-child(3) {
-		border-right: 1px solid ${({ theme }) => theme.surface.secondary};
-		border-bottom: 1px solid ${({ theme }) => theme.surface.secondary};
+		border-right: 1px solid ${({ theme }) => theme.background.secondary};
+		border-bottom: 1px solid ${({ theme }) => theme.background.secondary};
 	}
 
 	&:nth-child(2),
 	&:nth-child(4) {
-		border-bottom: 1px solid ${({ theme }) => theme.surface.secondary};
+		border-bottom: 1px solid ${({ theme }) => theme.background.secondary};
 	}
 
 	div:nth-child(1) {
@@ -358,7 +350,7 @@ const Content = styled.div`
 	overflow: hidden;
 	margin: 0 8px;
 
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.md} {
 		margin: 0;
 	}
 `;

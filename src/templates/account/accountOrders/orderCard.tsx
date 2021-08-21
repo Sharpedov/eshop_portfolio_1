@@ -80,7 +80,7 @@ const Container = styled(CardActionArea)`
 		background: transparent;
 	}
 
-	@media (min-width: 576px) {
+	@media ${({ theme }) => theme.breakpoints.sm} {
 		grid-template-columns: minmax(125px, 250px) 1fr;
 	}
 `;
@@ -89,7 +89,7 @@ const LeftBox = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	background: ${({ theme }) => theme.surface.primary};
+	background: ${({ theme }) => theme.background.primary};
 	padding: 15px;
 	color: ${({ theme }) => theme.color.white};
 
@@ -115,7 +115,7 @@ const RightBox = styled.div`
 	height: 100%;
 	width: 100%;
 	overflow-x: scroll;
-	background: ${({ theme }) => `${theme.surface.primary + "a0"}`};
+	background: ${({ theme }) => `${theme.background.primary + "a0"}`};
 
 	::-webkit-scrollbar {
 		display: none;

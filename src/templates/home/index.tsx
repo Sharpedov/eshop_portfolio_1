@@ -40,7 +40,7 @@ const NewArrivalsRows = styled.div`
 	flex-direction: column;
 	width: 100%;
 	height: 100%;
-	padding: 30px 0 50px;
+	padding: 30px 15px 50px;
 	gap: 25px;
 
 	::before {
@@ -71,7 +71,7 @@ const NewArrivalsRows = styled.div`
 		z-index: -1;
 	}
 
-	@media (min-width: 480px) {
+	@media ${({ theme }) => theme.breakpoints.sm} {
 		::before {
 			background-size: 45%;
 		}
@@ -82,7 +82,7 @@ const NewArrivalsRows = styled.div`
 		}
 	}
 
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.md} {
 		::before {
 			bottom: 30%;
 			background-size: 30%;
@@ -94,7 +94,7 @@ const NewArrivalsRows = styled.div`
 		}
 	}
 
-	@media (min-width: 1024px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		::before {
 			bottom: 28%;
 			background-size: 20%;

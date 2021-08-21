@@ -61,12 +61,12 @@ const appear = keyframes`
 
 const Container = styled.div`
 	position: relative;
-	background: ${({ theme }) => theme.surface.primary};
+	background: ${({ theme }) => theme.background.primary};
 	min-height: 100vh;
 `;
 
 const Wrapper = styled.div`
-	max-width: 1440px;
+	max-width: 1400px;
 	width: 100%;
 	margin: 0 auto;
 `;
@@ -88,7 +88,7 @@ const ProductContent = styled.div`
 	align-items: flex-start;
 	width: 100%;
 
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.md} {
 		grid-template-columns: 1fr 1fr;
 	}
 `;
@@ -115,10 +115,10 @@ const BackPageBtn = styled(IconButton)`
 
 	.backPageBtn__icon {
 		color: ${({ theme }) => theme.color.white};
-		font-size: 25px;
+		font-size: 2.5rem;
 	}
 
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.md} {
 		display: none;
 	}
 `;

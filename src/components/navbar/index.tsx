@@ -73,11 +73,11 @@ const Container = styled.nav`
 	transition: 0.3s cubic-bezier(0.33, 1, 0.68, 1);
 	gap: 0 20px;
 
-	@media (min-width: 480px) {
+	@media ${({ theme }) => theme.breakpoints.sm} {
 		padding: 0 20px;
 		height: 58px;
 	}
-	@media (min-width: 1024px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		padding: 0 25px;
 	}
 `;
@@ -93,7 +93,7 @@ const Middle = styled.div`
 			0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
 	}
 
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.md} {
 		display: flex;
 	}
 `;

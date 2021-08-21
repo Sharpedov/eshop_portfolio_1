@@ -122,7 +122,7 @@ const ProductItem = styled(CardActionArea)`
 	align-items: center;
 	height: 90px;
 	width: 100%;
-	background: ${({ theme }) => theme.surface.primary};
+	background: ${({ theme }) => theme.background.primary};
 	border-radius: 2px;
 	cursor: default;
 
@@ -137,7 +137,7 @@ const ImageWrapper = styled.div`
 	height: inherit;
 	width: 76px;
 	object-fit: cover;
-	background: ${({ theme }) => theme.surface.primary};
+	background: ${({ theme }) => theme.background.primary};
 	border-radius: 2px 0 0 2px;
 	overflow: hidden;
 `;
@@ -185,10 +185,10 @@ const Title = styled.div`
 	:hover {
 		color: ${({ theme }) => theme.color.primary};
 	}
-	@media (min-width: 480px) {
+	@media ${({ theme }) => theme.breakpoints.sm} {
 		font-size: ${({ theme }) => `calc(${theme.font.xxs} + 3px)`};
 	}
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.md} {
 		font-size: ${({ theme }) => `calc(${theme.font.xs} + 1px)`};
 	}
 `;
@@ -210,7 +210,7 @@ const Price = styled.div`
 	font-size: ${({ theme }) => `calc(${theme.font.xs}
         - 1px)`};
 
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.md} {
 		font-size: ${({ theme }) => `calc(${theme.font.xs}
         )`};
 	}

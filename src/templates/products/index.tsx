@@ -199,16 +199,17 @@ const appear = keyframes`
 const Container = styled.div`
 	display: flex;
 	flex-direction: column;
-	background-color: ${({ theme }) => theme.surface.primary};
+	background-color: ${({ theme }) => theme.background.primary};
 `;
 
 const Wrapper = styled.div`
 	display: flex;
 	flex-direction: column;
-	background-color: ${({ theme }) => theme.surface.primary};
+	background-color: ${({ theme }) => theme.background.primary};
 	z-index: 2;
 	padding: 0 15px 20px;
-	@media (min-width: 1024px) {
+
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		padding: 20px 15px;
 	}
 `;
@@ -218,14 +219,14 @@ const GridContainer = styled.div`
 	grid-template-columns: 1fr;
 	grid-gap: 25px;
 	align-items: flex-start;
-	max-width: 1720px;
+	max-width: 1400px;
 	width: 100%;
 	margin: 0 auto;
 	min-height: 70vh;
-	@media (min-width: 1024px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		grid-template-columns: 275px 1fr;
 	}
-	@media (min-width: 1300px) {
+	@media ${({ theme }) => theme.breakpoints.xl} {
 		grid-template-columns: 300px 1fr;
 	}
 `;
@@ -238,9 +239,9 @@ const Body = styled.div`
 const FiltersBar = styled.div`
 	display: flex;
 	animation: ${appear} 0.3s ease;
-	@media (min-width: 1024px) {
-		border-top: 1px solid ${({ theme }) => theme.surface.secondary};
-		border-bottom: 1px solid ${({ theme }) => theme.surface.secondary};
+	@media ${({ theme }) => theme.breakpoints.lg} {
+		border-top: 1px solid ${({ theme }) => theme.background.secondary};
+		border-bottom: 1px solid ${({ theme }) => theme.background.secondary};
 	}
 `;
 
@@ -249,9 +250,9 @@ const ViewGrid = styled.div`
 	align-items: center;
 	gap: 0 5px;
 	padding: 5px;
-	@media (min-width: 1024px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		padding: 5px 10px;
-		border-right: 1px solid ${({ theme }) => theme.surface.secondary};
+		border-right: 1px solid ${({ theme }) => theme.background.secondary};
 	}
 `;
 
@@ -260,8 +261,8 @@ const SortBy = styled.div`
 	display: flex;
 	align-items: center;
 	gap: 0 5px;
-	font-size: 14px;
-	@media (min-width: 1024px) {
+	font-size: 1.4rem;
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		border-right: none;
 	}
 `;
@@ -270,7 +271,7 @@ const FilterBy = styled.div`
 	display: flex;
 	align-items: center;
 	gap: 0 5px;
-	@media (min-width: 1024px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		display: none;
 	}
 `;
@@ -292,20 +293,20 @@ const ProductsList = styled.div`
 			: gridView === "fit" && "repeat(1, 1fr)"};
 	grid-gap: 15px 10px;
 
-	@media (min-width: 480px) {
+	@media ${({ theme }) => theme.breakpoints.sm} {
 		grid-template-columns: ${({ gridView }) =>
 			gridView === "fill"
 				? "repeat(auto-fill, minmax(200px, 1fr))"
 				: gridView === "fit" && "repeat(2, 1fr)"};
 	}
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.md} {
 		grid-template-columns: ${({ gridView }) =>
 			gridView === "fill"
 				? "repeat(auto-fill, minmax(250px, 1fr))"
 				: gridView === "fit" && "repeat(3, 1fr)"};
 		grid-gap: 15px;
 	}
-	@media (min-width: 1024px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		grid-gap: 20px 15px;
 	}
 `;

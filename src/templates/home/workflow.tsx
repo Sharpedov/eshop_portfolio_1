@@ -6,23 +6,23 @@ interface pageProps {}
 const data = [
 	{
 		id: 1,
-		title: "Set disbursement Instructions",
-		text: "Get your blood tests delivered at home collect a sample from the your blood tests.",
+		title: "Lorem ipsum dolor sit amet.",
+		text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet tellus non velit fermentum, ut auctor ligula viverra.",
 	},
 	{
 		id: 2,
-		title: "Assembly retrieves funds from your account",
-		text: "Get your blood tests delivered at home collect a sample from the your blood tests.",
+		title: "Lorem ipsum dolor sit amet.",
+		text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet tellus non velit fermentum, ut auctor ligula viverra.",
 	},
 	{
 		id: 3,
-		title: "Assembly initiates disbursement",
-		text: "Get your blood tests delivered at home collect a sample from the your blood tests.",
+		title: "Lorem ipsum dolor sit amet.",
+		text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet tellus non velit fermentum, ut auctor ligula viverra.",
 	},
 	{
 		id: 4,
-		title: "Customer receives funds payment",
-		text: "Get your blood tests delivered at home collect a sample from the your blood tests.",
+		title: "Lorem ipsum dolor sit amet.",
+		text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet tellus non velit fermentum, ut auctor ligula viverra.",
 	},
 ];
 
@@ -51,7 +51,7 @@ const Workflow = ({}: pageProps) => {
 export default Workflow;
 
 const Container = styled.section`
-	background-color: ${({ theme }) => theme.surface.secondary};
+	background-color: ${({ theme }) => theme.background.secondary};
 	background-image: url("/patternBG.png");
 	background-repeat: no-repeat;
 	background-position: center center;
@@ -69,13 +69,11 @@ const Heading = styled.div`
 		margin-bottom: 15px;
 		text-transform: uppercase;
 		font-size: ${({ theme }) => `calc( ${theme.font.xxs} + 2px)`};
-		font-family: ${({ theme }) => theme.family.opensans};
 		font-weight: 600;
 		opacity: 0.65;
 	}
 	> p {
 		font-size: ${({ theme }) => `calc( ${theme.font.xs} + 2px)`};
-		font-family: ${({ theme }) => theme.family.opensans};
 		font-weight: 600;
 	}
 `;
@@ -83,17 +81,17 @@ const Heading = styled.div`
 const Wrapper = styled.div`
 	display: grid;
 	margin: 0 auto;
-	max-width: 1200px;
+	max-width: 1400px;
 	width: 100%;
 	grid-gap: 50px 20px;
 	grid-template-columns: repeat(1, 1fr);
 
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.md} {
 		grid-template-columns: repeat(2, 1fr);
 		grid-gap: 35px 20px;
 	}
 
-	@media (min-width: 1100px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		grid-template-columns: repeat(4, 1fr);
 		grid-gap: 1px 20px;
 	}
@@ -108,11 +106,11 @@ const Card = styled.div`
 	padding: 0 4px;
 	margin: 0 auto;
 
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.md} {
 		align-items: start;
 	}
 
-	@media (min-width: 1100px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		::before {
 			content: "";
 			position: absolute;
@@ -143,7 +141,7 @@ const IconBox = styled.div`
 	background: ${({ theme }) => theme.color.primary};
 	color: ${({ theme }) => theme.color.white};
 	width: 100%;
-	font-size: 24px;
+	font-size: 2.4rem;
 	max-width: 47px;
 	height: 47px;
 	border-radius: 20px;
@@ -159,16 +157,16 @@ const CardContent = styled.div`
 		text-align: center;
 		margin-bottom: 20px;
 		font-weight: 500;
-		font-size: 16px;
+		font-size: 1.6rem;
 	}
 	> p {
 		text-align: center;
 		font-weight: 400;
-		font-size: 15px;
+		font-size: 1.5rem;
 		opacity: 0.65;
 	}
 
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.md} {
 		> h3 {
 			text-align: left;
 		}
@@ -177,10 +175,10 @@ const CardContent = styled.div`
 			text-align: left;
 		}
 	}
-	@media (min-width: 1024px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		> h3 {
 			text-align: left;
-			font-size: 17px;
+			font-size: 1.7rem;
 		}
 
 		> p {

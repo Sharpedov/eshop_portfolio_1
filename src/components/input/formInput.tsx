@@ -93,7 +93,7 @@ const Container = styled.div`
 		position: absolute;
 		color: rgba(255, 0, 0, 0.6);
 		font-size: 13px;
-		font-weight: ${({ theme }) => theme.weight.bold};
+		font-weight: 500;
 		opacity: ${({ error }) => (error ? "1" : "0")};
 		transform: ${({ error }) =>
 			error ? "translateY(1px)" : "translateY(-5px)"};

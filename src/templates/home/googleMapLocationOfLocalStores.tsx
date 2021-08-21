@@ -146,25 +146,27 @@ const GoogleMapLocationOfLocalStores = ({}: pageProps) => {
 export default GoogleMapLocationOfLocalStores;
 
 const Container = styled.div`
-	background-color: ${({ theme }) => theme.surface.primary};
+	background-color: ${({ theme }) => theme.background.primary};
 `;
 
 const Header = styled.div`
 	display: flex;
 	flex-direction: column;
-	max-width: 1720px;
+	max-width: 1400px;
+	width: 100%;
+	margin: 0 auto;
 	padding: 50px 16px 25px;
 
 	> h6 {
-		font-size: 20px;
+		font-size: 2rem;
 	}
 
-	@media (min-width: 480px) {
+	@media ${({ theme }) => theme.breakpoints.sm} {
 		padding: 60px 31px 30px;
 	}
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.md} {
 		> h6 {
-			font-size: 24px;
+			font-size: 2.4rem;
 		}
 	}
 `;
@@ -181,7 +183,7 @@ const StoresList = styled.ul`
 		grid-gap: 20px;
 		margin-top: 25px;
 	}
-	@media (min-width: 480px) {
+	@media ${({ theme }) => theme.breakpoints.sm} {
 		grid-template-columns: repeat(auto-fill, 150px);
 	}
 `;
@@ -204,15 +206,15 @@ const StoreLeftSide = styled.div`
 	margin-right: 10px;
 
 	.storeLocation__icon {
-		font-size: 24px;
+		font-size: 2.4rem;
 		opacity: ${({ active }) => (active ? "1" : "0.4")};
 		color: ${({ active, theme }) => (active ? theme.color.primary : "inherit")};
 		transition: opacity 0.2s ease, color 0.2s ease;
 	}
 
-	@media (min-width: 1440px) {
+	@media ${({ theme }) => theme.breakpoints.xl} {
 		.storeLocation__icon {
-			font-size: 26px;
+			font-size: 2.6rem;
 		}
 	}
 `;
@@ -221,16 +223,16 @@ const StoreRightSide = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 7px 0;
-	font-size: 13px;
+	font-size: 1.3rem;
 
 	> span {
 		opacity: 0.9;
 	}
 	@media (min-width: 360px) {
-		font-size: 14px;
+		font-size: 1.4rem;
 	}
-	@media (min-width: 1440px) {
-		font-size: 15px;
+	@media ${({ theme }) => theme.breakpoints.xl} {
+		font-size: 1.5rem;
 	}
 `;
 
@@ -247,5 +249,5 @@ const MarkerInfoWindow = styled.div`
 	flex-direction: column;
 	gap: 7px 0;
 	color: ${({ theme }) => theme.color.black};
-	font-size: 14px;
+	font-size: 1.4rem;
 `;

@@ -130,7 +130,7 @@ const SidebarContainer = styled(motion.div)`
 	max-width: 450px;
 	width: 100%;
 	box-shadow: ${({ theme }) => theme.boxShadow.primary};
-	background: ${({ theme }) => theme.surface.primary};
+	background: ${({ theme }) => theme.background.primary};
 	z-index: 101;
 
 	&::-webkit-scrollbar {
@@ -160,13 +160,13 @@ const Header = styled.div`
 		font-weight: 700;
 	}
 
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.md} {
 		> span {
 			font-size: ${({ theme }) => `calc(${theme.font.s})`};
 		}
 	}
 
-	@media (min-width: 1024px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		height: 64px;
 	}
 `;
@@ -186,7 +186,7 @@ const ContentWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 
-	@media (min-width: 1024px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		top: 64px;
 	}
 `;

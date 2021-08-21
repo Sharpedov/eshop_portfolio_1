@@ -144,7 +144,7 @@ const Logo = styled.div`
 `;
 
 const FooterContainer = styled.footer`
-	background: ${({ theme }) => theme.surface.footer};
+	background: ${({ theme }) => theme.background.footer};
 	transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 `;
 
@@ -174,7 +174,7 @@ const AuthorSocial = styled.li`
 		opacity: 0.9;
 	}
 
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.md} {
 		.footerAuthorSocial__icon {
 			font-size: 30px;
 			opacity: 0.75;
@@ -189,12 +189,12 @@ const AuthorSocial = styled.li`
 			}
 		}
 	}
-	@media (min-width: 1024px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		.footerAuthorSocial__icon {
 			font-size: 32px;
 		}
 	}
-	@media (min-width: 1440px) {
+	@media ${({ theme }) => theme.breakpoints.xl} {
 		.footerAuthorSocial__icon {
 			font-size: 36px;
 		}
@@ -212,7 +212,7 @@ const SocialTitle = styled.span`
 		opacity: 1;
 	}
 
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.md} {
 		font-size: 14px;
 		transform: translateY(100%) scale(0.85);
 		opacity: 0;
@@ -236,14 +236,14 @@ const Wrapper = styled.div`
 	grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
 	grid-gap: 30px 5px;
 
-	@media (min-width: 480px) {
+	@media ${({ theme }) => theme.breakpoints.sm} {
 		grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
 	}
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.md} {
 		grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
 		padding: 94px 24px 75px 24px;
 	}
-	@media (min-width: 1024px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
 	}
 	@media (min-width: 1100px) {
@@ -258,7 +258,7 @@ const Column = styled.div`
 	> h3 {
 		color: ${({ theme }) => theme.color.white};
 		font-size: ${({ theme }) => theme.font.xs};
-		font-weight: ${({ theme }) => theme.weight.medium};
+		font-weight: 400;
 		margin-bottom: 20px;
 	}
 
@@ -266,7 +266,7 @@ const Column = styled.div`
 		color: ${({ theme }) => theme.color.white};
 		opacity: 0.65;
 		font-size: ${({ theme }) => theme.font.xxs};
-		font-weight: ${({ theme }) => theme.weight.regular};
+		font-weight: 400;
 		transition: color 200ms ease-in-out;
 		padding: 20px 0;
 		outline: none;

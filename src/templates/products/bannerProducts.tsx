@@ -84,11 +84,11 @@ const BannerWrapper = styled.div`
 	left: 0;
 	right: 0;
 	z-index: 1;
-	background: ${({ theme }) => theme.surface.primary};
+	background: ${({ theme }) => theme.background.primary};
 	transition: opacity 0.2s ease;
 	animation: ${appear} 0.3s ease;
 
-	@media (min-width: 480px) {
+	@media ${({ theme }) => theme.breakpoints.sm} {
 		top: 58px;
 	}
 `;
@@ -116,7 +116,7 @@ const Banner = styled.div`
 
 const BannerText = styled.h5`
 	position: relative;
-	font-size: clamp(30px, 5vw, 46px);
+	font-size: clamp(3rem, 5vw, 4.6rem);
 	color: ${({ theme }) => theme.color.white};
 	opacity: 0.9;
 	font-weight: 500;

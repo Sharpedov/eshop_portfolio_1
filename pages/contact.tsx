@@ -21,7 +21,7 @@ export default function Contact({}) {
 
 const Container = styled.div`
 	position: relative;
-	background: ${({ theme }) => theme.surface.primary};
+	background: ${({ theme }) => theme.background.primary};
 	min-height: 70vh;
 	padding: 20px 15px;
 

@@ -93,7 +93,7 @@ const Container = styled.nav`
 	display: flex;
 	flex-direction: column;
 	right: 0;
-	background: ${({ theme }) => theme.surface.secondary};
+	background: ${({ theme }) => theme.background.secondary};
 	width: 255px;
 	box-shadow: 0px 4px 15px 5px rgba(0, 0, 0, 0.2);
 	opacity: ${({ isopen }) => (isopen ? "1" : "0")};
@@ -109,7 +109,7 @@ const Container = styled.nav`
 const Header = styled.div`
 	display: grid;
 	grid-template-columns: 70px 1fr;
-	background: ${({ theme }) => theme.surface.primary};
+	background: ${({ theme }) => theme.background.primary};
 	height: 70px;
 `;
 

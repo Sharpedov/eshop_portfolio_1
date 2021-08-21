@@ -1,5 +1,5 @@
 export const theme = {
-	surface: {
+	background: {
 		primary: "#121212",
 		secondary: `#1D1D1D`,
 		footer: "#17181a",
@@ -10,9 +10,6 @@ export const theme = {
 		white: `hsl(0, 0%, 100%)`,
 		black: "#000",
 		gray: `#7F9799`,
-	},
-	states: {
-		error: "#CF6679",
 	},
 
 	font: {
@@ -25,20 +22,19 @@ export const theme = {
 		xxl: "9.4rem",
 	},
 
-	family: {
-		opensans: '"Open Sans", sans-serif',
-		roboto: '"Roboto", sans-serif',
-		whitney: '"Whitney","Tahoma","Arial",sans-serif',
-	},
-
-	weight: {
-		light: "300",
-		regular: "400",
-		medium: "500",
-		bold: "700",
+	fonts: {
+		main: '"Open Sans", "sans-serif"',
+		title: '"Roboto", "sans-serif"',
 	},
 
 	boxShadow: {
 		primary: `0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);`,
+	},
+
+	breakpoints: {
+		sm: "screen and (min-width: 480px)",
+		md: "screen and (min-width: 768px)",
+		lg: "screen and (min-width: 1024px)",
+		xl: "screen and (min-width: 1440px)",
 	},
 };

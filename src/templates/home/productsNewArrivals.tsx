@@ -58,9 +58,7 @@ const ProductsNewArrivals = ({}: pageProps) => {
 	return (
 		<Container>
 			<Header>
-				<HeaderTitle>
-					<span>New Arrivals</span>
-				</HeaderTitle>
+				<HeaderTitle>New Arrivals</HeaderTitle>
 				<HeaderControls>
 					<HeaderControlButton
 						aria-label="Previous products"
@@ -102,8 +100,7 @@ const ProductsNewArrivals = ({}: pageProps) => {
 export default ProductsNewArrivals;
 
 const Container = styled.div`
-	padding: 0 16px;
-	max-width: 1720px;
+	max-width: 1400px;
 	margin: 0 auto;
 	width: 100%;
 	overflow: hidden;
@@ -116,18 +113,20 @@ const Header = styled.div`
 	flex-direction: column;
 	justify-content: space-between;
 
-	@media (min-width: 480px) {
+	@media ${({ theme }) => theme.breakpoints.sm} {
 		align-items: center;
-		padding: 15px 16px;
 		flex-direction: row;
 	}
 `;
 
-const HeaderTitle = styled.div`
+const HeaderTitle = styled.h2`
 	flex-grow: 1;
-	> span {
-		color: ${({ theme }) => theme.color.white};
-		font-size: ${({ theme }) => theme.font.s};
+	color: ${({ theme }) => theme.color.white};
+	font-size: 3.1rem;
+	font-weight: 400;
+
+	@media ${({ theme }) => theme.breakpoints.md} {
+		font-size: 3.6rem;
 	}
 `;
 
@@ -137,7 +136,7 @@ const HeaderControls = styled.div`
 
 	gap: 10px;
 
-	@media (min-width: 480px) {
+	@media ${({ theme }) => theme.breakpoints.sm} {
 		grid-template-columns: repeat(2, 85px);
 	}
 `;
@@ -145,7 +144,7 @@ const HeaderControls = styled.div`
 const HeaderControlButton = styled(ButtonBase)`
 	padding: 2px 6px;
 	border: 2px solid rgba(58, 60, 63, 0.7);
-	background-color: ${({ theme }) => theme.surface.primary};
+	background-color: ${({ theme }) => theme.background.primary};
 	transition: all 0.2s cubic-bezier(0.5, 1, 0.89, 1);
 
 	.headerControl__icon {
@@ -173,17 +172,17 @@ const Slider = styled.div`
 		min-width: 50%;
 	}
 
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.md} {
 		> div {
 			min-width: 33.3333%;
 		}
 	}
-	@media (min-width: 1180px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		> div {
 			min-width: 25%;
 		}
 	}
-	@media (min-width: 1440px) {
+	@media ${({ theme }) => theme.breakpoints.xl} {
 		> div {
 			min-width: 20%;
 		}

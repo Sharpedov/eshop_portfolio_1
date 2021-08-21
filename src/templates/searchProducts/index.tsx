@@ -49,7 +49,7 @@ const SearchProductsTemplate = ({}: pageProps) => {
 					<ProductsList layout>
 						{products?.length !== 0 &&
 							products.map((product) => (
-								<ProductCard key={product.id} gridView="fill" data={product} />
+								<ProductCard key={product.id} data={product} />
 							))}
 					</ProductsList>
 				)}
@@ -61,14 +61,14 @@ const SearchProductsTemplate = ({}: pageProps) => {
 export default SearchProductsTemplate;
 
 const Container = styled.div`
-	background: ${({ theme }) => theme.surface.primary};
+	background: ${({ theme }) => theme.background.primary};
 	min-height: 70vh;
 	padding: 20px 15px;
 `;
 
 const SearchInputWrapper = styled.div`
 	display: flex;
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.md} {
 		display: none;
 	}
 `;
@@ -100,7 +100,7 @@ const Heading = styled.div`
 		text-overflow: ellipsis;
 	}
 
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.md} {
 		margin-bottom: 3%;
 
 		> h2 {
@@ -114,7 +114,7 @@ const ProductsList = styled(motion.div)`
 	grid-gap: 15px;
 	grid-template-columns: repeat(2, 1fr);
 
-	@media (min-width: 576px) {
+	@media ${({ theme }) => theme.breakpoints.sm} {
 		grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
 	}
 `;

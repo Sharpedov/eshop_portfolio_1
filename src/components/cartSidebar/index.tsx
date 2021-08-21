@@ -208,8 +208,8 @@ const PriceDetailsList = styled.ul`
 	width: 100%;
 	gap: 6px 0;
 	padding: 10px 0;
-	border-top: 1px solid ${({ theme }) => theme.surface.secondary};
-	border-bottom: 1px solid ${({ theme }) => theme.surface.secondary};
+	border-top: 1px solid ${({ theme }) => theme.background.secondary};
+	border-bottom: 1px solid ${({ theme }) => theme.background.secondary};
 
 	@media (min-width: 576px) {
 		padding: 15px 0;

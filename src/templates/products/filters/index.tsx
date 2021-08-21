@@ -292,15 +292,15 @@ const appearFilters = keyframes`
 const Container = styled.div`
 	display: none;
 	padding: 20px 10px;
-	background: ${({ theme }) => theme.surface.secondary};
+	background: ${({ theme }) => theme.background.secondary};
 	border-radius: 4px;
 	animation: ${appearFilters} 0.3s linear;
 
 	> span {
-		font-size: 21px;
+		font-size: 2.1rem;
 	}
 
-	@media (min-width: 1024px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		display: flex;
 		flex-direction: column;
 		gap: 15px;
@@ -337,7 +337,7 @@ const PriceRow = styled.div`
 	padding: 0 10px;
 
 	> div > span {
-		font-size: 12px;
+		font-size: 1.2rem;
 		margin-left: 1px;
 		opacity: 0.65;
 	}
@@ -356,7 +356,7 @@ const InputPrice = styled.div`
 		right: 0;
 		bottom: 0;
 		transform: translateX(-100%);
-		font-size: 15px;
+		font-size: 1.5rem;
 		opacity: 0.65;
 		transition: all 0.15s ease-in-out;
 	}
@@ -397,7 +397,7 @@ const Filter = styled(ButtonBase)`
 	opacity: ${({ theme, active }) => (active ? "1" : "0.65")};
 	padding: 1px 5px;
 	border-radius: 2px;
-	font-size: 16px;
+	font-size: 1.6rem;
 	transition: all 0.1s ease-in-out;
 
 	&:hover {
@@ -413,7 +413,7 @@ const FiltersRow = styled.div`
 	color: ${({ theme }) => theme.color.white};
 
 	> span {
-		font-size: 16px;
+		font-size: 1.6rem;
 	}
 `;
 

@@ -167,7 +167,7 @@ const Card = styled(CardActionArea)`
 	display: flex;
 	flex-direction: column;
 	flex-grow: 1;
-	background: ${({ theme }) => theme.surface.secondary};
+	background: ${({ theme }) => theme.background.secondary};
 	border-radius: 2px;
 	overflow: hidden;
 	animation: ${productAppear} 0.3s linear;
@@ -192,7 +192,7 @@ const ImageWrapper = styled.div`
 		transition: transform 0.3s cubic-bezier(0.33, 1, 0.68, 1);
 	}
 
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.md} {
 		${Card}:hover & {
 			img {
 				transform: scale(1.1);

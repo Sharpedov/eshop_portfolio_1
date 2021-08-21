@@ -105,7 +105,7 @@ const Cards = styled.ul`
 	grid-gap: 25px;
 	animation: ${appear} 0.3s ease-in-out;
 
-	@media (min-width: 1024px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		grid-template-columns: repeat(2, 1fr);
 	}
 `;
@@ -159,7 +159,7 @@ const CardOverlay = styled.div`
 	inset: 0;
 	left: auto;
 
-	@media (min-width: 480px) {
+	@media ${({ theme }) => theme.breakpoints.sm} {
 		max-width: 128px;
 	}
 `;
@@ -168,21 +168,21 @@ const OverlayContent = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	font-size: calc(16px + 0.5vw);
+	font-size: calc(1.6rem + 0.5vw);
 	gap: 7px;
 	font-weight: 300;
 
 	.accountDefaultCardElementOverlay__icon {
-		font-size: calc(18px + 0.5vw);
+		font-size: calc(1.8rem + 0.5vw);
 	}
 `;
 
 const CardText = styled.div`
 	width: 100%;
 	padding: 7px 0;
-	font-size: 16px;
+	font-size: 1.6rem;
 
-	@media (min-width: 1024px) {
-		font-size: 17px;
+	@media ${({ theme }) => theme.breakpoints.lg} {
+		font-size: 1.7rem;
 	}
 `;

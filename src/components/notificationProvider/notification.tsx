@@ -191,7 +191,7 @@ const Content = styled.div`
 		font-size: 14px;
 	}
 
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.md} {
 		padding: 10px 30px 10px 10px;
 		> p {
 			font-size: 15px;

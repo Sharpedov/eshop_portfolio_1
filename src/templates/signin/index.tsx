@@ -150,13 +150,13 @@ const PanelAnimation = keyframes`
 const Container = styled.div`
 	display: grid;
 	place-items: center;
-	background: ${({ theme }) => theme.surface.secondary};
+	background: ${({ theme }) => theme.background.secondary};
 	padding: 25px 0;
 
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.md} {
 		padding: 45px 0;
 	}
-	@media (min-width: 1024px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		padding: 60px 25px;
 	}
 `;
@@ -167,7 +167,7 @@ const Wrapper = styled.div`
 	margin: 0 auto;
 	animation: ${PanelAnimation} 0.25s linear;
 
-	@media (min-width: 1024px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		grid-template-columns: 450px 1fr;
 		max-width: 1000px;
 		width: 100%;
@@ -187,7 +187,7 @@ const Panel = styled.div`
 	display: flex;
 	flex-direction: column;
 
-	@media (max-width: 1024px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		width: 92vw;
 		max-width: 450px;
 		min-height: 300px;
@@ -227,7 +227,7 @@ const Bottom = styled.div`
 
 	> span {
 		text-align: center;
-		font-size: 13px;
+		font-size: 1.3rem;
 		font-weight: 400;
 		margin: 20px 0;
 		font-family: ${({ theme }) => theme.whitney};
@@ -238,7 +238,7 @@ const Bottom = styled.div`
 const ImageWrapper = styled.div`
 	display: none;
 
-	@media (min-width: 1024px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		display: grid;
 		place-items: center;
 		overflow: hidden;

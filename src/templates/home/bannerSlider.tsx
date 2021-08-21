@@ -130,7 +130,7 @@ const BannerWrapper = styled.div`
 	display: flex;
 	height: 100%;
 	overflow: hidden;
-	background: ${({ theme }) => theme.surface.primary};
+	background: ${({ theme }) => theme.background.primary};
 `;
 
 const BannerImage = styled.div`
@@ -171,13 +171,13 @@ const BannerContent = styled.div`
 
 	> h2 {
 		color: ${({ theme }) => theme.color.white};
-		font-size: calc(20px + 1vw);
+		font-size: calc(2rem + 1vw);
 		font-weight: 400;
 	}
 	> h3 {
 		color: ${({ theme }) => theme.color.white};
 		opacity: 0.65;
-		font-size: calc(16px + 0.25vw);
+		font-size: calc(1.6rem + 0.25vw);
 		font-weight: 300;
 	}
 
@@ -239,7 +239,7 @@ const NavigationIcon = styled(ButtonBase)`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background: ${({ theme }) => theme.surface.secondary};
+	background: ${({ theme }) => theme.background.secondary};
 	box-shadow: ${({ theme }) => theme.boxShadow.primary};
 	padding: 7px 4px;
 	border-radius: 4px;
@@ -255,7 +255,7 @@ const NavigationIcon = styled(ButtonBase)`
 	}
 
 	.homeBannerNavigation__icon {
-		font-size: 25px;
+		font-size: 2.5rem;
 	}
 `;
 
@@ -268,7 +268,7 @@ const Dots = styled.div`
 	align-items: center;
 	gap: 0 15px;
 	padding: 10px 12px;
-	background: ${({ theme }) => theme.surface.secondary};
+	background: ${({ theme }) => theme.background.secondary};
 	box-shadow: ${({ theme }) => theme.boxShadow.primary};
 `;
 

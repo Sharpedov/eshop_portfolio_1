@@ -84,7 +84,7 @@ const Container = styled.div`
 	position: absolute;
 	top: 0;
 	left: 0;
-	background: ${({ theme }) => theme.surface.secondary};
+	background: ${({ theme }) => theme.background.secondary};
 	border-radius: 5px;
 	box-shadow: ${({ theme }) => theme.boxShadow.primary};
 	width: 150px;
@@ -97,8 +97,8 @@ const Option = styled(ButtonBase)`
 	padding: 5px 10px;
 	background: ${({ active }) => active && "rgba(255, 255, 255, 0.03)"};
 	transition: background 0.1s ease-in-out;
-	font-size: 15px;
-	font-family: ${({ theme }) => theme.family.roboto};
+	font-size: 1.5rem;
+	font-weight: 400;
 
 	> text {
 		color: ${({ theme, active }) =>

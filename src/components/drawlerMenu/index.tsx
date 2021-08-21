@@ -249,7 +249,7 @@ const Container = styled.div`
 	bottom: 55px;
 	max-width: 250px;
 	width: 100%;
-	background: ${({ theme }) => theme.surface.primary};
+	background: ${({ theme }) => theme.background.primary};
 	box-shadow: ${({ theme }) => theme.boxShadow.primary};
 	z-index: 99;
 	overflow-y: scroll;
@@ -258,7 +258,7 @@ const Container = styled.div`
 		display: none;
 	}
 
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.md} {
 		bottom: 0;
 	}
 `;
@@ -267,7 +267,7 @@ const HeaderBreak = styled.div`
 	min-height: 54px;
 	border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 
-	@media (min-width: 480px) {
+	@media ${({ theme }) => theme.breakpoints.sm} {
 		min-height: 58px;
 	}
 `;
@@ -275,7 +275,7 @@ const HeaderBreak = styled.div`
 const Drawler = styled.div`
 	display: flex;
 	flex-direction: column;
-	background-color: ${({ theme }) => theme.surface.primary};
+	background: ${({ theme }) => theme.background.primary};
 `;
 
 const DrawlerList = styled.div`

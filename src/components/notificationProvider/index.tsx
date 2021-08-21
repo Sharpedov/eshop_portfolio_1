@@ -56,16 +56,16 @@ const Wrapper = styled.div`
 		right: auto;
 		width: 265px;
 	}
-	@media (min-width: 480px) {
+	@media ${({ theme }) => theme.breakpoints.sm} {
 		width: 280px;
 	}
 
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.md} {
 		left: 25px;
 		bottom: 45px;
 		width: 300px;
 	}
-	@media (min-width: 1024px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		width: 325px;
 	}
 `;

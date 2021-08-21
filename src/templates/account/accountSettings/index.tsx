@@ -384,7 +384,7 @@ const appear = keyframes`
 const Body = styled.div`
 	display: flex;
 	flex-direction: column;
-	background: ${({ theme }) => `${theme.surface.primary + "c0"}`};
+	background: ${({ theme }) => `${theme.background.primary + "c0"}`};
 	border-radius: 2px;
 	min-height: 60vh;
 	margin-top: 15px;

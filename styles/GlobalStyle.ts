@@ -13,11 +13,10 @@ const GlobalStyle = createGlobalStyle`
     }
 
     body {
-        position: relative;
-        font-family: ${({ theme }) => theme.family.roboto};
+        font-family: ${({ theme }) => theme.fonts.main};
         font-size: 1.6rem;
         color: ${({ theme }) => theme.color.white};
-        background: ${({ theme }) => theme.surface.primary};
+        background: ${({ theme }) => theme.background.primary};
 
         ::-webkit-scrollbar {
 		    width: 13px;
@@ -25,40 +24,36 @@ const GlobalStyle = createGlobalStyle`
 	    ::-webkit-scrollbar-thumb {
            background:  rgba(80, 80, 80, 0.95);
              border-radius: 12px;
-             border: 3px solid ${({ theme }) => theme.surface.primary};
+             border: 3px solid ${({ theme }) => theme.background.primary};
         :hover {
             background:  ${({ theme }) => theme.color.primary};
     }
 	}
     }
+    h1,h2,h3,h4,h5,h6,button{
+        font-family: ${({ theme }) => theme.fonts.title};
+		font-weight: 500;
+        line-height: 1;
+        margin: 0;
+        padding: 0;
+    }
 
-    input {
+    input, textarea {
     	caret-color: ${({ theme }) => theme.color.primary};
         outline: none;
         border: none;
     }
 
     span, label, input,p{
-        font-family: inherit;
-        font-weight: ${({ theme }) => theme.weight.regular};
         line-height:1;
     }
 
-    h1,h2,h3,h4,h5,h6 {
-        font-family: inherit;
-        font-weight: ${({ theme }) => theme.weight.regular};
-		line-height: 1;
-        margin: 0;
-        padding: 0;
-    }
 
     li{
         list-style: none;
     }
 
     a {
-        font-family: inherit;
-        font-weight: ${({ theme }) => theme.weight.regular};
 		outline: none;
         text-decoration: none;
         line-height:1;

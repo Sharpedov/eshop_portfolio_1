@@ -78,9 +78,9 @@ const TabsList = styled.ul`
 	grid-template-columns: repeat(auto-fit, minmax(95px, 1fr));
 	background: ${({ theme, background }) =>
 		background === "primary"
-			? theme.surface.primary
+			? theme.background.primary
 			: background === "secondary"
-			? theme.surface.secondary
+			? theme.background.secondary
 			: null};
 	overflow-x: scroll;
 
@@ -88,7 +88,7 @@ const TabsList = styled.ul`
 		display: none;
 	}
 
-	@media (min-width: 480px) {
+	@media ${({ theme }) => theme.breakpoints.sm} {
 		grid-template-columns: repeat(auto-fill, minmax(120px, 140px));
 	}
 `;

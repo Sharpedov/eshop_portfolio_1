@@ -119,7 +119,7 @@ const RightSide = styled.div`
 	justify-content: flex-end;
 	gap: 0 15px;
 
-	@media (min-width: 480px) {
+	@media ${({ theme }) => theme.breakpoints.sm} {
 		flex: 0.35;
 	}
 `;
@@ -150,16 +150,14 @@ const CartAndFavBadge = styled.div`
 	pointer-events: none;
 
 	> span {
-		font-size: 14px;
+		font-size: 1.4rem;
 	}
-	.favBadgeSmall {
-		font-size: 10px;
-	}
+	.favBadgeSmall,
 	.cartBadgeSmall {
-		font-size: 10px;
+		font-size: 1rem;
 	}
 
-	@media (min-width: 576px) {
+	@media ${({ theme }) => theme.breakpoints.sm} {
 		display: grid;
 	}
 `;

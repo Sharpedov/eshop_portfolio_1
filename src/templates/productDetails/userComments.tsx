@@ -72,11 +72,11 @@ const CommentLeftSide = styled.div`
 `;
 
 const UserAvatar = styled(Avatar)`
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.md} {
 		width: 55px;
 		height: 55px;
 	}
-	@media (min-width: 1024px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		width: 60px;
 		height: 60px;
 	}
@@ -99,34 +99,34 @@ const CommentRightSide = styled.div`
 
 const UserName = styled.div`
 	color: ${({ theme }) => theme.color.primary};
-	font-size: 16px;
+	font-size: 1.6rem;
 
-	@media (min-width: 768px) {
-		font-size: 17px;
+	@media ${({ theme }) => theme.breakpoints.md} {
+		font-size: 1.7rem;
 	}
 `;
 
 const TimeAgo = styled.div`
-	font-size: 12px;
+	font-size: 1.2rem;
 	line-height: 22px;
 	color: rgba(255, 255, 255, 0.5);
 	margin-top: 2px;
 
-	@media (min-width: 768px) {
-		font-size: 14px;
+	@media ${({ theme }) => theme.breakpoints.md} {
+		font-size: 1.4rem;
 		margin-top: 5px;
 	}
 `;
 
 const UserComment = styled.div`
 	white-space: pre-line;
-	font-size: 14px;
+	font-size: 1.4rem;
 	line-height: 26px;
 	letter-spacing: 0.5px;
 	color: #eee;
 	margin: 10px 0;
 
-	@media (min-width: 768px) {
-		font-size: 16px;
+	@media ${({ theme }) => theme.breakpoints.md} {
+		font-size: 1.6rem;
 	}
 `;

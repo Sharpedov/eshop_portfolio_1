@@ -140,11 +140,11 @@ const Container = styled.div`
 	transition: all 0.15s linear;
 	opacity: ${({ opacity }) => opacity};
 
-	@media (min-width: 480px) {
+	@media ${({ theme }) => theme.breakpoints.sm} {
 		top: 58px;
 	}
 
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.md} {
 		display: flex;
 		position: sticky;
 		width: 100%;
@@ -152,7 +152,7 @@ const Container = styled.div`
 		opacity: 1;
 	}
 
-	@media (min-width: 1024px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		display: grid;
 		gap: 10px;
 		grid-template-columns: 1fr;
@@ -179,13 +179,13 @@ const Slider = styled.div`
 	@media (min-width: 400px) {
 		max-height: 525px;
 	}
-	@media (min-width: 480px) {
+	@media ${({ theme }) => theme.breakpoints.sm} {
 		max-height: 600px;
 	}
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.md} {
 		max-height: 625px;
 	}
-	@media (min-width: 1024px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		max-height: 650px;
 	}
 `;
@@ -203,13 +203,13 @@ const Slide = styled.div`
 	@media (min-width: 400px) {
 		max-height: 525px;
 	}
-	@media (min-width: 480px) {
+	@media ${({ theme }) => theme.breakpoints.sm} {
 		max-height: 600px;
 	}
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.md} {
 		max-height: 625px;
 	}
-	@media (min-width: 1024px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		max-height: 650px;
 	}
 
@@ -237,7 +237,7 @@ const ArrowsNav = styled.ul`
 
 const ArrowNav = styled(ButtonBase)`
 	padding: 6px 3px;
-	background: ${({ theme }) => theme.surface.secondary};
+	background: ${({ theme }) => theme.background.secondary};
 	border-radius: 5px;
 	z-index: 2;
 	transition: all 0.2s cubic-bezier(0.5, 1, 0.89, 1);
@@ -250,11 +250,11 @@ const ArrowNav = styled(ButtonBase)`
 	}
 
 	:hover {
-		background-color: ${({ theme }) => theme.surface.secondary};
+		background-color: ${({ theme }) => theme.background.secondary};
 	}
 
 	.carousel__icon {
-		font-size: 34px;
+		font-size: 3.4rem;
 		color: #fff;
 	}
 `;
@@ -271,7 +271,7 @@ const DotsNav = styled.ul`
 	gap: 20px;
 	padding: 10px 16px;
 
-	@media (min-width: 1024px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		display: none;
 	}
 `;
@@ -317,7 +317,7 @@ const Thumbnails = styled.ul`
 		display: none;
 	}
 
-	@media (min-width: 1024px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		display: grid;
 	}
 `;

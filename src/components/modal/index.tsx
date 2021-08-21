@@ -90,7 +90,7 @@ const Box = styled.div`
 	position: relative;
 	display: flex;
 	flex-direction: column;
-	background-color: ${({ theme }) => theme.surface.secondary};
+	background-color: ${({ theme }) => theme.background.secondary};
 	transform: ${({ show }) => (show ? "scale(1)" : "scale(0.45)")};
 	border-radius: 4px;
 	box-shadow: ${({ theme }) => theme.boxShadow.primary};
@@ -98,13 +98,13 @@ const Box = styled.div`
 	max-width: 325px;
 	transition: all 0.2s ease;
 
-	@media (min-width: 480px) {
+	@media ${({ theme }) => theme.breakpoints.sm} {
 		min-width: 325px;
 	}
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.md} {
 		min-width: 350px;
 	}
-	@media (min-width: 1024px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		min-width: 420px;
 	}
 `;
@@ -114,7 +114,7 @@ const BoxHeading = styled.div`
 	align-items: center;
 	justify-content: space-between;
 	padding: 8px 12px 8px 16px;
-	background-color: ${({ theme }) => theme.surface.secondary};
+	background-color: ${({ theme }) => theme.background.secondary};
 `;
 
 const Title = styled.div`
@@ -124,5 +124,5 @@ const Title = styled.div`
 
 const BoxContent = styled.div`
 	padding: 12px 18px 18px;
-	background-color: ${({ theme }) => theme.surface.primary};
+	background-color: ${({ theme }) => theme.background.primary};
 `;

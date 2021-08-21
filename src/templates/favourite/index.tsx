@@ -88,11 +88,11 @@ const appear = keyframes`
 
 const Container = styled.div`
 	position: relative;
-	background: ${({ theme }) => theme.surface.primary};
+	background: ${({ theme }) => theme.background.primary};
 	min-height: 70vh;
 	padding: 20px 15px;
 
-	@media (min-width: 480px) {
+	@media ${({ theme }) => theme.breakpoints.sm} {
 		padding: 20px 20px;
 	}
 `;
@@ -100,7 +100,7 @@ const Container = styled.div`
 const Wrapper = styled.div`
 	display: flex;
 	flex-direction: column;
-	max-width: 1440px;
+	max-width: 1400px;
 	width: 100%;
 	margin: 0 auto;
 
@@ -114,7 +114,7 @@ const Wrapper = styled.div`
 		object-fit: contain;
 	}
 
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		> img {
 			width: 40%;
 		}
@@ -137,7 +137,7 @@ const Toolbar = styled.ul`
 	margin: 15px 0;
 	animation: ${appear} 0.25s ease-in-out;
 
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		margin: 1.5% 0;
 	}
 `;
@@ -167,7 +167,7 @@ const FavouriteProductsList = styled(motion.ul)`
 	gap: 10px;
 	animation: ${appear} 0.25s ease-in-out;
 
-	@media (min-width: 500px) {
+	@media ${({ theme }) => theme.breakpoints.sm} {
 		grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 	}
 `;

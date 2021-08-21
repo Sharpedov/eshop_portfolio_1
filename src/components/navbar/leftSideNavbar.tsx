@@ -46,7 +46,7 @@ const Logo = styled(ButtonBase)`
 		align-items: center;
 		justify-content: center;
 		color: #fff;
-		font-size: 17px;
+		font-size: 1.7rem;
 		padding: 0 8px;
 		margin: 0 8px 0 16px;
 		height: 45px;
@@ -61,12 +61,12 @@ const Logo = styled(ButtonBase)`
 		}
 	}
 
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.md} {
 		&&& {
 			padding: 0 12px;
 		}
 	}
-	@media (min-width: 1024px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		&&& {
 			padding: 0 15px;
 		}

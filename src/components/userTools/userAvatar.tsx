@@ -37,7 +37,7 @@ const UserAvatarSkeleton = styled(Skeleton)`
 	transform: scale(0.95);
 	background: rgba(255, 255, 255, 0.061);
 
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		transform: scale(1);
 	}
 `;
@@ -56,7 +56,7 @@ const StyledAvatar = styled(Avatar)`
 	transform: scale(0.95);
 	animation: ${UserAvatarAppear} 0.3s cubic-bezier(0.37, 0, 0.63, 1);
 
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.lg} {
 		transform: scale(1);
 	}
 `;

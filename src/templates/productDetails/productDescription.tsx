@@ -215,13 +215,13 @@ const Container = styled.div`
 	display: grid;
 	grid-gap: 20px;
 	padding: 20px 8px 70px 8px;
-	background-color: ${({ theme }) => theme.surface.primary};
+	background-color: ${({ theme }) => theme.background.primary};
 	z-index: 1;
 
-	@media (min-width: 480px) {
+	@media ${({ theme }) => theme.breakpoints.sm} {
 		padding: 20px 8px 90px 8px;
 	}
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.md} {
 		padding: 20px 15px 90px 15px;
 	}
 `;
@@ -245,10 +245,10 @@ const AddToFavIcon = styled.div`
 	top: 0;
 	right: 0;
 	transform: translateY(calc(-100% + 1px));
-	background: ${({ theme }) => theme.surface.primary};
+	background: ${({ theme }) => theme.background.primary};
 	padding: 3px;
 
-	@media (min-width: 768px) {
+	@media ${({ theme }) => theme.breakpoints.md} {
 		position: static;
 		top: none;
 		right: none;
@@ -262,7 +262,7 @@ const Title = styled.div`
 	animation: ${appear} 0.3s linear;
 
 	> h2 {
-		font-size: calc(18px + 1vw);
+		font-size: calc(1.8rem + 1vw);
 	}
 `;
 
@@ -272,7 +272,7 @@ const Price = styled.div`
 	animation: ${appear} 0.3s linear;
 
 	> h3 {
-		font-size: calc(15px + 1vw);
+		font-size: calc(1.5rem + 1vw);
 	}
 `;
 

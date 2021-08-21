@@ -190,8 +190,10 @@ const StyledButton = styled(Button)`
 		grid-template-columns: 1fr;
 		place-items: ${({ loading }) => (loading ? "center" : "none")};
 		font-size: ${({ size }) =>
-			size === "small" ? "14px" : size === "medium" ? "15px" : "16px"};
+			size === "small" ? "1.4rem" : size === "medium" ? "1.5rem" : "1.6rem"};
 		margin: 0 auto;
+		font-weight: 400;
+
 		> text {
 			opacity: ${({ loading }) => (loading ? "0" : "1")};
 			height: ${({ loading }) => (loading ? "0" : "auto")};
@@ -219,7 +221,7 @@ const ContainedButton = styled(StyledButton)`
 		transition: all 0.2s ease;
 	}
 
-	@media (min-width: 480px) {
+	@media ${({ theme }) => theme.breakpoints.sm} {
 		&:hover {
 			color: ${({ theme }) => theme.color.white};
 			background-color: transparent;
@@ -257,7 +259,7 @@ const ToolkitButton = styled(StyledButton)`
 	.customButton__icon {
 		margin-right: 5px;
 		font-size: ${({ size }) =>
-			size === "small" ? "17px" : size === "medium" ? "19px" : "20px"};
+			size === "small" ? "1.7rem" : size === "medium" ? "1.9rem" : "2rem"};
 	}
 
 	&:hover {
@@ -274,7 +276,7 @@ const DefaultButton = styled(StyledButton)`
 	.customButton__icon {
 		margin-right: 24px;
 		opacity: ${({ isactive }) => (isactive ? "1" : "0.65")};
-		font-size: 24px;
+		font-size: 2.4rem;
 	}
 
 	&:hover {

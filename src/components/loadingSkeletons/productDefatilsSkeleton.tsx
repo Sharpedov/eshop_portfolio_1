@@ -156,7 +156,7 @@ const Content = styled.div`
 	display: grid;
 	grid-gap: 20px;
 	padding: 20px 15px 70px 15px;
-	background-color: ${({ theme }) => theme.surface.primary};
+	background-color: ${({ theme }) => theme.background.primary};
 	z-index: 1;
 
 	@media (min-width: 480px) {

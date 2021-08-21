@@ -25,6 +25,14 @@ interface IChangeUserPassword {
 	closeModal: () => void;
 }
 
+const axiosProgessOption = {
+	onUploadProgress: (progressEvent) => {
+		const { loaded, total } = progressEvent;
+		const percentage = Math.floor(((loaded / 1000) * 100) / (total / 1000));
+		console.log("progressEvent", percentage);
+	},
+};
+
 export const changeUserAvatar = createAsyncThunk(
 	"user/changeUserAvatar",
 	async ({ email, newAvatar }: IChangeUserAvatar, { dispatch }) => {
@@ -61,10 +69,14 @@ export const changeUserData = createAsyncThunk(
 	async ({ email, username, closeModal }: IChangeUserData, { dispatch }) => {
 		try {
 			const res = await axios
-				.patch(`/api/users/changeData`, {
-					email,
-					username,
-				})
+				.patch(
+					`/api/users/changeData`,
+					{
+						email,
+						username,
+					},
+					axiosProgessOption
+				)
 				.then((res) => res.data);
 
 			closeModal();
