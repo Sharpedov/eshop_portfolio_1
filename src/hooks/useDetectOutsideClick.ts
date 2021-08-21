@@ -16,14 +16,10 @@ export const useDetectOutsideClick = (ref, initialState) => {
 			}
 		};
 
-		const timeout = () =>
-			setTimeout(() => {
-				if (isActive && ref.current) {
-					document.addEventListener("click", pageClickEvent);
-					document.addEventListener("keydown", escapeListener);
-				}
-			}, 1);
-		timeout();
+		if (isActive && ref.current) {
+			document.addEventListener("click", pageClickEvent);
+			document.addEventListener("keydown", escapeListener);
+		}
 
 		return () => {
 			document.removeEventListener("click", pageClickEvent);

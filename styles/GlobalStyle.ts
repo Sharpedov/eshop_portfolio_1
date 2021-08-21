@@ -62,6 +62,19 @@ const GlobalStyle = createGlobalStyle`
             color: gray;
         }
     }
+
+    .ReactModal__Overlay {
+	opacity: 0;
+	transition: all 0.2s cubic-bezier(0.5, 1, 0.89, 1);
+    }
+
+    .ReactModal__Overlay--after-open {
+        opacity: 1;
+    }
+
+    .ReactModal__Overlay--before-close {
+        opacity: 0;
+    }
 `;
 
 export default GlobalStyle;

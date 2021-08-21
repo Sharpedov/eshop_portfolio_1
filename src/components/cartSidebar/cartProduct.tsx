@@ -172,7 +172,7 @@ const ContentBottom = styled.div`
 
 const Title = styled.div`
 	display: flex;
-	font-weight: 700;
+	font-weight: 400;
 	font-size: ${({ theme }) => `calc(${theme.font.xxs} + 2px)`};
 	padding-right: 25px;
 	cursor: pointer;

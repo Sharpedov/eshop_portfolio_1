@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef } from "react";
+import React, { useCallback, useMemo } from "react";
 import styled from "styled-components";
 import HomeIcon from "@material-ui/icons/Home";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
@@ -7,7 +7,6 @@ import ContactSupportIcon from "@material-ui/icons/ContactSupport";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import { RiMenLine, RiWomenLine } from "react-icons/ri";
 import { useRouter } from "next/router";
-import { CSSTransition } from "react-transition-group";
 import CustomButton from "../customButton";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import ListAltIcon from "@material-ui/icons/ListAlt";
@@ -19,6 +18,7 @@ import { logout } from "src/store/slices/authSlice";
 import { useDispatch } from "react-redux";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import { scroller } from "react-scroll";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface pageProps {
 	isOpen: boolean;
@@ -143,10 +143,35 @@ const userDrawlerData = [
 	],
 ];
 
+const backdropAnimation = {
+	hidden: { opacity: 0 },
+	show: {
+		opacity: 1,
+	},
+};
+const containerAnimation = {
+	hidden: {
+		x: "-100%",
+		// transition: {
+		// 	duration: 0.25,
+		// },
+	},
+	show: {
+		x: "0",
+		// transition: {
+		// 	duration: 0.25,
+		// },
+	},
+	transition: {
+		type: "spring",
+		bounce: 0,
+		duration: 0.5,
+	},
+};
+
 const DrawlerMenu = ({ isOpen, onClose }: pageProps) => {
 	const { pathname, query, push } = useRouter();
 	const { isLogged } = useAuth();
-	const drawlerMenuRef = useRef(null);
 	const dispatch = useDispatch();
 	DisableScrollbar(isOpen);
 
@@ -179,54 +204,63 @@ const DrawlerMenu = ({ isOpen, onClose }: pageProps) => {
 	);
 
 	return (
-		<>
-			<CSSTransition
-				in={isOpen}
-				timeout={{ enter: 300, exit: 350 }}
-				classNames="drawlerMenu-"
-				unmountOnExit={true}
-			>
-				<Container ref={drawlerMenuRef}>
-					<HeaderBreak />
-					<Drawler>
-						{drawlerFilter.map((x, i) => (
-							<DrawlerList key={`drawlerList-${i}`}>
-								{x.map((item, i) => (
-									<DrawlerItem key={`drawlerMenu-${i}`}>
-										{item.heading && (
-											<DrawlerHeading>{item.heading}</DrawlerHeading>
-										)}
-										{item.icon && (
-											<CustomButton
-												left
-												fullWidth
-												Icon={item.icon}
-												isActive={
-													!item.scrollTo && query.tab
-														? `${pathname}?tab=${query.tab}` === item.href
-														: !item.scrollTo && pathname === item.href
-												}
-												size="medium"
-												onClick={() => onClickDrawlerItemHandler(item)}
-											>
-												{item.text}
-											</CustomButton>
-										)}
-									</DrawlerItem>
-								))}
-							</DrawlerList>
-						))}
-					</Drawler>
-				</Container>
-			</CSSTransition>
-			<Background isOpen={isOpen} onClick={() => onClose()} />
-		</>
+		<AnimatePresence>
+			{isOpen && (
+				<>
+					<Backdrop
+						variants={backdropAnimation}
+						initial="hidden"
+						animate="show"
+						exit="hidden"
+						onClick={() => onClose()}
+					/>
+					<Container
+						variants={containerAnimation}
+						initial="hidden"
+						animate="show"
+						exit="hidden"
+						transition="transition"
+					>
+						<HeaderBreak />
+						<Drawler>
+							{drawlerFilter.map((x, i) => (
+								<DrawlerList key={`drawlerList-${i}`}>
+									{x.map((item, i) => (
+										<DrawlerItem key={`drawlerMenu-${i}`}>
+											{item.heading && (
+												<DrawlerHeading>{item.heading}</DrawlerHeading>
+											)}
+											{item.icon && (
+												<CustomButton
+													left
+													fullWidth
+													Icon={item.icon}
+													isActive={
+														!item.scrollTo && query.tab
+															? `${pathname}?tab=${query.tab}` === item.href
+															: !item.scrollTo && pathname === item.href
+													}
+													size="medium"
+													onClick={() => onClickDrawlerItemHandler(item)}
+												>
+													{item.text}
+												</CustomButton>
+											)}
+										</DrawlerItem>
+									))}
+								</DrawlerList>
+							))}
+						</Drawler>
+					</Container>
+				</>
+			)}
+		</AnimatePresence>
 	);
 };
 
 export default DrawlerMenu;
 
-const Background = styled.div`
+const Backdrop = styled(motion.div)`
 	position: fixed;
 	top: 0;
 	right: 0;
@@ -234,12 +268,9 @@ const Background = styled.div`
 	left: 0;
 	background: rgba(0, 0, 0, 0.5);
 	z-index: 98;
-	visibility: ${({ isOpen }) => (isOpen ? "visible" : "hidden")};
-	opacity: ${({ isOpen }) => (isOpen ? "1" : "0")};
-	transition: all 0.25s 0.05s cubic-bezier(0.5, 1, 0.89, 1);
 `;
 
-const Container = styled.div`
+const Container = styled(motion.div)`
 	position: fixed;
 	display: flex;
 	flex-direction: column;

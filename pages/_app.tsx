@@ -6,7 +6,6 @@ import { StylesProvider } from "@material-ui/styles";
 import { theme } from "styles/theme";
 import GlobalStyle from "styles/GlobalStyle";
 import store from "src/store/store";
-import "styles/animations.css";
 import NotificationProvider from "src/components/notificationProvider";
 import GlobalLayout from "src/components/globalLayout";
 import AuthProvider from "src/components/authProvider";

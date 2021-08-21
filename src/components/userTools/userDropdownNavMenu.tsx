@@ -8,8 +8,8 @@ import CustomButton from "../customButton";
 import UserAvatar from "./userAvatar";
 import { useDispatch } from "react-redux";
 import SettingsIcon from "@material-ui/icons/Settings";
-import { Skeleton } from "@material-ui/lab";
 import { logout } from "src/store/slices/authSlice";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface pageProps {
 	user;
@@ -41,6 +41,19 @@ const MenuList = [
 	},
 ];
 
+const containerAnimation = {
+	show: {
+		opacity: 1,
+		y: "0",
+		transition: { duration: 0.2 },
+	},
+	hidden: {
+		opacity: 0,
+		y: "-10px",
+		transition: { duration: 0.25 },
+	},
+};
+
 const UserDropdownNavMenu = ({ user, isOpen, onClose }: pageProps) => {
 	const { push } = useRouter();
 	const dispatch = useDispatch();
@@ -55,55 +68,58 @@ const UserDropdownNavMenu = ({ user, isOpen, onClose }: pageProps) => {
 	);
 
 	return (
-		<Container isopen={isOpen}>
-			<Header>
-				<AvatarWrapper>
-					<UserAvatar src={user.avatar} width={48} />
-				</AvatarWrapper>
-				<UserInfo>
-					<h3>{user.username}</h3>
-					<h4>{user.email}</h4>
-				</UserInfo>
-			</Header>
-			<Body isOpen={isOpen}>
-				{MenuList.map((item, i) => (
-					<CustomButton
-						key={`${item.text}-${i}`}
-						Icon={item.icon}
-						fullWidth
-						left
-						size="medium"
-						onClick={() => onClickHandler(item)}
-					>
-						{item.text}
-					</CustomButton>
-				))}
-			</Body>
-		</Container>
+		<AnimatePresence>
+			{isOpen && (
+				<Container
+					variants={containerAnimation}
+					initial="hidden"
+					animate="show"
+					exit="hidden"
+				>
+					<Header>
+						<AvatarWrapper>
+							<UserAvatar src={user.avatar} width={48} />
+						</AvatarWrapper>
+						<UserInfo>
+							<h3>{user.username}</h3>
+							<h4>{user.email}</h4>
+						</UserInfo>
+					</Header>
+					<Body>
+						{MenuList.map((item, i) => (
+							<CustomButton
+								key={`${item.text}-${i}`}
+								Icon={item.icon}
+								fullWidth
+								left
+								size="medium"
+								onClick={() => onClickHandler(item)}
+							>
+								{item.text}
+							</CustomButton>
+						))}
+					</Body>
+				</Container>
+			)}
+		</AnimatePresence>
 	);
 };
 
 export default UserDropdownNavMenu;
 
-const StyledSkeleton = styled(Skeleton)``;
-
-const Container = styled.nav`
+const Container = styled(motion.nav)`
 	position: absolute;
 	top: calc(100% - 3px);
 	display: flex;
 	flex-direction: column;
 	right: 0;
+	border-radius: 2px;
 	background: ${({ theme }) => theme.background.secondary};
 	width: 255px;
-	box-shadow: 0px 4px 15px 5px rgba(0, 0, 0, 0.2);
-	opacity: ${({ isopen }) => (isopen ? "1" : "0")};
-	transform: ${({ isopen }) => (isopen ? "translateY(0)" : "translateY(-7px)")};
-	visibility: ${({ isopen }) => (isopen ? "visible" : "hidden")};
-	transition: opacity 0.25s cubic-bezier(0.37, 0, 0.63, 1),
-		transform 0.2s cubic-bezier(0.37, 0, 0.63, 1), visibility 0.2s ease-in-out;
+	box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%),
+		0px 8px 10px 1px rgb(0 0 0 / 14%), 0px 3px 14px 2px rgb(0 0 0 / 12%);
 	overflow: hidden;
 	z-index: 103;
-	border-radius: 2px;
 `;
 
 const Header = styled.div`
@@ -142,8 +158,4 @@ const Body = styled.div`
 	flex-direction: column;
 	padding: 10px 0;
 	overflow: hidden;
-	transform: ${({ isOpen }) => (isOpen ? "none" : "translateY(-2px)")};
-	pointer-events: ${({ disabled }) => disabled && "none"};
-	transition: all 0.15s cubic-bezier(0.37, 0, 0.63, 1);
-	transition-delay: 0.05s;
 `;
