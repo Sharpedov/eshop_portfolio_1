@@ -41,7 +41,7 @@ export default async function handler(req, res) {
 		const event = req.body;
 
 		switch (event.type) {
-			case "payment_intent.succeeded":
+			case "checkout.session.completed":
 				const paymentIntent = event.data.object;
 				await fulfillOrder(paymentIntent)
 					.then(() => res.status(200))
