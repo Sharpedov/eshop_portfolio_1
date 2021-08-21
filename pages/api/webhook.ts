@@ -1,3 +1,4 @@
+import { buffer } from "micro";
 import moment from "moment";
 import dbConnect from "mongodb/dbConnect";
 import Product from "mongodb/Models/Product";
@@ -17,7 +18,7 @@ const fulfillOrder = async (session) => {
 		(id) => products.filter((product) => product._id.toString() === id)[0]
 	);
 
-	return await User.create(
+	return await User.findOneAndUpdate(
 		{ email: session.metadata.email },
 		{
 			$push: {
@@ -38,41 +39,41 @@ const fulfillOrder = async (session) => {
 
 export default async function handler(req, res) {
 	if (req.method === "POST") {
-		const event = req.body;
+		const requestBuffer = await buffer(req);
+		const payload = requestBuffer.toString();
+		const sig = req.headers["stripe-signature"];
+
+		let event;
+
+		try {
+			event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
+		} catch (err) {
+			console.log("ERROR", err.message);
+			return res.status(400).send(`Webhook Error: ${err.message}`);
+		}
 
 		switch (event.type) {
 			case "checkout.session.completed":
-				const paymentIntent = event.data.object;
-				await fulfillOrder(paymentIntent)
-					.then(() => res.status(200))
-					.catch((err) =>
-						res.status(400).send(`Webhook Error: ${err.message}`)
-					);
+				const session = event.data.object;
+
+				try {
+					event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
+
+					fulfillOrder(session)
+						.then(() => res.status(200))
+						.catch((err) =>
+							res.status(400).send(`Webhook Error: ${err.message}`)
+						);
+				} catch (err) {
+					console.log("ERROR", err.message);
+					return res.status(400).send(`Webhook Error: ${err.message}`);
+				}
+
 				break;
 			default:
 				console.log(`Unhandled event type ${event.type}`);
 		}
 		res.json({ received: true });
-		// const requestBuffer = await buffer(req);
-		// const payload = requestBuffer.toString();
-		// const sig = req.headers["stripe-signature"];
-
-		// let event;
-
-		// try {
-		// 	event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
-		// } catch (err) {
-		// 	console.log("ERROR", err.message);
-		// 	return res.status(400).send(`Webhook Error: ${err.message}`);
-		// }
-
-		// if (event.type === "checkout.session.completed") {
-		// 	const session = event.data.object;
-
-		// 	return fulfillOrder(session)
-		// 		.then(() => res.status(200))
-		// 		.catch((err) => res.status(400).send(`Webhook Error: ${err.message}`));
-		// }
 	}
 }
 
