@@ -43,12 +43,9 @@ const ProductCard = ({ data }: pageProps) => {
 	const dispatch = useDispatch();
 	const { isInCart, isInFavourite } = IsInCartOrFavourite({ id: data._id });
 	const router = useRouter();
-	const [cartLoading, setCartLoading] = useState<boolean>(false);
-	const [favouriteLoading, setFavouriteLoading] = useState<boolean>(false);
 
 	const addToCartHandler = useCallback(async () => {
 		if (isLogged) {
-			setCartLoading(true);
 			if (isInCart) {
 				return dispatch(removeFromCart({ product: data }));
 			}
@@ -64,7 +61,6 @@ const ProductCard = ({ data }: pageProps) => {
 
 	const addToFavouriteHandler = useCallback(() => {
 		if (isLogged) {
-			setFavouriteLoading(true);
 			if (isInFavourite) {
 				return dispatch(removeFromFavourite({ product: data }));
 			}
@@ -77,18 +73,6 @@ const ProductCard = ({ data }: pageProps) => {
 
 		return;
 	}, [dispatch, isInFavourite, data, isLogged, router]);
-
-	useEffect(() => {
-		!loadingCartAdd && !loadingCartRemove && setCartLoading(false);
-		!loadingFavouriteAdd &&
-			!loadingFavouriteRemove &&
-			setFavouriteLoading(false);
-	}, [
-		loadingCartAdd,
-		loadingCartRemove,
-		loadingFavouriteAdd,
-		loadingFavouriteRemove,
-	]);
 
 	return (
 		<Card component={motion.div} layout>
@@ -130,7 +114,7 @@ const ProductCard = ({ data }: pageProps) => {
 						size="medium"
 						Icon={isInFavourite ? FavoriteIcon : FavoriteBorderIcon}
 						active={isInFavourite}
-						loading={favouriteLoading || loading}
+						loading={loadingFavouriteAdd || loadingFavouriteRemove || loading}
 					/>
 					<CustomIconButton
 						onClick={addToCartHandler}
@@ -140,7 +124,7 @@ const ProductCard = ({ data }: pageProps) => {
 						size="medium"
 						Icon={isInCart ? RemoveShoppingCartIcon : AddShoppingCartIcon}
 						active={isInCart}
-						loading={cartLoading || loading}
+						loading={loadingCartAdd || loadingCartRemove || loading}
 					/>
 				</Actions>
 			</Body>
