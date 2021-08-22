@@ -3,37 +3,64 @@ import CustomButton from "src/components/customButton";
 import styled, { keyframes } from "styled-components";
 import Link from "next/link";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
+import LocalShippingOutlinedIcon from "@material-ui/icons/LocalShippingOutlined";
 
 interface pageProps {
-	orderDetails;
-	setOrderDetails;
+	selectedOrder;
+	onClose;
 }
 
-const OrderDetails = ({ orderDetails, setOrderDetails }: pageProps) => {
+const OrderDetails = ({ selectedOrder, onClose }: pageProps) => {
 	return (
 		<Container>
 			<GoBackBtn>
 				<CustomButton
 					variant="toolkit"
 					Icon={ArrowBackIcon}
-					onClick={() => setOrderDetails(null)}
+					onClick={onClose}
 					size="large"
 				>
 					Go back
 				</CustomButton>
 			</GoBackBtn>
-			<OrderDate>
-				<h2>
-					Order date <span>{orderDetails.createdAt.slice(0, 10)}</span>
-				</h2>
-			</OrderDate>
-			<Heading>Delivery</Heading>
-			<Subheading>Courier</Subheading>
-			<Heading>Payment</Heading>
-			<Subheading>Stripe</Subheading>
-			<Heading>Order</Heading>
+			<Top>
+				<TopRow>
+					<Column>
+						<LocalShippingOutlinedIcon className="orderDetailsColumn__icon" />
+					</Column>
+					<Column>
+						<span>Delivery method</span>
+						<span>Courier</span>
+					</Column>
+				</TopRow>
+				<TopRow>
+					<Column>
+						<LocationOnOutlinedIcon className="orderDetailsColumn__icon" />
+					</Column>
+					<Column>
+						<span>Adrian Piątek</span>
+						<span>Pocztowa 7</span>
+					</Column>
+				</TopRow>
+			</Top>
+			<Middle>
+				<MiddleRow>
+					<span>Order time</span>
+					<span>
+						{selectedOrder.createdAt.slice(0, 10)}{" "}
+						{selectedOrder.createdAt.slice(11, 19)}
+					</span>
+				</MiddleRow>
+				<MiddleRow>
+					<span>Payment method</span>
+					<span>Stripe</span>
+				</MiddleRow>
+			</Middle>
+
 			<OrderList>
-				{orderDetails.items.map((order) => (
+				<Heading>Order</Heading>
+				{selectedOrder.items.map((order) => (
 					<OrderItem key={order._id}>
 						<Link passHref href={`/product/${order._id}`}>
 							<OrderImage src={order.images[0]} alt={order.title} />
@@ -48,6 +75,18 @@ const OrderDetails = ({ orderDetails, setOrderDetails }: pageProps) => {
 					</OrderItem>
 				))}
 			</OrderList>
+			<BottomRow>
+				<span>Subtotal</span>
+				<span>${selectedOrder.amount}</span>
+			</BottomRow>
+			<BottomRow>
+				<span>Shipping</span>
+				<span>FREE</span>
+			</BottomRow>
+			<BottomRow>
+				<span>Total</span>
+				<span>${selectedOrder.amount}</span>
+			</BottomRow>
 		</Container>
 	);
 };
@@ -67,7 +106,7 @@ const Container = styled.div`
 	display: flex;
 	flex-direction: column;
 	border-radius: 2px;
-	min-height: 60vh;
+	min-height: 40vh;
 	margin-top: 15px;
 	background: ${({ theme }) => theme.background.primary};
 	padding: 15px;
@@ -78,35 +117,76 @@ const GoBackBtn = styled.div`
 	margin-bottom: 5px;
 `;
 
-const OrderDate = styled.div`
+const Top = styled.div`
 	display: flex;
-	color: ${({ theme }) => theme.color.white};
-	font-size: 2.3rem;
-	padding: 15px 0;
+	flex-direction: column;
+	gap: 10px 0;
+	margin-top: 20px;
+`;
 
-	@media ${({ theme }) => theme.breakpoints.sm} {
-		font-size: 2.5rem;
+const TopRow = styled.div`
+	display: flex;
+`;
+const Column = styled.div`
+	display: flex;
+	flex-direction: column;
+	padding: 0.7rem;
+	gap: 5px;
+
+	.orderDetailsColumn__icon {
+		font-size: 2.2rem;
+		opacity: 0.9;
 	}
+
+	> span {
+		font-size: 1.4rem;
+		opacity: 0.9;
+	}
+
 	@media ${({ theme }) => theme.breakpoints.md} {
-		font-size: 2.7rem;
-	}
-	@media ${({ theme }) => theme.breakpoints.lg} {
-		font-size: 2.9rem;
-	}
-	> h2 {
-		font-size: inherit;
-
+		.orderDetailsColumn__icon {
+			font-size: 2.4rem;
+		}
 		> span {
-			font-size: inherit;
-			opacity: 0.65;
+			font-size: 1.5rem;
+		}
+	}
+`;
+
+const Middle = styled.div`
+	display: flex;
+	flex-direction: column;
+	margin-top: 20px;
+`;
+
+const MiddleRow = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 1.5rem 0;
+	border-top: 1px solid rgba(75, 75, 75, 0.25);
+
+	> span {
+		font-size: 1.5rem;
+		opacity: 0.9;
+
+		&:nth-child(1) {
+			opacity: 0.4;
+		}
+	}
+
+	@media ${({ theme }) => theme.breakpoints.md} {
+		> span {
+			font-size: 1.6rem;
 		}
 	}
 `;
 
 const Heading = styled.h2`
-	padding: 15px 0;
+	padding-top: 1rem;
 	font-size: 1.8rem;
 	color: ${({ theme }) => theme.color.white};
+	font-weight: 400;
 
 	@media ${({ theme }) => theme.breakpoints.sm} {
 		font-size: 1.9rem;
@@ -116,20 +196,6 @@ const Heading = styled.h2`
 	}
 	@media ${({ theme }) => theme.breakpoints.lg} {
 		font-size: 2.2rem;
-	}
-`;
-
-const Subheading = styled.p`
-	opacity: 0.65;
-	font-size: 1.5rem;
-	color: ${({ theme }) => theme.color.white};
-	margin-bottom: 5px;
-
-	@media ${({ theme }) => theme.breakpoints.md} {
-		font-size: 1.6rem;
-	}
-	@media ${({ theme }) => theme.breakpoints.lg} {
-		font-size: 1.7rem;
 	}
 `;
 
@@ -143,7 +209,7 @@ const OrderItem = styled.li`
 	display: grid;
 	grid-template-columns: 76px 1fr;
 	border-bottom: 1px solid rgba(75, 75, 75, 0.25);
-	padding: 10px;
+	padding: 1.5rem 1rem;
 `;
 
 const OrderImage = styled.img`
@@ -169,11 +235,10 @@ const OrderContent = styled.div`
 	}
 `;
 
-const OrderTitle = styled.h3`
+const OrderTitle = styled.div`
 	grid-area: title;
 	color: ${({ theme }) => theme.color.white};
-	font-size: calc(14px + 0.2vw);
-	line-height: 1.1;
+	font-size: calc(1.3rem + 0.2vw);
 	overflow: hidden;
 	text-overflow: ellipsis;
 	display: -webkit-box;
@@ -213,5 +278,27 @@ const OrderPrice = styled.div`
 
 	@media ${({ theme }) => theme.breakpoints.lg} {
 		grid-area: inherit;
+	}
+`;
+
+const BottomRow = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 1rem 0;
+
+	> span {
+		font-size: 1.5rem;
+		opacity: 0.9;
+
+		&:nth-child(1) {
+			opacity: 0.4;
+		}
+	}
+
+	@media ${({ theme }) => theme.breakpoints.md} {
+		> span {
+			font-size: 1.6rem;
+		}
 	}
 `;

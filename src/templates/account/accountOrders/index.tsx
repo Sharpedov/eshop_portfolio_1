@@ -18,7 +18,7 @@ const AccountOrdersContent = ({}: pageProps) => {
 		isLogged && `/api/users/orders?email=${user.email}`,
 		fetcher
 	);
-	const [orderDetails, setOrderDetails] = useState(null);
+	const [selectedOrder, setSelectedOrder] = useState(null);
 	const sortByNewestOrder = useMemo(() => {
 		if (orders) {
 			return orders.sort(
@@ -32,11 +32,11 @@ const AccountOrdersContent = ({}: pageProps) => {
 		perPage: 3,
 	});
 
-	if (orderDetails)
+	if (selectedOrder)
 		return (
 			<OrderDetails
-				orderDetails={orderDetails}
-				setOrderDetails={setOrderDetails}
+				selectedOrder={selectedOrder}
+				onClose={() => setSelectedOrder(null)}
 			/>
 		);
 
@@ -58,7 +58,7 @@ const AccountOrdersContent = ({}: pageProps) => {
 							<OrderCard
 								key={`order-${order.createdAt}-${i}`}
 								orderData={order}
-								setOrderDetails={setOrderDetails}
+								setSelectedOrder={setSelectedOrder}
 							/>
 						))}
 					</Orders>

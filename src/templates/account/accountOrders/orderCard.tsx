@@ -6,10 +6,10 @@ import Image from "next/image";
 
 interface pageProps {
 	orderData;
-	setOrderDetails;
+	setSelectedOrder;
 }
 
-const OrderCard = ({ orderData, setOrderDetails }: pageProps) => {
+const OrderCard = ({ orderData, setSelectedOrder }: pageProps) => {
 	const { amount, amount_shipping, createdAt, items } = orderData;
 
 	return (
@@ -20,7 +20,7 @@ const OrderCard = ({ orderData, setOrderDetails }: pageProps) => {
 			offset={-70}
 			duration={500}
 		>
-			<Container onClick={() => setOrderDetails(orderData)}>
+			<Container onClick={() => setSelectedOrder(orderData)}>
 				<LeftBox>
 					<h2>In progress</h2>
 					<span>{createdAt.slice(0, 10)}</span>
