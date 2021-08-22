@@ -89,12 +89,8 @@ const ProductDescription = ({ productDetails, loading }: pageProps) => {
 			<Brand>
 				<span>{`${productDetails?.gender} / ${productDetails?.brand} / ${productDetails?.category}`}</span>
 			</Brand>
-			<Title>
-				<h2>{productDetails?.title}</h2>
-			</Title>
-			<Price>
-				<h3>{`$${productDetails.price}`}</h3>
-			</Price>
+			<Title>{productDetails?.title}</Title>
+			<Price>{`$${productDetails.price}`}</Price>
 			<Actions>
 				<QuantityProduct qty={qty} setQty={setQty} />
 				<CustomButton
@@ -235,8 +231,13 @@ const Brand = styled.div`
 	> span {
 		opacity: 0.65;
 		text-transform: capitalize;
-		letter-spacing: 1px;
-		font-size: ${({ theme }) => `calc(${theme.font.xs} - 1px)`};
+		font-size: 1.4rem;
+	}
+
+	@media ${({ theme }) => theme.breakpoints.md} {
+		> span {
+			font-size: 1.5rem;
+		}
 	}
 `;
 
@@ -256,23 +257,41 @@ const AddToFavIcon = styled.div`
 	}
 `;
 
-const Title = styled.div`
-	display: flex;
-	flex-direction: column;
+const Title = styled.h2`
+	font-size: 2rem;
+	font-weight: 400;
 	animation: ${appear} 0.3s linear;
 
-	> h2 {
-		font-size: calc(1.8rem + 1vw);
+	@media ${({ theme }) => theme.breakpoints.sm} {
+		font-size: 2.3rem;
+	}
+	@media ${({ theme }) => theme.breakpoints.md} {
+		font-size: 2.4rem;
+	}
+	@media ${({ theme }) => theme.breakpoints.lg} {
+		font-size: 2.7rem;
+	}
+	@media ${({ theme }) => theme.breakpoints.xl} {
+		font-size: 2.9rem;
 	}
 `;
 
-const Price = styled.div`
-	display: flex;
-	flex-direction: column;
+const Price = styled.h3`
+	font-size: 1.9rem;
+	font-weight: 400;
 	animation: ${appear} 0.3s linear;
 
-	> h3 {
-		font-size: calc(1.5rem + 1vw);
+	@media ${({ theme }) => theme.breakpoints.sm} {
+		font-size: 2.2rem;
+	}
+	@media ${({ theme }) => theme.breakpoints.md} {
+		font-size: 2.3rem;
+	}
+	@media ${({ theme }) => theme.breakpoints.lg} {
+		font-size: 2.5rem;
+	}
+	@media ${({ theme }) => theme.breakpoints.xl} {
+		font-size: 2.7rem;
 	}
 `;
 
