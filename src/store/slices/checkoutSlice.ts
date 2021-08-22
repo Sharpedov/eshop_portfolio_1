@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
+import { clearCart } from "./cartSlice";
 import { addNotification } from "./notificationSlice";
 
 interface ICreateCheckoutSession {
@@ -26,10 +27,11 @@ export const createCheckoutSession = createAsyncThunk(
 				{ headers: { "Content-Type": "application/json" } }
 			);
 
-			const result = await stripe.redirectToCheckout({
+			await stripe.redirectToCheckout({
 				sessionId: checkoutSession.data.id,
 			});
 
+			dispatch(clearCart());
 			dispatch(
 				addNotification({
 					message: "Order completed",

@@ -62,19 +62,23 @@ const CartProduct = ({ product, onClose }: pageProps) => {
 			>
 				<ImageWrapper>
 					<Link passHref href={`/product/${_id}`}>
-						<Image
-							onClick={() => onClose()}
-							src={images[0]}
-							alt={title}
-							layout="fill"
-							objectFit="cover"
-						/>
+						<a href={`/product/${_id}`}>
+							<Image
+								onClick={() => onClose()}
+								src={images[0]}
+								alt={title}
+								layout="fill"
+								objectFit="cover"
+							/>
+						</a>
 					</Link>
 				</ImageWrapper>
 				<Content component="div">
 					<ContentTop>
 						<Link passHref href={`/product/${_id}`}>
-							<Title onClick={() => onClose()}>{title}</Title>
+							<a href={`/product/${_id}`}>
+								<Title onClick={() => onClose()}>{title}</Title>
+							</a>
 						</Link>
 						<Delete>
 							<CustomIconButton
@@ -175,7 +179,8 @@ const ContentBottom = styled.div`
 const Title = styled.div`
 	display: flex;
 	font-weight: 400;
-	font-size: ${({ theme }) => `calc(${theme.font.xxs} + 2px)`};
+	font-size: 1.4rem;
+	color: ${({ theme }) => theme.color.white};
 	padding-right: 25px;
 	cursor: pointer;
 	overflow: hidden;
@@ -184,14 +189,14 @@ const Title = styled.div`
 	-webkit-line-clamp: 2;
 	-webkit-box-orient: vertical;
 
-	:hover {
+	&:hover {
 		color: ${({ theme }) => theme.color.primary};
 	}
 	@media ${({ theme }) => theme.breakpoints.sm} {
-		font-size: ${({ theme }) => `calc(${theme.font.xxs} + 3px)`};
+		font-size: 1.5rem;
 	}
 	@media ${({ theme }) => theme.breakpoints.md} {
-		font-size: ${({ theme }) => `calc(${theme.font.xs} + 1px)`};
+		font-size: 1.6rem;
 	}
 `;
 

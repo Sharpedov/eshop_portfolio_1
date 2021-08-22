@@ -14,8 +14,7 @@ interface ICardElement {
 	textOverlay: string;
 	IconOverlay;
 	href: string;
-	background: string;
-	emptyCard?: string;
+	title?: string;
 	textCard?: string;
 }
 
@@ -32,15 +31,13 @@ const AccountDefaultContent = ({}: pageProps) => {
 		IconOverlay,
 		textOverlay,
 		href,
-		background,
-		emptyCard,
+		title,
 		textCard,
 	}: ICardElement) => (
 		<Link passHref href={href}>
 			<Card component={component}>
 				<CardBackgroundWrapper>
-					<CardBackground background={background} />
-					{emptyCard}
+					{title}
 					<CardOverlay>
 						<OverlayContent>
 							{textOverlay}
@@ -61,15 +58,16 @@ const AccountDefaultContent = ({}: pageProps) => {
 				) : (
 					<Cards>
 						<CardElement
-							textCard="Favourite List"
-							emptyCard={
-								favouriteItems.length === 0 && "Your favourite list is empty"
+							title={
+								favouriteItems.length === 0
+									? "Your favourite list is empty"
+									: "Click to visit"
 							}
+							textCard="Favourite List"
 							component="li"
 							IconOverlay={FavoriteIcon}
 							textOverlay={favouriteItems.length}
 							href="/favourite"
-							background={favouriteItems[0]?.images[0]}
 						/>
 					</Cards>
 				)}
@@ -94,7 +92,7 @@ const Body = styled.div`
 	flex-direction: column;
 	justify-content: space-between;
 	border-radius: 2px;
-	min-height: 60vh;
+	min-height: 30vh;
 	margin-top: 15px;
 	gap: 15px;
 `;
@@ -113,7 +111,7 @@ const Cards = styled.ul`
 const Card = styled(CardActionArea)`
 	display: flex;
 	flex-direction: column;
-	height: clamp(200px, 33vw, 310px);
+	height: clamp(200px, 33vw, 300px);
 	border-radius: 2px;
 
 	> span {
@@ -128,25 +126,10 @@ const CardBackgroundWrapper = styled.div`
 	font-size: 15px;
 	height: 100%;
 	width: 100%;
+	background: rgb(23, 24, 26);
 	box-shadow: 0 1px 5px -1px rgb(23 24 26 / 50%);
 	border-radius: 2px;
 	overflow: hidden;
-`;
-
-const CardBackground = styled.div`
-	position: absolute;
-	inset: 0;
-	background: ${({ background }) =>
-		`url(${background}) center / cover no-repeat rgb(23, 24, 26)`};
-	transition: all 0.2s ease-in-out;
-	z-index: -1;
-
-	&::after {
-		content: "";
-		position: absolute;
-		inset: 0;
-		background: rgb(0, 0, 0, 0.1);
-	}
 `;
 
 const CardOverlay = styled.div`
@@ -179,10 +162,10 @@ const OverlayContent = styled.div`
 
 const CardText = styled.div`
 	width: 100%;
-	padding: 7px 0;
-	font-size: 1.6rem;
+	padding: 4px 0;
+	font-size: 1.4rem;
 
 	@media ${({ theme }) => theme.breakpoints.lg} {
-		font-size: 1.7rem;
+		font-size: 1.5rem;
 	}
 `;

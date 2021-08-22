@@ -39,8 +39,8 @@ const OrderDetails = ({ selectedOrder, onClose }: pageProps) => {
 						<LocationOnOutlinedIcon className="orderDetailsColumn__icon" />
 					</Column>
 					<Column>
-						<span>Adrian Piątek</span>
-						<span>Pocztowa 7</span>
+						<span>Lorem</span>
+						<span>Lorem Ipsum</span>
 					</Column>
 				</TopRow>
 			</Top>
@@ -63,11 +63,15 @@ const OrderDetails = ({ selectedOrder, onClose }: pageProps) => {
 				{selectedOrder.items.map((order) => (
 					<OrderItem key={order._id}>
 						<Link passHref href={`/product/${order._id}`}>
-							<OrderImage src={order.images[0]} alt={order.title} />
+							<a href={`/product/${order._id}`}>
+								<OrderImage src={order.images[0]} alt={order.title} />
+							</a>
 						</Link>
 						<OrderContent>
 							<Link passHref href={`/product/${order._id}`}>
-								<OrderTitle>{order.title}</OrderTitle>
+								<a href={`/product/${order._id}`}>
+									<OrderTitle>{order.title}</OrderTitle>
+								</a>
 							</Link>
 							<OrderQty>1 qty.</OrderQty>
 							<OrderPrice>${order.price}</OrderPrice>
@@ -252,10 +256,8 @@ const OrderTitle = styled.div`
 	}
 
 	@media ${({ theme }) => theme.breakpoints.lg} {
+		font-size: calc(1.2rem + 0.2vw);
 		grid-area: inherit;
-	}
-	@media ${({ theme }) => theme.breakpoints.xl} {
-		font-size: calc(13px + 0.2vw);
 	}
 `;
 
@@ -263,7 +265,7 @@ const OrderQty = styled.div`
 	grid-area: qty;
 	display: grid;
 	place-items: center;
-	font-size: calc(13px + 0.2vw);
+	font-size: calc(1.2rem + 0.2vw);
 
 	@media ${({ theme }) => theme.breakpoints.lg} {
 		grid-area: inherit;
@@ -274,7 +276,7 @@ const OrderPrice = styled.div`
 	grid-area: price;
 	display: grid;
 	place-items: center;
-	font-size: calc(13px + 0.2vw);
+	font-size: calc(1.3rem + 0.2vw);
 
 	@media ${({ theme }) => theme.breakpoints.lg} {
 		grid-area: inherit;

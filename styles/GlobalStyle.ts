@@ -56,7 +56,6 @@ const GlobalStyle = createGlobalStyle`
     a {
 		outline: none;
         text-decoration: none;
-        line-height:1;
 
         &:focus {
             color: gray;
