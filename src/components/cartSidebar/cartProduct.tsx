@@ -21,21 +21,14 @@ const mapState = (state) => ({
 	loadingChangeQty: state.cart.changeQty.loading,
 });
 
-const productItemVariants = {
+const productItemAnimation = {
 	show: {
 		y: 0,
 		opacity: 1,
-		transition: {
-			stiffness: 1000,
-			velocity: -100,
-		},
 	},
 	hidden: {
 		y: 50,
 		opacity: 0,
-		transition: {
-			stiffness: 1000,
-		},
 	},
 };
 
@@ -65,11 +58,7 @@ const CartProduct = ({ product, onClose }: pageProps) => {
 				component={motion.li}
 				loading={loading}
 				layout
-				animate={{
-					opacity: loading ? 0.65 : 1,
-					scale: loading ? 0.95 : 1,
-				}}
-				variants={productItemVariants}
+				variants={productItemAnimation}
 			>
 				<ImageWrapper>
 					<Link passHref href={`/product/${_id}`}>
@@ -125,10 +114,23 @@ const ProductItem = styled(CardActionArea)`
 	background: ${({ theme }) => theme.background.primary};
 	border-radius: 2px;
 	cursor: default;
+	animation: ${({ loading }) =>
+		loading && `loadingWhileRemoving 0.3s ease both`};
 
 	> span {
 		background: transparent;
 		color: ${({ theme }) => theme.color.white};
+	}
+
+	@keyframes loadingWhileRemoving {
+		from {
+			transform: scale(1);
+			opacity: 1;
+		}
+		to {
+			transform: scale(0.9);
+			opacity: 0.65;
+		}
 	}
 `;
 

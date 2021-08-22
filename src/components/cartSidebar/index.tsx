@@ -175,7 +175,7 @@ const ProductsList = styled(motion.ul)`
 	flex-direction: column;
 	height: 100%;
 	width: 100%;
-	padding: 10px 15px;
+	padding: 1rem 1.5rem;
 	overflow-y: scroll;
 	gap: 10px 0;
 	animation: ${appear} 0.25s ease-in-out;
@@ -197,7 +197,7 @@ const SummaryBody = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding: 10px 21px 10px 15px;
+	padding: 1rem 2.1rem 1rem 1.5rem;
 	margin-top: auto;
 	animation: ${appear} 0.25s ease-in-out;
 `;
@@ -207,7 +207,7 @@ const PriceDetailsList = styled.ul`
 	flex-direction: column;
 	width: 100%;
 	gap: 6px 0;
-	padding: 10px 0;
+	padding: 1rem 0;
 	border-top: 1px solid ${({ theme }) => theme.background.secondary};
 	border-bottom: 1px solid ${({ theme }) => theme.background.secondary};
 
@@ -220,7 +220,9 @@ const PriceDetailItem = styled.li`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	padding: 5px 0;
+	padding: 0.5rem 0;
+	font-size: 1.5rem;
+	font-weight: 400;
 `;
 
 const SummaryTotal = styled.div`
@@ -232,11 +234,12 @@ const SummaryTotal = styled.div`
 	margin-bottom: 6px;
 
 	> span {
-		font-weight: 700;
+		font-size: 1.6rem;
+		font-weight: 600;
 	}
 
 	@media (min-width: 576px) {
-		padding: 15px 0;
+		padding: 1.5rem 0;
 		margin-bottom: 10px;
 	}
 `;
