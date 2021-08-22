@@ -9,6 +9,8 @@ import EmptyPageHeader from "src/components/emptyPageHeader";
 import LocalMallIcon from "@material-ui/icons/LocalMall";
 import { useAuth } from "src/components/authProvider";
 import OrderDetails from "./orderDetails";
+import { Pagination as MaterialPagination } from "@material-ui/lab";
+import { scroller } from "react-scroll";
 
 interface pageProps {}
 
@@ -19,6 +21,7 @@ const AccountOrdersContent = ({}: pageProps) => {
 		fetcher
 	);
 	const [selectedOrder, setSelectedOrder] = useState(null);
+	const [selectedPage, setSelectedPage] = useState<number>(1);
 	const sortByNewestOrder = useMemo(() => {
 		if (orders) {
 			return orders.sort(
@@ -27,10 +30,25 @@ const AccountOrdersContent = ({}: pageProps) => {
 			);
 		}
 	}, [orders]);
-	const { currentItemsInPage, renderPagePagination } = Pagination({
+	const { currentItemsInPage, pagesCount } = Pagination({
 		items: sortByNewestOrder,
+		selectedPage,
 		perPage: 3,
 	});
+
+	const selectedPageHandler = (
+		event: React.ChangeEvent<unknown>,
+		value: number
+	) => {
+		setSelectedPage(value);
+		scroller.scrollTo("accountOrdersBody", {
+			duration: 350,
+			delay: 50,
+			spy: true,
+			smooth: true,
+			offset: -140,
+		});
+	};
 
 	if (selectedOrder)
 		return (
@@ -63,7 +81,13 @@ const AccountOrdersContent = ({}: pageProps) => {
 						))}
 					</Orders>
 				)}
-				{orders?.length >= 1 && renderPagePagination}
+				{pagesCount >= 2 && (
+					<StyledMaterialPagination
+						count={pagesCount}
+						page={selectedPage}
+						onChange={selectedPageHandler}
+					/>
+				)}
 			</Body>
 		</>
 	);
@@ -84,8 +108,9 @@ const Body = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	align-items: space-between;
 	border-radius: 2px;
-	min-height: 60vh;
+	min-height: 30vh;
 	margin-top: 15px;
 	gap: 15px;
 `;
@@ -95,4 +120,22 @@ const Orders = styled.div`
 	flex-direction: column;
 	gap: 15px;
 	animation: ${appear} 0.3s ease-in-out;
+`;
+
+const StyledMaterialPagination = styled(MaterialPagination)`
+	.MuiPaginationItem-root {
+		color: ${({ theme }) => theme.color.white};
+		font-size: 1.6rem;
+
+		&:hover {
+			background: rgba(255, 255, 255, 0.05);
+		}
+	}
+	.Mui-selected {
+		background: rgba(255, 255, 255, 0.1);
+	}
+	.MuiSvgIcon-root {
+		font-size: 2.2rem;
+	}
+	margin: 0 auto;
 `;

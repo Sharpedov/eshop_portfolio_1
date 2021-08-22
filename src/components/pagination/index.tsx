@@ -5,9 +5,10 @@ import styled from "styled-components";
 interface pageProps {
 	items;
 	perPage?: number;
+	selectedPage: number;
 }
 
-const Pagination = ({ items, perPage }: pageProps) => {
+const Pagination = ({ items, selectedPage, perPage }: pageProps) => {
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [itemsPerPage, setItemsPerPage] = useState<number>(perPage ?? 4);
 	const [pages, setPages] = useState([]);
@@ -18,7 +19,7 @@ const Pagination = ({ items, perPage }: pageProps) => {
 	const [maxPageNumberLimit, setMaxPageNumberLimit] = useState<number>(4);
 	const [minPageNumberLimit, setMinPageNumberLimit] = useState<number>(0);
 
-	const indexOfLastItem = currentPage * itemsPerPage;
+	const indexOfLastItem = selectedPage * itemsPerPage;
 	const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 	const currentItemsInPage = items?.slice(indexOfFirstItem, indexOfLastItem);
 
@@ -38,71 +39,71 @@ const Pagination = ({ items, perPage }: pageProps) => {
 		}
 	}, [items, itemsPerPage]);
 
-	const paginationClickHandler = useCallback(
-		(e) => {
-			setCurrentPage(Number(e.target.id));
-		},
-		[setCurrentPage]
-	);
+	// const paginationClickHandler = useCallback(
+	// 	(e) => {
+	// 		setCurrentPage(Number(e.target.id));
+	// 	},
+	// 	[setCurrentPage]
+	// );
 
-	const prevHandler = useCallback(() => {
-		setCurrentPage((prev) => (prev === 1 ? 1 : prev - 1));
+	// const prevHandler = useCallback(() => {
+	// 	setCurrentPage((prev) => (prev === 1 ? 1 : prev - 1));
 
-		if ((currentPage - 1) % pageNumberLimit === 0) {
-			setMaxPageNumberLimit((prev) => prev - pageNumberLimit);
-			setMinPageNumberLimit((prev) => prev - pageNumberLimit);
-		}
-	}, [
-		currentPage,
-		pageNumberLimit,
-		setMinPageNumberLimit,
-		setMaxPageNumberLimit,
-	]);
+	// 	if ((currentPage - 1) % pageNumberLimit === 0) {
+	// 		setMaxPageNumberLimit((prev) => prev - pageNumberLimit);
+	// 		setMinPageNumberLimit((prev) => prev - pageNumberLimit);
+	// 	}
+	// }, [
+	// 	currentPage,
+	// 	pageNumberLimit,
+	// 	setMinPageNumberLimit,
+	// 	setMaxPageNumberLimit,
+	// ]);
 
-	const handleNext = useCallback(() => {
-		setCurrentPage((prev) => (prev === pages.length ? pages.length : prev + 1));
+	// const handleNext = useCallback(() => {
+	// 	setCurrentPage((prev) => (prev === pages.length ? pages.length : prev + 1));
 
-		if (currentPage + 1 > maxPageNumberLimit) {
-			setMaxPageNumberLimit((prev) => prev + pageNumberLimit);
-			setMinPageNumberLimit((prev) => prev + pageNumberLimit);
-		}
-	}, [currentPage, pages, pageNumberLimit, maxPageNumberLimit]);
+	// 	if (currentPage + 1 > maxPageNumberLimit) {
+	// 		setMaxPageNumberLimit((prev) => prev + pageNumberLimit);
+	// 		setMinPageNumberLimit((prev) => prev + pageNumberLimit);
+	// 	}
+	// }, [currentPage, pages, pageNumberLimit, maxPageNumberLimit]);
 
-	const renderPagePagination = (
-		<Container>
-			<StyledButton onClick={prevHandler} disabled={currentPage === 1}>
-				Prev Page
-			</StyledButton>
-			<NumbersList>
-				{pageDecrementBtn && <span>...</span>}
-				{pages.map((num) => {
-					if (num < maxPageNumberLimit + 1 && num > minPageNumberLimit) {
-						return (
-							<NumberItem
-								key={num}
-								id={num}
-								onClick={paginationClickHandler}
-								isactive={currentPage === num}
-							>
-								{num}
-							</NumberItem>
-						);
-					}
-					return null;
-				})}
-				{pageIncrementBtn && <span>...</span>}
-			</NumbersList>
+	// const renderPagePagination = (
+	// 	<Container>
+	// 		<StyledButton onClick={prevHandler} disabled={currentPage === 1}>
+	// 			Prev Page
+	// 		</StyledButton>
+	// 		<NumbersList>
+	// 			{pageDecrementBtn && <span>...</span>}
+	// 			{pages.map((num) => {
+	// 				if (num < maxPageNumberLimit + 1 && num > minPageNumberLimit) {
+	// 					return (
+	// 						<NumberItem
+	// 							key={num}
+	// 							id={num}
+	// 							onClick={paginationClickHandler}
+	// 							isactive={currentPage === num}
+	// 						>
+	// 							{num}
+	// 						</NumberItem>
+	// 					);
+	// 				}
+	// 				return null;
+	// 			})}
+	// 			{pageIncrementBtn && <span>...</span>}
+	// 		</NumbersList>
 
-			<StyledButton
-				onClick={handleNext}
-				disabled={currentPage === pages.length}
-			>
-				Next Page
-			</StyledButton>
-		</Container>
-	);
+	// 		<StyledButton
+	// 			onClick={handleNext}
+	// 			disabled={currentPage === pages.length}
+	// 		>
+	// 			Next Page
+	// 		</StyledButton>
+	// 	</Container>
+	// );
 
-	return { currentItemsInPage, renderPagePagination };
+	return { currentItemsInPage, pagesCount: pages[pages.length - 1] };
 };
 
 export default Pagination;
