@@ -103,7 +103,7 @@ const ProductsTemplate = ({ gender }: pageProps) => {
 						isOpenFiltersSidebar={isOpenFiltersSidebar}
 						onCloseFiltersSidebar={() => setIsOpenFiltersSidebar(false)}
 					/>
-					<Body>
+					<Body id="productsBody">
 						<FiltersBar>
 							<ViewGrid>
 								<CustomIconButton

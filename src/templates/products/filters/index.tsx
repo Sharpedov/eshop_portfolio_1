@@ -5,6 +5,7 @@ import CustomButton from "src/components/customButton";
 import Sidebar from "src/components/sidebar";
 import styled, { keyframes } from "styled-components";
 import { filtersData } from "./filterData";
+import { scroller } from "react-scroll";
 
 interface pageProps {
 	isOpenFiltersSidebar: boolean;
@@ -49,6 +50,14 @@ const Filters = ({
 			undefined,
 			{ scroll: false }
 		);
+		scroller.scrollTo("productsBody", {
+			duration: 500,
+			delay: 50,
+			spy: true,
+			smooth: true,
+			offset: -60,
+		});
+
 		onCloseFiltersSidebar();
 	}, [
 		brands,
@@ -68,6 +77,14 @@ const Filters = ({
 			max: 9999,
 		});
 		push(pathname, undefined, { scroll: false });
+
+		scroller.scrollTo("productsBody", {
+			duration: 500,
+			delay: 50,
+			spy: true,
+			smooth: true,
+			offset: -60,
+		});
 	}, [push, pathname]);
 
 	const handleMinMaxPrice = (action: "min" | "max", e) => {
