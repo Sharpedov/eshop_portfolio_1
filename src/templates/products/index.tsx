@@ -14,6 +14,7 @@ import Filters from "./filters";
 import BannerProducts from "./bannerProducts";
 import SpinnerLoading from "src/components/loadingIndicators/spinnerLoading";
 import { useInfiniteQuery } from "src/hooks/useInfiniteQuery";
+import ErrorMessageBox from "src/components/errorMessageBox";
 
 interface pageProps {
 	gender: string;
@@ -153,25 +154,25 @@ const ProductsTemplate = ({ gender }: pageProps) => {
 							Sorted by <span>{sortBy.value}</span>
 						</SortByText>
 
-						<ProductsList gridView={gridView}>
-							{isLoadingInitialData ? (
-								[1, 2, 3, 4, 5, 6, 7, 8, 9].map((_, i) => (
-									<ProductSkeleton key={i} />
-								))
-							) : error ? (
-								<div>{error}</div>
-							) : (
-								fetchedData.map((product, i) =>
-									fetchedData.length === i + 1 ? (
-										<div key={product._id} ref={lastItemRef}>
-											<ProductCard data={product} />
-										</div>
-									) : (
-										<ProductCard key={product._id} data={product} />
-									)
-								)
-							)}
-						</ProductsList>
+						{error ? (
+							<ErrorMessageBox message={error.message} />
+						) : (
+							<ProductsList gridView={gridView}>
+								{isLoadingInitialData
+									? [1, 2, 3, 4, 5, 6, 7, 8, 9].map((_, i) => (
+											<ProductSkeleton key={i} />
+									  ))
+									: fetchedData.map((product, i) =>
+											fetchedData.length === i + 1 ? (
+												<div key={product._id} ref={lastItemRef}>
+													<ProductCard data={product} />
+												</div>
+											) : (
+												<ProductCard key={product._id} data={product} />
+											)
+									  )}
+							</ProductsList>
+						)}
 						{isLoadingMore && (
 							<Row>
 								<SpinnerLoading color="primary" />

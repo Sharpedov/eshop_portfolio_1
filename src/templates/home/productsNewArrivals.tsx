@@ -7,6 +7,7 @@ import useSWR from "swr";
 import { fetcher } from "src/utils/swrFetcher";
 import ProductTemplate from "src/components/productCard";
 import ProductSkeleton from "src/components/loadingSkeletons/productSkeleton";
+import ErrorMessageBox from "src/components/errorMessageBox";
 
 interface pageProps {}
 
@@ -59,40 +60,48 @@ const ProductsNewArrivals = ({}: pageProps) => {
 		<Container>
 			<Header>
 				<HeaderTitle>New Arrivals</HeaderTitle>
-				<HeaderControls>
-					<HeaderControlButton
-						aria-label="Previous products"
-						disabled={itemOffset >= 0}
-						onClick={() => handlePrevAndNext("prev")}
-					>
-						<NavigateBeforeRoundedIcon className="headerControl__icon" />
-					</HeaderControlButton>
-					<HeaderControlButton
-						aria-label="Next products"
-						disabled={itemOffset === lastSlide}
-						onClick={() => handlePrevAndNext("next")}
-					>
-						<NavigateNextRoundedIcon className="headerControl__icon" />
-					</HeaderControlButton>
-				</HeaderControls>
+				{!error && (
+					<HeaderControls>
+						<HeaderControlButton
+							aria-label="Previous products"
+							disabled={itemOffset >= 0}
+							onClick={() => handlePrevAndNext("prev")}
+						>
+							<NavigateBeforeRoundedIcon className="headerControl__icon" />
+						</HeaderControlButton>
+						<HeaderControlButton
+							aria-label="Next products"
+							disabled={itemOffset === lastSlide}
+							onClick={() => handlePrevAndNext("next")}
+						>
+							<NavigateNextRoundedIcon className="headerControl__icon" />
+						</HeaderControlButton>
+					</HeaderControls>
+				)}
 			</Header>
-			<Slider
-				style={{
-					transform: `translate3d(${itemOffset}px, 0px, 0px)`,
-				}}
-			>
-				{!productsFeed
-					? [1, 2, 3, 4, 5, 6, 7, 8].map((_, i) => (
-							<div ref={productRef} key={i}>
-								<ProductSkeleton />
-							</div>
-					  ))
-					: productsFeed.map((product, i) => (
-							<div ref={productRef} key={i}>
-								<ProductTemplate data={product} />
-							</div>
-					  ))}
-			</Slider>
+			{error ? (
+				<div style={{ minHeight: "25vh" }}>
+					<ErrorMessageBox message={error.message} />
+				</div>
+			) : (
+				<Slider
+					style={{
+						transform: `translate3d(${itemOffset}px, 0px, 0px)`,
+					}}
+				>
+					{!productsFeed
+						? [1, 2, 3, 4, 5, 6, 7, 8].map((_, i) => (
+								<div ref={productRef} key={i}>
+									<ProductSkeleton />
+								</div>
+						  ))
+						: productsFeed.map((product, i) => (
+								<div ref={productRef} key={i}>
+									<ProductTemplate data={product} />
+								</div>
+						  ))}
+				</Slider>
+			)}
 		</Container>
 	);
 };

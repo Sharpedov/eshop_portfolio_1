@@ -7,6 +7,7 @@ import ProductDescription from "./productDescription";
 import ProductGallery from "./productGallery";
 import ProductDetailsSkeleton from "src/components/loadingSkeletons/productDefatilsSkeleton";
 import UserComments from "./userComments";
+import ErrorMessageBox from "src/components/errorMessageBox";
 
 interface pageProps {
 	productData;
@@ -19,30 +20,33 @@ const ProductDetailsTemplate = ({ productData, productError }: pageProps) => {
 	return (
 		<Container>
 			<Wrapper>
-				{productError && <div>{productError.message}</div>}
-				<Body>
-					<ProductContent>
-						{!productData ? (
-							<ProductDetailsSkeleton />
-						) : (
-							<>
-								<ProductGallery
-									loading={!productData}
-									productDetails={productData}
-								/>
+				{productError ? (
+					<ErrorMessageBox message="Product does not exists" />
+				) : (
+					<Body>
+						<ProductContent>
+							{!productData ? (
+								<ProductDetailsSkeleton />
+							) : (
+								<>
+									<ProductGallery
+										loading={!productData}
+										productDetails={productData}
+									/>
 
-								<ProductDescription
-									loading={!productData}
-									productDetails={productData}
-								/>
-							</>
-						)}
-					</ProductContent>
-					<UserComments />
-					<BackPageBtn onClick={back}>
-						<ArrowBackIcon className="backPageBtn__icon" />
-					</BackPageBtn>
-				</Body>
+									<ProductDescription
+										loading={!productData}
+										productDetails={productData}
+									/>
+								</>
+							)}
+						</ProductContent>
+						<UserComments />
+					</Body>
+				)}
+				<BackPageBtn onClick={back}>
+					<ArrowBackIcon className="backPageBtn__icon" />
+				</BackPageBtn>
 			</Wrapper>
 		</Container>
 	);
@@ -62,7 +66,7 @@ const appear = keyframes`
 const Container = styled.div`
 	position: relative;
 	background: ${({ theme }) => theme.background.primary};
-	min-height: 100vh;
+	min-height: 50vh;
 `;
 
 const Wrapper = styled.div`
