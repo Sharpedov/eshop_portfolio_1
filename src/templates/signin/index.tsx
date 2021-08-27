@@ -186,15 +186,16 @@ const Title = styled.h2`
 const Panel = styled.div`
 	display: flex;
 	flex-direction: column;
+	width: 92vw;
+	max-width: 450px;
+	min-height: 300px;
+	border-radius: 3px;
+	background: rgba(0, 0, 0, 0.5);
+	box-shadow: ${({ theme }) => theme.boxShadow.primary};
 
 	@media ${({ theme }) => theme.breakpoints.lg} {
-		width: 92vw;
-		max-width: 450px;
-		min-height: 300px;
-		border-radius: 3px;
-		box-shadow: ${({ theme }) => theme.boxShadow.primary};
-		background: rgba(0, 0, 0, 0.5);
-		border-radius: 3px;
+		background: none;
+		box-shadow: none;
 	}
 `;
 
