@@ -1,5 +1,5 @@
 import { CardActionArea } from "@material-ui/core";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback } from "react";
 import styled, { keyframes } from "styled-components";
 import CustomIconButton from "../customIconButton";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
@@ -18,8 +18,8 @@ import { useAuth } from "../authProvider";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import moment from "moment";
 
+type RefType = HTMLDivElement;
 interface pageProps {
 	data;
 }
@@ -31,106 +31,108 @@ const mapState = (state) => ({
 	loadingFavouriteRemove: state.favourite.remove.loading,
 });
 
-const ProductCard = ({ data }: pageProps) => {
-	const { loading, isLogged } = useAuth();
-	const {
-		loadingCartAdd,
-		loadingCartRemove,
-		loadingFavouriteAdd,
-		loadingFavouriteRemove,
-	} = useSelector(mapState);
-	const { title, price, category, brand, images, _id } = data;
-	const dispatch = useDispatch();
-	const { isInCart, isInFavourite } = IsInCartOrFavourite({ id: data._id });
-	const router = useRouter();
+const ProductCard = React.forwardRef(
+	({ data }: pageProps, ref: React.ForwardedRef<RefType>) => {
+		const { loading, isLogged } = useAuth();
+		const {
+			loadingCartAdd,
+			loadingCartRemove,
+			loadingFavouriteAdd,
+			loadingFavouriteRemove,
+		} = useSelector(mapState);
+		const { title, price, brand, images, _id } = data;
+		const dispatch = useDispatch();
+		const { isInCart, isInFavourite } = IsInCartOrFavourite({ id: data._id });
+		const router = useRouter();
 
-	const addToCartHandler = useCallback(async () => {
-		if (isLogged) {
-			if (isInCart) {
-				return dispatch(removeFromCart({ product: data }));
+		const addToCartHandler = useCallback(async () => {
+			if (isLogged) {
+				if (isInCart) {
+					return dispatch(removeFromCart({ product: data }));
+				}
+				if (!isInCart) {
+					return dispatch(addToCart({ productId: _id, qty: 1 }));
+				}
 			}
-			if (!isInCart) {
-				return dispatch(addToCart({ productId: _id, qty: 1 }));
+
+			router.push(`/sign-in?redirect=${router.pathname}`);
+
+			return;
+		}, [data, dispatch, isInCart, _id, isLogged, router]);
+
+		const addToFavouriteHandler = useCallback(() => {
+			if (isLogged) {
+				if (isInFavourite) {
+					return dispatch(removeFromFavourite({ product: data }));
+				}
+				if (!isInFavourite) {
+					return dispatch(addToFavourite({ productId: data._id }));
+				}
 			}
-		}
 
-		router.push(`/sign-in?redirect=${router.pathname}`);
+			router.push(`/sign-in?redirect=${router.pathname}`);
 
-		return;
-	}, [data, dispatch, isInCart, _id, isLogged, router]);
+			return;
+		}, [dispatch, isInFavourite, data, isLogged, router]);
 
-	const addToFavouriteHandler = useCallback(() => {
-		if (isLogged) {
-			if (isInFavourite) {
-				return dispatch(removeFromFavourite({ product: data }));
-			}
-			if (!isInFavourite) {
-				return dispatch(addToFavourite({ productId: data._id }));
-			}
-		}
-
-		router.push(`/sign-in?redirect=${router.pathname}`);
-
-		return;
-	}, [dispatch, isInFavourite, data, isLogged, router]);
-
-	return (
-		<Card component={motion.div} layout>
-			<Link passHref href={`/product/${_id}`}>
-				<ImageWrapper>
-					<a href={`/product/${_id}`}>
-						<Image
-							draggable={false}
-							src={images[0]}
-							alt={title}
-							layout="fill"
-							objectFit="cover"
-						/>
-					</a>
-				</ImageWrapper>
-			</Link>
-			<Body>
-				<Content>
-					<Link passHref href={`/product/${_id}`}>
+		return (
+			<Card component={motion.div} layout ref={ref}>
+				<Link passHref href={`/product/${_id}`}>
+					<ImageWrapper>
 						<a href={`/product/${_id}`}>
-							<Title>{title}</Title>
+							<Image
+								draggable={false}
+								src={images[0]}
+								alt={title}
+								layout="fill"
+								objectFit="cover"
+							/>
 						</a>
-					</Link>
-					<BrandAndPriceRow>
-						<Brand>
-							<span>{`${brand}`}</span>
-						</Brand>
-						<Price>${price.$numberDecimal ?? price}</Price>
-					</BrandAndPriceRow>
-				</Content>
-				<Actions>
-					<CustomIconButton
-						onClick={addToFavouriteHandler}
-						ariaLabel={
-							isInFavourite
-								? "Remove product from favourite list"
-								: "Add product to favourite list"
-						}
-						size="medium"
-						Icon={isInFavourite ? FavoriteIcon : FavoriteBorderIcon}
-						active={isInFavourite}
-						loading={loadingFavouriteAdd || loadingFavouriteRemove || loading}
-					/>
-					<CustomIconButton
-						onClick={addToCartHandler}
-						ariaLabel={
-							isInCart ? "Remove product from cart" : "Add product to cart"
-						}
-						size="medium"
-						Icon={isInCart ? RemoveShoppingCartIcon : AddShoppingCartIcon}
-						active={isInCart}
-						loading={loadingCartAdd || loadingCartRemove || loading}
-					/>
-				</Actions>
-			</Body>
-		</Card>
-	);
-};
+					</ImageWrapper>
+				</Link>
+				<Body>
+					<Content>
+						<Link passHref href={`/product/${_id}`}>
+							<a href={`/product/${_id}`}>
+								<Title>{title}</Title>
+							</a>
+						</Link>
+						<BrandAndPriceRow>
+							<Brand>
+								<span>{`${brand}`}</span>
+							</Brand>
+							<Price>${price.$numberDecimal ?? price}</Price>
+						</BrandAndPriceRow>
+					</Content>
+					<Actions>
+						<CustomIconButton
+							onClick={addToFavouriteHandler}
+							ariaLabel={
+								isInFavourite
+									? "Remove product from favourite list"
+									: "Add product to favourite list"
+							}
+							size="medium"
+							Icon={isInFavourite ? FavoriteIcon : FavoriteBorderIcon}
+							active={isInFavourite}
+							loading={loadingFavouriteAdd || loadingFavouriteRemove || loading}
+						/>
+						<CustomIconButton
+							onClick={addToCartHandler}
+							ariaLabel={
+								isInCart ? "Remove product from cart" : "Add product to cart"
+							}
+							size="medium"
+							Icon={isInCart ? RemoveShoppingCartIcon : AddShoppingCartIcon}
+							active={isInCart}
+							loading={loadingCartAdd || loadingCartRemove || loading}
+						/>
+					</Actions>
+				</Body>
+			</Card>
+		);
+	}
+);
 
 export default ProductCard;
 

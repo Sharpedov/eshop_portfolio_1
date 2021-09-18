@@ -15,6 +15,7 @@ import BannerProducts from "./bannerProducts";
 import SpinnerLoading from "src/components/loadingIndicators/spinnerLoading";
 import { useInfiniteQuery } from "src/hooks/useInfiniteQuery";
 import ErrorMessageBox from "src/components/errorMessageBox";
+import { AnimateSharedLayout } from "framer-motion";
 
 interface pageProps {
 	gender: string;
@@ -157,28 +158,32 @@ const ProductsTemplate = ({ gender }: pageProps) => {
 						{error ? (
 							<ErrorMessageBox message={error.message} />
 						) : (
-							<ProductsList gridView={gridView}>
-								{isLoadingInitialData
-									? [1, 2, 3, 4, 5, 6, 7, 8, 9].map((_, i) => (
-											<ProductSkeleton key={i} />
-									  ))
-									: fetchedData.map((product, i) =>
-											fetchedData.length === i + 1 ? (
-												<div key={product._id} ref={lastItemRef}>
-													<ProductCard data={product} />
-												</div>
-											) : (
-												<ProductCard key={product._id} data={product} />
-											)
-									  )}
-							</ProductsList>
+							<AnimateSharedLayout>
+								<ProductsList gridView={gridView}>
+									{isLoadingInitialData
+										? [1, 2, 3, 4, 5, 6, 7, 8, 9].map((_, i) => (
+												<ProductSkeleton key={i} />
+										  ))
+										: fetchedData.map((product, i) => (
+												<ProductCard
+													key={product._id}
+													data={product}
+													ref={lastItemRef}
+												/>
+										  ))}
+								</ProductsList>
+							</AnimateSharedLayout>
 						)}
 						{isLoadingMore && (
 							<Row>
 								<SpinnerLoading color="primary" />
 							</Row>
 						)}
-						{hasNextPage && <Row>No more results</Row>}
+						{isEmpty ? (
+							<Row>No products</Row>
+						) : (
+							hasNextPage && <Row>No more posts</Row>
+						)}
 					</Body>
 				</GridContainer>
 			</Wrapper>
