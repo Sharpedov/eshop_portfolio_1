@@ -9,7 +9,7 @@ import ProductCard from "src/components/productCard";
 import { clearFavouriteList } from "src/store/slices/favouriteSlice";
 import SpinnerLoading from "src/components/loadingIndicators/spinnerLoading";
 import { useAuth } from "src/components/authProvider";
-import { motion } from "framer-motion";
+import { AnimateSharedLayout, motion } from "framer-motion";
 
 interface pageProps {}
 
@@ -56,17 +56,19 @@ const FavouriteTemplate = ({}: pageProps) => {
 								/>
 							</EmptyFavouriteContainer>
 						) : (
-							<FavouriteProductsList
-								animate={{
-									scale: loadingFavouriteClear ? 0.97 : 1,
-									opacity: loadingFavouriteClear ? 0.6 : 1,
-								}}
-								layout
-							>
-								{favList.map((product) => (
-									<ProductCard key={product._id} data={product} />
-								))}
-							</FavouriteProductsList>
+							<AnimateSharedLayout>
+								<FavouriteProductsList
+									animate={{
+										scale: loadingFavouriteClear ? 0.97 : 1,
+										opacity: loadingFavouriteClear ? 0.6 : 1,
+									}}
+									layout
+								>
+									{favList.map((product) => (
+										<ProductCard key={product._id} data={product} />
+									))}
+								</FavouriteProductsList>
+							</AnimateSharedLayout>
 						)}
 					</>
 				)}

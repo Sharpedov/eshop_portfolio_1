@@ -11,7 +11,7 @@ import { useAuth } from "../authProvider";
 import CartProduct from "./cartProduct";
 import { createCheckoutSession } from "src/store/slices/checkoutSlice";
 import { toggleCart } from "src/store/slices/cartSlice";
-import { motion } from "framer-motion";
+import { AnimateSharedLayout, motion } from "framer-motion";
 
 interface pageProps {}
 
@@ -88,20 +88,22 @@ const CartSidebar = ({}: pageProps) => {
 								<SpinnerLoading color="primary" />
 							</LoadingOverlay>
 						)}
-						<ProductsList
-							variants={productsListVariants}
-							initial="hidden"
-							animate="show"
-							layout
-						>
-							{cart.map((product) => (
-								<CartProduct
-									key={product._id}
-									onClose={toggleCartHandler}
-									product={product}
-								/>
-							))}
-						</ProductsList>
+						<AnimateSharedLayout>
+							<ProductsList
+								variants={productsListVariants}
+								initial="hidden"
+								animate="show"
+								layout
+							>
+								{cart.map((product) => (
+									<CartProduct
+										key={product._id}
+										onClose={toggleCartHandler}
+										product={product}
+									/>
+								))}
+							</ProductsList>
+						</AnimateSharedLayout>
 						<SummaryBody>
 							<PriceDetailsList>
 								<PriceDetailItem>
