@@ -29,10 +29,6 @@ async function dbConnect() {
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
 			bufferCommands: false,
-			bufferMaxEntries: 0,
-			useFindAndModify: false,
-			useCreateIndex: true,
-			writeConcern: { w: "majority", wtimeout: 2500 },
 		};
 
 		cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
