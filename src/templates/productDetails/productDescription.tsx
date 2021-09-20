@@ -20,7 +20,6 @@ import { useRouter } from "next/router";
 
 interface pageProps {
 	productDetails;
-	loading: boolean;
 }
 
 const TabsData = [
@@ -44,7 +43,7 @@ const mapState = (state) => ({
 	loadingFavouriteRemove: state.favourite.remove.loading,
 });
 
-const ProductDescription = ({ productDetails, loading }: pageProps) => {
+const ProductDescription = ({ productDetails }: pageProps) => {
 	const {
 		loadingCartAdd,
 		loadingCartRemove,

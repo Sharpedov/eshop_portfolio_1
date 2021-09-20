@@ -8,10 +8,9 @@ import Image from "next/image";
 
 interface pageProps {
 	productDetails;
-	loading: boolean;
 }
 
-const ProductGallery = ({ productDetails, loading }: pageProps) => {
+const ProductGallery = ({ productDetails }: pageProps) => {
 	const [selectedImage, setSelectedImage] = useState<number>(0);
 	const imagesLength = productDetails?.images.length;
 	const [offsetY, setOffsetY] = useState<number>(0);

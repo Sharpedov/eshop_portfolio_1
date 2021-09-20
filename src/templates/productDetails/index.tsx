@@ -11,39 +11,22 @@ import ErrorMessageBox from "src/components/errorMessageBox";
 
 interface pageProps {
 	productData;
-	productError;
 }
 
-const ProductDetailsTemplate = ({ productData, productError }: pageProps) => {
+const ProductDetailsTemplate = ({ productData }: pageProps) => {
 	const { back } = useRouter();
 
 	return (
 		<Container>
 			<Wrapper>
-				{productError ? (
-					<ErrorMessageBox message="Product does not exists" />
-				) : (
-					<Body>
-						<ProductContent>
-							{!productData ? (
-								<ProductDetailsSkeleton />
-							) : (
-								<>
-									<ProductGallery
-										loading={!productData}
-										productDetails={productData}
-									/>
+				<Body>
+					<ProductContent>
+						<ProductGallery productDetails={productData} />
+						<ProductDescription productDetails={productData} />
+					</ProductContent>
+					<UserComments />
+				</Body>
 
-									<ProductDescription
-										loading={!productData}
-										productDetails={productData}
-									/>
-								</>
-							)}
-						</ProductContent>
-						<UserComments />
-					</Body>
-				)}
 				<BackPageBtn onClick={back}>
 					<ArrowBackIcon className="backPageBtn__icon" />
 				</BackPageBtn>
