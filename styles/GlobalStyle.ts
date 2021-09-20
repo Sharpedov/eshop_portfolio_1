@@ -12,6 +12,10 @@ const GlobalStyle = createGlobalStyle`
         font-size: 62.5%;
     }
 
+    #nprogress .bar {
+  background: ${({ theme }) => theme.color.primary};
+}
+
     body {
         font-family: ${({ theme }) => theme.fonts.main};
         font-size: 1.6rem;

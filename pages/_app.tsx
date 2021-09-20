@@ -11,6 +11,15 @@ import GlobalLayout from "src/components/globalLayout";
 import AuthProvider from "src/components/authProvider";
 import { DefaultSeo } from "next-seo";
 import { useRouter } from "next/router";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
+import Router from "next/router";
+
+Router.events.on("routeChangeStart", () => NProgress.start());
+Router.events.on("routeChangeComplete", () => NProgress.done());
+Router.events.on("routeChangeError", () => NProgress.done());
+
+NProgress.configure({ showSpinner: false });
 
 const meta = {
 	title: "Eshop",
