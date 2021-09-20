@@ -1,15 +1,8 @@
 import Head from "next/head";
 import React from "react";
 import SigninTemplate from "src/templates/signin";
-import { useAuth } from "src/components/authProvider";
-import { useRouter } from "next/router";
 
 export default function SignIn() {
-	const { redirectIfLogged } = useAuth();
-	const router = useRouter();
-
-	redirectIfLogged(`${router.query.redirect ?? "/"}`);
-
 	return (
 		<>
 			<Head>
@@ -18,4 +11,15 @@ export default function SignIn() {
 			<SigninTemplate />
 		</>
 	);
+}
+
+export async function getServerSideProps(context) {
+	const { req, res } = context;
+
+	if (req.cookies.auth_refresh) {
+		res.writeHead(302, { Location: "/" });
+		res.end();
+	}
+
+	return { props: {} };
 }

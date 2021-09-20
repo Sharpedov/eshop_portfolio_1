@@ -23,8 +23,6 @@ const initialState = {
 	productsWomen: [],
 	loading: true,
 	error: null,
-	// lastDocMen: null,
-	// lastDocWomen: null,
 	category: null,
 	filters: {
 		brand: [],

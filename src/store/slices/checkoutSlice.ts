@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
+import { authPoster } from "src/utils/authAxiosMethods";
 import { clearCart } from "./cartSlice";
 import { addNotification } from "./notificationSlice";
 
@@ -18,17 +19,13 @@ export const createCheckoutSession = createAsyncThunk(
 			);
 			const stripe = await stripePromise;
 
-			const checkoutSession = await axios.post(
-				"/api/checkout/session",
-				{
-					items: cartItems,
-					email: email,
-				},
-				{ headers: { "Content-Type": "application/json" } }
-			);
+			const checkoutSession: any = await authPoster("/api/checkout/session", {
+				items: cartItems,
+				email: email,
+			});
 
 			await stripe.redirectToCheckout({
-				sessionId: checkoutSession.data.id,
+				sessionId: checkoutSession.id,
 			});
 
 			dispatch(clearCart());

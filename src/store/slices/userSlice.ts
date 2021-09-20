@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import { authPatcher } from "src/utils/authAxiosMethods";
 import { getLoggedUser } from "./authSlice";
 import { addNotification } from "./notificationSlice";
 
@@ -25,28 +25,18 @@ interface IChangeUserPassword {
 	closeModal: () => void;
 }
 
-const axiosProgessOption = {
-	onUploadProgress: (progressEvent) => {
-		const { loaded, total } = progressEvent;
-		const percentage = Math.floor(((loaded / 1000) * 100) / (total / 1000));
-		console.log("progressEvent", percentage);
-	},
-};
-
 export const changeUserAvatar = createAsyncThunk(
 	"user/changeUserAvatar",
 	async ({ email, newAvatar }: IChangeUserAvatar, { dispatch }) => {
 		try {
-			const res = await axios
-				.patch(`/api/users/changeAvatar`, {
-					email,
-					avatar: newAvatar,
-				})
-				.then((res) => res.data);
+			await authPatcher(`/api/users/changeAvatar`, {
+				email,
+				avatar: newAvatar,
+			});
 
 			dispatch(
 				addNotification({
-					message: res.message,
+					message: "Avatar has been successfully changed",
 				})
 			);
 
@@ -68,22 +58,16 @@ export const changeUserData = createAsyncThunk(
 	"user/changeUserData",
 	async ({ email, username, closeModal }: IChangeUserData, { dispatch }) => {
 		try {
-			const res = await axios
-				.patch(
-					`/api/users/changeData`,
-					{
-						email,
-						username,
-					},
-					axiosProgessOption
-				)
-				.then((res) => res.data);
+			await authPatcher(`/api/users/changeData`, {
+				email,
+				username,
+			});
 
 			closeModal();
 
 			dispatch(
 				addNotification({
-					message: res.message,
+					message: "User data has been successfully changed",
 				})
 			);
 
@@ -109,19 +93,17 @@ export const changeUserEmail = createAsyncThunk(
 		{ dispatch }
 	) => {
 		try {
-			const res = await axios
-				.patch(`/api/users/changeEmail`, {
-					email,
-					newEmail,
-					password,
-				})
-				.then((res) => res.data);
+			await authPatcher(`/api/users/changeEmail`, {
+				email,
+				newEmail,
+				password,
+			});
 
 			closeModal();
 
 			dispatch(
 				addNotification({
-					message: res.message,
+					message: "Email has been successfully changed",
 				})
 			);
 
@@ -147,19 +129,17 @@ export const changeUserPassword = createAsyncThunk(
 		{ dispatch }
 	) => {
 		try {
-			const res = await axios
-				.patch(`/api/users/changePassword`, {
-					email,
-					password: currentPassword,
-					newPassword,
-				})
-				.then((res) => res.data);
+			await authPatcher(`/api/users/changePassword`, {
+				email,
+				password: currentPassword,
+				newPassword,
+			});
 
 			closeModal();
 
 			dispatch(
 				addNotification({
-					message: res.message,
+					message: "Password has been successfully changed",
 				})
 			);
 

@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import router from "next/router";
+import { authFetcher, authPoster } from "src/utils/authAxiosMethods";
 import { addNotification } from "./notificationSlice";
 
 interface ISignUp {
@@ -15,18 +16,10 @@ interface ILogin {
 }
 
 export const getLoggedUser = createAsyncThunk(
-	"auth/fetchLoggedUser",
+	"auth/getLoggedUser",
 	async () => {
 		try {
-			const res = await axios
-				.get("/api/auth/getAuthCookie")
-				.then((res) => res.data);
-
-			if (res.success === false) return {};
-
-			const user = await axios
-				.get(`/api/users?id=${res.data._id}`)
-				.then((res) => res.data.user);
+			const user = await authFetcher("/api/auth/getLoggedUser");
 
 			return user;
 		} catch (error) {
@@ -74,11 +67,11 @@ export const login = createAsyncThunk(
 	"auth/login",
 	async ({ email, password }: ILogin, { dispatch }) => {
 		try {
-			const data = await axios
+			await axios
 				.post("/api/auth/login", { email, password })
-				.then((res) => res.data.user);
+				.then((res) => res.data);
 
-			router.push(`${router.query.redirect ?? "/"}`);
+			await dispatch(getLoggedUser());
 
 			dispatch(
 				addNotification({
@@ -86,14 +79,11 @@ export const login = createAsyncThunk(
 				})
 			);
 
-			return data;
+			router.push((router.query.redirect as string) ?? "/");
+
+			return;
 		} catch (error) {
-			dispatch(
-				addNotification({
-					type: "error",
-					message: error.response.data.message,
-				})
-			);
+			dispatch(addNotification({ message: error.response.data.message }));
 			throw error.response.data.message;
 		}
 	}
@@ -101,7 +91,7 @@ export const login = createAsyncThunk(
 
 export const logout = createAsyncThunk("auth/logout", async () => {
 	try {
-		await axios.post("/api/auth/logout").then((res) => res.data);
+		await authPoster("/api/auth/logout");
 
 		router.reload();
 	} catch (error) {
@@ -110,8 +100,9 @@ export const logout = createAsyncThunk("auth/logout", async () => {
 });
 
 const initialState = {
-	user: {},
+	user: null,
 	loading: true,
+	error: null,
 	login: {
 		loading: false,
 		error: null,
@@ -133,14 +124,15 @@ const authSlice = createSlice({
 		//// fetch logged user
 		builder.addCase(getLoggedUser.pending, (state) => {
 			state.loading = true;
-			state.user = state.user;
+			state.error = null;
 		});
 		builder.addCase(getLoggedUser.fulfilled, (state, action) => {
 			state.user = action.payload;
 			state.loading = false;
 		});
-		builder.addCase(getLoggedUser.rejected, (state) => {
+		builder.addCase(getLoggedUser.rejected, (state, action) => {
 			state.loading = false;
+			state.error = action.error.message;
 		});
 		//// login
 		builder.addCase(login.pending, (state) => {
@@ -148,7 +140,6 @@ const authSlice = createSlice({
 			state.login.error = null;
 		});
 		builder.addCase(login.fulfilled, (state, action) => {
-			state.user = action.payload;
 			state.login.loading = false;
 		});
 		builder.addCase(login.rejected, (state, action) => {

@@ -1,8 +1,8 @@
 import dbConnect from "mongodb/dbConnect";
+import { authMiddleware } from "mongodb/middlewares/authMiddleware";
 import User from "mongodb/Models/User";
-import { authenticated } from "pages/api/authenticated";
 
-export default authenticated(async (req, res) => {
+export default authMiddleware(async (req, res) => {
 	const { method, body } = req;
 	await dbConnect();
 
@@ -18,7 +18,7 @@ export default authenticated(async (req, res) => {
 					);
 
 					if (!updatedUser) {
-						return res.status(401).json({
+						return res.status(404).json({
 							message: "Invalid user",
 						});
 					}

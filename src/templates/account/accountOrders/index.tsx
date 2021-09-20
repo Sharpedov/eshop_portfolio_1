@@ -61,7 +61,9 @@ const AccountOrdersContent = ({}: pageProps) => {
 	return (
 		<>
 			<Body id="accountOrdersBody">
-				{!orders ? (
+				{error ? (
+					<div>{error.message}</div>
+				) : !orders ? (
 					<DefaultLoading marginTop={90} marginBottom={60} />
 				) : orders.length === 0 ? (
 					<div style={{ margin: "auto" }}>

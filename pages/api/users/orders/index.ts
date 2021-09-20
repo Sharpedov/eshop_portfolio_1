@@ -1,8 +1,8 @@
 import dbConnect from "mongodb/dbConnect";
+import { authMiddleware } from "mongodb/middlewares/authMiddleware";
 import User from "mongodb/Models/User";
-import { authenticated } from "pages/api/authenticated";
 
-export default authenticated(async (req, res) => {
+export default authMiddleware(async (req, res) => {
 	const {
 		method,
 		query: { email },

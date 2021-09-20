@@ -1,13 +1,8 @@
 import Head from "next/head";
 import React from "react";
-import { useAuth } from "src/components/authProvider";
 import CreateAccountTemplate from "src/templates/createAccount";
 
 export default function CreateAccount() {
-	const { redirectIfLogged } = useAuth();
-
-	redirectIfLogged("/");
-
 	return (
 		<>
 			<Head>
@@ -16,4 +11,15 @@ export default function CreateAccount() {
 			<CreateAccountTemplate />
 		</>
 	);
+}
+
+export async function getServerSideProps(context) {
+	const { req, res } = context;
+
+	if (req.cookies.auth_refresh) {
+		res.writeHead(302, { Location: "/" });
+		res.end();
+	}
+
+	return { props: {} };
 }

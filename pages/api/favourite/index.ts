@@ -1,9 +1,9 @@
 import dbConnect from "mongodb/dbConnect";
+import { authMiddleware } from "mongodb/middlewares/authMiddleware";
 import User from "mongodb/Models/User";
-import { authenticated } from "../authenticated";
 
-export default authenticated(async (req, res) => {
-	const { method, body, query } = req;
+export default authMiddleware(async (req, res) => {
+	const { method, body } = req;
 	await dbConnect();
 
 	switch (method) {
@@ -24,7 +24,7 @@ export default authenticated(async (req, res) => {
 
 					if (!user)
 						return res
-							.status(401)
+							.status(404)
 							.json({ success: false, message: "Something went wrong" });
 
 					res.status(200).json({ success: true });

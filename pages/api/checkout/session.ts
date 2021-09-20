@@ -1,9 +1,9 @@
+import { authMiddleware } from "mongodb/middlewares/authMiddleware";
 import { formatAmountForStripe } from "src/utils/stripeHelpers";
-import { authenticated } from "../authenticated";
 
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
-export default authenticated(async (req, res) => {
+export default authMiddleware(async (req, res) => {
 	const { items, email } = req.body;
 
 	if (req.method === "POST") {

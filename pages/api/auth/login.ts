@@ -1,56 +1,40 @@
+import { compare } from "bcryptjs";
 import dbConnect from "mongodb/dbConnect";
 import User from "mongodb/Models/User";
-import { compare } from "bcryptjs";
-import cookie from "cookie";
-import { sign } from "jsonwebtoken";
+import { buildAuthTokens, setAuthTokens } from "mongodb/utils/authTokenUtils";
 
 export default async function handler(req, res) {
 	const { method, body } = req;
+
 	await dbConnect();
 
 	switch (method) {
-		case "POST":
-			{
-				try {
-					const { email, password } = body;
-					const user = await User.findOne({ email }).select("+password");
+		case "POST": {
+			try {
+				const { email, password } = body;
+				const user = await User.findOne({ email }).select("+password");
 
-					if (!user)
-						return res.status(401).json({
-							message: "Invalid email or password",
-						});
-
-					const isMatch = await compare(password, user.password);
-
-					if (!isMatch)
-						return res.status(401).json({
-							message: "Invalid email or password",
-						});
-
-					const claims = {
-						_id: user._id,
-					};
-					const jwt = sign(claims, process.env.LOGIN_SECRET, {
-						expiresIn: "30d",
+				if (!user)
+					return res.status(404).json({
+						message: "Invalid email or password",
 					});
 
-					res.setHeader(
-						"Set-Cookie",
-						cookie.serialize("auth", jwt, {
-							httpOnly: true,
-							secure: process.env.NODE_ENV !== "development",
-							sameSite: "strict",
-							maxAge: 3600 * 24 * 30,
-							path: "/",
-						})
-					);
+				const isMatch = await compare(password, user.password);
 
-					res.status(201).json({ success: true, user });
-				} catch (error) {
-					res.status(400).json({ success: false, message: error });
-				}
+				if (!isMatch)
+					return res.status(404).json({
+						message: "Invalid email or password",
+					});
+
+				const { accessToken, refreshToken } = buildAuthTokens(user);
+				setAuthTokens(res, accessToken, refreshToken);
+
+				res.status(200).json({ success: true });
+			} catch (error) {
+				res.status(400).json({ success: false, message: error });
 			}
 			break;
+		}
 		default:
 			res.status(400).json({ success: false });
 			break;

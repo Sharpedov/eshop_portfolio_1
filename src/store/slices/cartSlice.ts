@@ -1,11 +1,6 @@
-import {
-	createAsyncThunk,
-	createDraftSafeSelector,
-	createSelector,
-	createSlice,
-	PayloadAction,
-} from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
+import { authPatcher } from "src/utils/authAxiosMethods";
 import { addNotification } from "./notificationSlice";
 
 interface IAddProductToCart {
@@ -45,7 +40,7 @@ export const addToCart = createAsyncThunk(
 				shoppingCart = [{ ...product, qty }, ...cart.items];
 			}
 
-			await axios.patch("/api/cart", {
+			await authPatcher("/api/cart", {
 				email: auth.user.email,
 				shoppingCart,
 			});
@@ -80,7 +75,7 @@ export const removeFromCart = createAsyncThunk(
 
 			shoppingCart = shoppingCart.filter((item) => item._id !== product._id);
 
-			await axios.patch("/api/cart", {
+			await authPatcher("/api/cart", {
 				email: auth.user.email,
 				shoppingCart,
 			});
@@ -120,7 +115,7 @@ export const changeQtyItem = createAsyncThunk(
 				item._id === specificItem._id ? { ...specificItem, qty } : item
 			);
 
-			await axios.patch("/api/cart", {
+			await authPatcher("/api/cart", {
 				email: auth.user.email,
 				shoppingCart,
 			});

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { authPatcher } from "src/utils/authAxiosMethods";
 import { addNotification } from "./notificationSlice";
 
 interface IAddToFavourite {
@@ -33,9 +34,10 @@ export const addToFavourite = createAsyncThunk(
 				favouriteList = [product, ...favouriteList];
 			}
 
-			await axios
-				.patch(`/api/favourite`, { email: auth.user.email, favouriteList })
-				.then((res) => res.data.data);
+			await authPatcher(`/api/favourite`, {
+				email: auth.user.email,
+				favouriteList,
+			});
 
 			dispatch(
 				addNotification({
@@ -66,9 +68,10 @@ export const removeFromFavourite = createAsyncThunk(
 
 			favouriteList = favouriteList.filter((item) => item._id !== product._id);
 
-			await axios
-				.patch(`/api/favourite`, { email: auth.user.email, favouriteList })
-				.then((res) => res.data.data);
+			await authPatcher(`/api/favourite`, {
+				email: auth.user.email,
+				favouriteList,
+			});
 
 			dispatch(
 				addNotification({
@@ -98,9 +101,10 @@ export const clearFavouriteList = createAsyncThunk(
 		try {
 			let favouriteList = [];
 
-			await axios
-				.patch(`/api/favourite`, { email: auth.user.email, favouriteList })
-				.then((res) => res.data.data);
+			await authPatcher(`/api/favourite`, {
+				email: auth.user.email,
+				favouriteList,
+			});
 
 			dispatch(
 				addNotification({

@@ -1,6 +1,5 @@
 import Head from "next/head";
 import React from "react";
-import cookie from "cookie";
 import AccountTemplate from "src/templates/account";
 
 export default function AccountPage({}) {
@@ -16,9 +15,8 @@ export default function AccountPage({}) {
 
 export async function getServerSideProps(context) {
 	const { req, res } = context;
-	const cookies = cookie.parse(req.headers.cookie || "");
 
-	if (!cookies.auth) {
+	if (!req.cookies.auth_refresh) {
 		res.writeHead(302, { Location: "/sign-in" });
 		res.end();
 	}

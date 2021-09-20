@@ -20,23 +20,24 @@ const AuthContext = React.createContext(null);
 export const useAuth = () => useContext(AuthContext);
 
 const mapState = (state) => ({
-	userState: state.auth.user,
+	authUser: state.auth.user,
 	authLoading: state.auth.loading,
+	authError: state.auth.error,
 });
 
 const AuthProvider = ({ children }: pageProps) => {
-	const { userState, authLoading } = useSelector(mapState);
-	const [user, setUser] = useState(userState);
+	const { authUser, authLoading, authError } = useSelector(mapState);
+	const [user, setUser] = useState(authUser);
 	const [loading, setLoading] = useState<boolean>(true);
 	const [isLogged, setIsLogged] = useState<boolean>(false);
 	const dispatch = useDispatch();
 	const router = useRouter();
 
 	useEffect(() => {
-		setIsLogged(Object.keys(userState).length !== 0 ? true : false);
-		setUser(userState ? userState : {});
+		setIsLogged(authUser && !authLoading && !authError ? true : false);
+		setUser(authUser ?? null);
 		setLoading(authLoading);
-	}, [authLoading, userState]);
+	}, [authLoading, authUser, authError]);
 
 	useEffect(() => {
 		dispatch(getLoggedUser());

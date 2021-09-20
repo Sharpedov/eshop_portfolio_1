@@ -1,9 +1,9 @@
 import dbConnect from "mongodb/dbConnect";
 import User from "mongodb/Models/User";
 import { compare } from "bcryptjs";
-import { authenticated } from "pages/api/authenticated";
+import { authMiddleware } from "mongodb/middlewares/authMiddleware";
 
-export default authenticated(async (req, res) => {
+export default authMiddleware(async (req, res) => {
 	const { method, body } = req;
 	await dbConnect();
 
@@ -16,14 +16,14 @@ export default authenticated(async (req, res) => {
 					const existingEmail = await User.findOne({ email: newEmail });
 
 					if (!user || existingEmail)
-						return res.status(401).json({
+						return res.status(404).json({
 							message: "Invalid email",
 						});
 
 					const isMatch = await compare(password, user.password);
 
 					if (!isMatch)
-						return res.status(401).json({
+						return res.status(404).json({
 							message: "Invalid password",
 						});
 
