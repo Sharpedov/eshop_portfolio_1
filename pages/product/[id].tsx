@@ -1,5 +1,4 @@
-import axios from "axios";
-import dbConnect from "mongodb/dbConnect";
+import { GetServerSideProps } from "next";
 import Head from "next/head";
 import React from "react";
 import ProductDetailsTemplate from "src/templates/productDetails";
@@ -15,11 +14,10 @@ export default function ProductPage({ data }) {
 	);
 }
 
-export async function getServerSideProps(context) {
+export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { params } = context;
-	const { data } = await axios
-		.get(`${process.env.HOST}/api/products/${params.id}`)
-		.then((res) => res.data);
+	const response = await fetch(`${process.env.HOST}/api/products/${params.id}`);
+	const { data } = await response.json();
 
 	if (!data) {
 		return {
@@ -28,4 +26,4 @@ export async function getServerSideProps(context) {
 	}
 
 	return { props: { data } };
-}
+};
