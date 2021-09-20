@@ -31,8 +31,8 @@ const TabsData = [
 ];
 
 const mapState = (state) => ({
-	cartLength: state.cart.items.reduce((acc, item) => acc + item.qty, 0),
-	favouriteLength: state.favourite.items.length,
+	cartLength: state.cart?.items?.reduce((acc, item) => acc + item.qty, 0),
+	favouriteLength: state.favourite?.items?.length,
 });
 
 const AccountTemplate = ({}: pageProps) => {

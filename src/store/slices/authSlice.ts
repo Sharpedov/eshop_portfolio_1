@@ -159,9 +159,8 @@ const authSlice = createSlice({
 			state.signup.error = action.error.message;
 		});
 		//// logout
-		builder.addCase(logout.fulfilled, (state, action) => {
-			resetAuthState();
-			state.user = {};
+		builder.addCase(logout.fulfilled, (state) => {
+			state.user = null;
 		});
 	},
 });

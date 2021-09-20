@@ -44,11 +44,11 @@ const AuthProvider = ({ children }: pageProps) => {
 	}, [dispatch]);
 
 	useEffect(() => {
-		if (isLogged) {
+		if (!!user) {
 			dispatch(setShoppingCart(user.shoppingCart));
 			dispatch(setFavouriteList(user.favouriteList));
 		}
-	}, [isLogged, user, dispatch]);
+	}, [user, dispatch]);
 
 	const redirectIfLogged = useCallback(
 		(href: string) => {
