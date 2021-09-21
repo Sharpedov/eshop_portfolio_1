@@ -1,10 +1,11 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import CustomButton from "src/components/customButton";
 import styled from "styled-components";
 import EditIcon from "@material-ui/icons/Edit";
 import { Avatar, ButtonBase } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { changeUserAvatar } from "src/store/slices/userSlice";
+import { uploadFile } from "src/utils/uploadFile";
 
 interface pageProps {
 	user;
@@ -17,53 +18,68 @@ const mapState = (state) => ({
 const AvatarEditRow = ({ user }: pageProps) => {
 	const { changeLoading } = useSelector(mapState);
 	const avatarPickerRef = useRef(null);
-	const [editedAvatar, setEditedAvatar] = useState(null);
 	const dispatch = useDispatch();
+	const [progress, setProgress] = useState<number>(0);
+	const [uploadedAvatar, setUploadedAvatar] = useState<string>(null);
+	const [uploadedAvatarError, setUploadedAvatarError] = useState<string>(null);
 
-	const addImageToPost = useCallback((e) => {
-		const reader = new FileReader();
-
-		if (e.target.files[0]) reader.readAsDataURL(e.target.files[0]);
-
-		reader.onload = (readerEvent) => {
-			setEditedAvatar(readerEvent.target.result);
-		};
-	}, []);
+	const handleUpload = async (e) => {
+		const file = e.target.files[0] as File;
+		const [data, error] = await uploadFile(file, setProgress);
+		setUploadedAvatar(data);
+		error && setUploadedAvatarError(error);
+	};
 
 	const editAvatarHandler = useCallback(() => {
-		dispatch(changeUserAvatar({ email: user.email, newAvatar: editedAvatar }));
-	}, [dispatch, editedAvatar, user.email]);
+		dispatch(
+			changeUserAvatar({ email: user.email, newAvatar: uploadedAvatar })
+		);
+	}, [dispatch, uploadedAvatar, user.email]);
+
+	useEffect(() => {
+		progress === 100 && setProgress(0);
+	}, [progress]);
+
+	const handleResetAvatar = useCallback(() => {
+		setUploadedAvatarError(null);
+		setUploadedAvatar(null);
+	}, []);
 
 	return (
-		<EditAvatarRow>
-			<UserAvatarWrapper
-				onClick={() =>
-					editedAvatar ? setEditedAvatar(null) : avatarPickerRef.current.click()
-				}
-			>
-				<UserAvatar alt="User avatar" src={editedAvatar ?? user.avatar} />
-				<EditBadge>
-					{editedAvatar ? "Clear" : "Edit"}
-					<EditIcon className="editAvatar__icon" />
-				</EditBadge>
-			</UserAvatarWrapper>
-			<input
-				ref={avatarPickerRef}
-				onChange={addImageToPost}
-				type="file"
-				hidden={true}
-				accept="image/jpeg, image/png"
-			/>
-			<CustomButton
-				disabled={!editedAvatar}
-				loading={changeLoading}
-				onClick={editAvatarHandler}
-				variant="contained"
-				size="small"
-			>
-				Save Avatar
-			</CustomButton>
-		</EditAvatarRow>
+		<>
+			<EditAvatarRow>
+				<UserAvatarWrapper
+					onClick={() => {
+						uploadedAvatar
+							? handleResetAvatar()
+							: avatarPickerRef.current.click();
+					}}
+				>
+					<UserAvatar alt="User avatar" src={uploadedAvatar ?? user.avatar} />
+					<EditBadge>
+						{uploadedAvatar ? "Clear" : "Edit"}
+						<EditIcon className="editAvatar__icon" />
+					</EditBadge>
+				</UserAvatarWrapper>
+				<input
+					ref={avatarPickerRef}
+					onChange={handleUpload}
+					type="file"
+					hidden={true}
+					accept="image/jpeg, image/png"
+				/>
+				<CustomButton
+					disabled={!uploadedAvatar}
+					loading={changeLoading || !!progress}
+					onClick={editAvatarHandler}
+					variant="contained"
+					size="small"
+				>
+					Save Avatar
+				</CustomButton>
+			</EditAvatarRow>
+			{uploadedAvatarError && <ErrorMsg>{uploadedAvatarError}</ErrorMsg>}
+		</>
 	);
 };
 
@@ -112,4 +128,10 @@ const EditBadge = styled.div`
 const UserAvatar = styled(Avatar)`
 	height: 85px;
 	width: 85px;
+`;
+
+const ErrorMsg = styled.div`
+	color: rgba(255, 0, 0, 0.75);
+	font-size: 1.4rem;
+	margin-top: 5px;
 `;
