@@ -68,7 +68,7 @@ export function refreshAuthTokens(currentToken) {
 	let refreshPayload: IRefreshTokenPayload | undefined;
 	const expiration = new Date(currentToken.exp);
 	const secondsUntilExpiration =
-		expiration.getTime() - new Date().getTime() / 1000;
+		(expiration.getTime() - new Date().getTime()) / 1000;
 
 	if (TokenExpiration.Refresh > secondsUntilExpiration) {
 		refreshPayload = { userId: currentToken.userId };

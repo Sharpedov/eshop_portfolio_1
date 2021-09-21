@@ -40,8 +40,8 @@ const AuthProvider = ({ children }: pageProps) => {
 	}, [authLoading, authUser, authError]);
 
 	useEffect(() => {
-		dispatch(getLoggedUser());
-	}, [dispatch]);
+		!authUser && dispatch(getLoggedUser());
+	}, [authUser, dispatch]);
 
 	useEffect(() => {
 		if (!!user) {
