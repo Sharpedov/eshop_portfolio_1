@@ -42,11 +42,10 @@ const yupSchema = yup.object().shape({
 
 const mapState = (state) => ({
 	signupLoading: state.auth.signup.loading,
-	signupError: state.auth.signup.error,
 });
 
 const CreateAccountTemplate = ({}: pageProps) => {
-	const { signupLoading, signupError } = useSelector(mapState);
+	const { signupLoading } = useSelector(mapState);
 	const { push, query } = useRouter();
 	const methods = useForm<IformInputs>({ resolver: yupResolver(yupSchema) });
 	const {

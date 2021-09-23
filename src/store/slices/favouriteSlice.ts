@@ -150,6 +150,9 @@ const favouriteSlice = createSlice({
 		setFavouriteList: (state, action) => {
 			state.items = action.payload;
 		},
+		clearFavouriteState: (state) => {
+			state.items = [];
+		},
 	},
 	extraReducers: (builder) => {
 		//// add product to favourite list
@@ -194,6 +197,6 @@ const favouriteSlice = createSlice({
 	},
 });
 
-export const { setFavouriteList } = favouriteSlice.actions;
+export const { setFavouriteList, clearFavouriteState } = favouriteSlice.actions;
 
 export default favouriteSlice.reducer;

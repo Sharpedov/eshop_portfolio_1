@@ -10,7 +10,7 @@ import AccountOrdersContent from "./accountOrders";
 import { useEffect } from "react";
 import AccountSettings from "./accountSettings";
 import CustomSkeleton from "src/components/loadingSkeletons/customSkeleton";
-import { useAuth } from "src/components/authProvider";
+import { useUser } from "src/components/userProvider";
 import { useSelector } from "react-redux";
 
 interface pageProps {}
@@ -37,7 +37,7 @@ const mapState = (state) => ({
 
 const AccountTemplate = ({}: pageProps) => {
 	const { cartLength, favouriteLength } = useSelector(mapState);
-	const { user, loading } = useAuth();
+	const { user, loading } = useUser();
 	const { query } = useRouter();
 	const [selectedTab, setSelectedTab] = useState<number>(0);
 

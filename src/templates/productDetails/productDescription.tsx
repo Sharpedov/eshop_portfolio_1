@@ -15,7 +15,7 @@ import {
 	removeFromFavourite,
 } from "src/store/slices/favouriteSlice";
 import Tabs from "src/components/tabs";
-import { useAuth } from "src/components/authProvider";
+import { useUser } from "src/components/userProvider";
 import { useRouter } from "next/router";
 
 interface pageProps {
@@ -50,7 +50,7 @@ const ProductDescription = ({ productDetails }: pageProps) => {
 		loadingFavouriteAdd,
 		loadingFavouriteRemove,
 	} = useSelector(mapState);
-	const { loading: loadingUser, isLogged } = useAuth();
+	const { loading: loadingUser, isLogged } = useUser();
 	const dispatch = useDispatch();
 	const [qty, setQty] = useState<number>(1);
 	const [currentTab, setCurrentTab] = useState<number>(0);

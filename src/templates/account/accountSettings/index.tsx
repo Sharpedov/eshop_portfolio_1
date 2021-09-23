@@ -15,7 +15,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import DefaultLoading from "src/components/loadingIndicators/defaultLoading";
 import { useEffect } from "react";
-import { useAuth } from "src/components/authProvider";
+import { useUser } from "src/components/userProvider";
 import FormInput from "src/components/input/formInput";
 import AvatarEditRow from "./avatarEditRow";
 import {
@@ -80,7 +80,7 @@ const mapState = (state) => ({
 const AccountSettings = ({}: pageProps) => {
 	const { changeLoading } = useSelector(mapState);
 	const [modalType, setModalType] = useState<TypeOfModal>({ type: "data" });
-	const { user, loading: userLoading } = useAuth();
+	const { user, loading: userLoading } = useUser();
 	const methods = useForm<IformInputs>({
 		resolver: yupResolver(
 			modalType.type === "email"

@@ -8,12 +8,13 @@ import GlobalStyle from "styles/GlobalStyle";
 import store from "src/store/store";
 import NotificationProvider from "src/components/notificationProvider";
 import GlobalLayout from "src/components/globalLayout";
-import AuthProvider from "src/components/authProvider";
+
 import { DefaultSeo } from "next-seo";
 import { useRouter } from "next/router";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import Router from "next/router";
+import UserProvider from "src/components/userProvider";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
@@ -42,7 +43,7 @@ function MyApp({ Component, pageProps }) {
 				}}
 			/>
 			<ReduxProvider store={store}>
-				<AuthProvider>
+				<UserProvider>
 					<StylesProvider injectFirst>
 						<ThemeProvider theme={theme}>
 							<GlobalStyle />
@@ -53,7 +54,7 @@ function MyApp({ Component, pageProps }) {
 							</NotificationProvider>
 						</ThemeProvider>
 					</StylesProvider>
-				</AuthProvider>
+				</UserProvider>
 			</ReduxProvider>
 		</>
 	);

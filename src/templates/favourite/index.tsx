@@ -8,7 +8,7 @@ import EmptyPageHeader from "src/components/emptyPageHeader";
 import ProductCard from "src/components/productCard";
 import { clearFavouriteList } from "src/store/slices/favouriteSlice";
 import SpinnerLoading from "src/components/loadingIndicators/spinnerLoading";
-import { useAuth } from "src/components/authProvider";
+import { useUser } from "src/components/userProvider";
 import { AnimateSharedLayout, motion } from "framer-motion";
 
 interface pageProps {}
@@ -19,7 +19,7 @@ const mapState = (state) => ({
 });
 
 const FavouriteTemplate = ({}: pageProps) => {
-	const { loading } = useAuth();
+	const { loading } = useUser();
 	const { favList, loadingFavouriteClear } = useSelector(mapState);
 	const dispatch = useDispatch();
 

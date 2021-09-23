@@ -1,7 +1,5 @@
 import axios, { AxiosResponse } from "axios";
 
-export type QueryResponse<T> = [data: T | null];
-
 const refreshTokens = async () =>
 	await axios.post("/api/auth/refresh", undefined, { withCredentials: true });
 
@@ -20,19 +18,14 @@ const handleRequest = async (
 	}
 };
 
-export const authFetcher = async <T>(
-	url: string
-): Promise<QueryResponse<T>> => {
+export const authFetcher = async <T>(url: string) => {
 	const request = () => axios.get(url, { withCredentials: true });
 	const { data } = await handleRequest(request);
 
 	return data;
 };
 
-export const authPoster = async <T>(
-	url: string,
-	payload?: unknown
-): Promise<QueryResponse<T>> => {
+export const authPoster = async <T>(url: string, payload?: unknown) => {
 	const request = () =>
 		axios.post(url, payload, {
 			withCredentials: true,
@@ -42,19 +35,14 @@ export const authPoster = async <T>(
 	return data;
 };
 
-export const authPatcher = async <T>(
-	url: string,
-	payload?: unknown
-): Promise<QueryResponse<T>> => {
+export const authPatcher = async <T>(url: string, payload?: unknown) => {
 	const request = () => axios.patch(url, payload, { withCredentials: true });
 	const { data } = await handleRequest(request);
 
 	return data;
 };
 
-export const authDeleter = async <T>(
-	url: string
-): Promise<QueryResponse<T>> => {
+export const authDeleter = async <T>(url: string) => {
 	const request = () => axios.delete(url, { withCredentials: true });
 	const { data } = await handleRequest(request);
 

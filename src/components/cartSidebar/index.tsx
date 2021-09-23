@@ -7,11 +7,11 @@ import CustomButton from "../customButton";
 import EmptyPageHeader from "../emptyPageHeader";
 import Sidebar from "../sidebar";
 import SpinnerLoading from "../loadingIndicators/spinnerLoading";
-import { useAuth } from "../authProvider";
 import CartProduct from "./cartProduct";
 import { createCheckoutSession } from "src/store/slices/checkoutSlice";
 import { toggleCart } from "src/store/slices/cartSlice";
 import { AnimateSharedLayout, motion } from "framer-motion";
+import { useUser } from "src/components/userProvider";
 
 interface pageProps {}
 
@@ -38,7 +38,7 @@ const productsListVariants = {
 };
 
 const CartSidebar = ({}: pageProps) => {
-	const { user, loading, isLogged } = useAuth();
+	const { user, loading, isLogged } = useUser();
 	const {
 		cart,
 		cartLength,

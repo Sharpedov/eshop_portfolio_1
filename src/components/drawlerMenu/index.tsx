@@ -11,7 +11,7 @@ import CustomButton from "../customButton";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import ListAltIcon from "@material-ui/icons/ListAlt";
 import SettingsIcon from "@material-ui/icons/Settings";
-import { useAuth } from "../authProvider";
+import { useUser } from "../userProvider";
 import { DisableScrollbar } from "src/utils/disableScrollbar";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 import { logout } from "src/store/slices/authSlice";
@@ -152,15 +152,9 @@ const backdropAnimation = {
 const containerAnimation = {
 	hidden: {
 		x: "-100%",
-		// transition: {
-		// 	duration: 0.25,
-		// },
 	},
 	show: {
 		x: "0",
-		// transition: {
-		// 	duration: 0.25,
-		// },
 	},
 	transition: {
 		type: "spring",
@@ -171,7 +165,7 @@ const containerAnimation = {
 
 const DrawlerMenu = ({ isOpen, onClose }: pageProps) => {
 	const { pathname, query, push } = useRouter();
-	const { isLogged } = useAuth();
+	const { isLogged } = useUser();
 	const dispatch = useDispatch();
 	DisableScrollbar(isOpen);
 

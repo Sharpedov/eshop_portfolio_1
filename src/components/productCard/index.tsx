@@ -14,7 +14,7 @@ import {
 	removeFromFavourite,
 } from "src/store/slices/favouriteSlice";
 import RemoveShoppingCartIcon from "@material-ui/icons/RemoveShoppingCart";
-import { useAuth } from "../authProvider";
+import { useUser } from "../userProvider";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -33,7 +33,7 @@ const mapState = (state) => ({
 
 const ProductCard = React.forwardRef(
 	({ data }: pageProps, ref: React.ForwardedRef<RefType>) => {
-		const { loading, isLogged } = useAuth();
+		const { loading, isLogged } = useUser();
 		const {
 			loadingCartAdd,
 			loadingCartRemove,
@@ -76,7 +76,7 @@ const ProductCard = React.forwardRef(
 		}, [dispatch, isInFavourite, data, isLogged, router]);
 
 		return (
-			<Card component={motion.div} layout ref={ref}>
+			<Card layout ref={ref}>
 				<Link passHref href={`/product/${_id}`}>
 					<ImageWrapper>
 						<a href={`/product/${_id}`}>

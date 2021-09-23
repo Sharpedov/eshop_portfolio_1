@@ -1,8 +1,13 @@
 import Head from "next/head";
 import React from "react";
+import { useUser } from "src/components/userProvider";
 import AccountTemplate from "src/templates/account";
 
-export default function AccountPage({}) {
+export default function AccountPage() {
+	const { loggedOut } = useUser();
+
+	if (loggedOut) return null;
+
 	return (
 		<>
 			<Head>

@@ -10,7 +10,7 @@ import UserDropdownNavMenu from "../userTools/userDropdownNavMenu";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import CustomSkeleton from "../loadingSkeletons/customSkeleton";
-import { useAuth } from "../authProvider";
+import { useUser } from "../userProvider";
 import { toggleCart } from "src/store/slices/cartSlice";
 
 interface pageProps {}
@@ -22,7 +22,7 @@ const mapState = (state) => ({
 });
 
 const RightSideNavbar = ({}: pageProps) => {
-	const { user, loading, isLogged } = useAuth();
+	const { user, loading, isLogged } = useUser();
 	const { cartLength, favouriteLength, cartIsOpen } = useSelector(mapState);
 	const userDropdownRef = useRef<HTMLDivElement>(null);
 	const [isUserDropdownActive, setIsUserDropdownActive] = useDetectOutsideClick(

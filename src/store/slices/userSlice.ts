@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { authPatcher } from "src/utils/authAxiosMethods";
-import { getLoggedUser } from "./authSlice";
+import { mutate } from "swr";
 import { addNotification } from "./notificationSlice";
 
 interface IChangeUserAvatar {
@@ -34,13 +34,12 @@ export const changeUserAvatar = createAsyncThunk(
 				avatar: newAvatar,
 			});
 
+			await mutate("/api/auth/getLoggedUser");
 			dispatch(
 				addNotification({
 					message: "Avatar has been successfully changed",
 				})
 			);
-
-			dispatch(getLoggedUser());
 
 			return;
 		} catch (error) {
@@ -64,14 +63,13 @@ export const changeUserData = createAsyncThunk(
 			});
 
 			closeModal();
+			await mutate("/api/auth/getLoggedUser");
 
 			dispatch(
 				addNotification({
 					message: "User data has been successfully changed",
 				})
 			);
-
-			dispatch(getLoggedUser());
 
 			return;
 		} catch (error) {
@@ -100,14 +98,13 @@ export const changeUserEmail = createAsyncThunk(
 			});
 
 			closeModal();
+			await mutate("/api/auth/getLoggedUser");
 
 			dispatch(
 				addNotification({
 					message: "Email has been successfully changed",
 				})
 			);
-
-			dispatch(getLoggedUser());
 
 			return;
 		} catch (error) {
@@ -135,6 +132,8 @@ export const changeUserPassword = createAsyncThunk(
 				newPassword,
 			});
 
+			await mutate("/api/auth/getLoggedUser");
+
 			closeModal();
 
 			dispatch(
@@ -142,8 +141,6 @@ export const changeUserPassword = createAsyncThunk(
 					message: "Password has been successfully changed",
 				})
 			);
-
-			dispatch(getLoggedUser());
 
 			return;
 		} catch (error) {

@@ -1,7 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import router from "next/router";
-import { authFetcher, authPoster } from "src/utils/authAxiosMethods";
+import { authPoster } from "src/utils/authAxiosMethods";
+import { mutate } from "swr";
+import { clearCartState } from "./cartSlice";
+import { clearFavouriteState } from "./favouriteSlice";
 import { addNotification } from "./notificationSlice";
 
 interface ISignUp {
@@ -15,19 +18,6 @@ interface ILogin {
 	password: string;
 }
 
-export const getLoggedUser = createAsyncThunk(
-	"auth/getLoggedUser",
-	async () => {
-		try {
-			const user = await authFetcher("/api/auth/getLoggedUser");
-
-			return user;
-		} catch (error) {
-			throw error.response.data.message;
-		}
-	}
-);
-
 export const signup = createAsyncThunk(
 	"auth/signup",
 	async ({ username, email, password }: ISignUp, { dispatch }) => {
@@ -36,7 +26,7 @@ export const signup = createAsyncThunk(
 				.post("/api/auth/signup", { username, email, password })
 				.then((res) => res.data);
 
-			router.push(
+			router.replace(
 				`${
 					router.query.redirect
 						? `/sign-in?redirect${router.query.redirect}`
@@ -71,7 +61,7 @@ export const login = createAsyncThunk(
 				.post("/api/auth/login", { email, password })
 				.then((res) => res.data);
 
-			await dispatch(getLoggedUser());
+			await mutate("/api/auth/getLoggedUser");
 
 			dispatch(
 				addNotification({
@@ -79,7 +69,7 @@ export const login = createAsyncThunk(
 				})
 			);
 
-			router.push((router.query.redirect as string) ?? "/");
+			router.replace((router.query.redirect as string) ?? "/");
 
 			return;
 		} catch (error) {
@@ -89,20 +79,25 @@ export const login = createAsyncThunk(
 	}
 );
 
-export const logout = createAsyncThunk("auth/logout", async () => {
-	try {
-		await authPoster("/api/auth/logout");
+export const logout = createAsyncThunk(
+	"auth/logout",
+	async (_, { dispatch }) => {
+		try {
+			await authPoster("/api/auth/logout");
+			await mutate("/api/auth/getLoggedUser");
 
-		router.reload();
-	} catch (error) {
-		throw error.response.data.message;
+			dispatch(clearCartState());
+			dispatch(clearFavouriteState());
+
+			router.pathname.includes("/account") && router.replace("/");
+		} catch (error) {
+			throw error.response.data.message;
+		}
 	}
-});
+);
 
 const initialState = {
 	user: null,
-	loading: true,
-	error: null,
 	login: {
 		loading: false,
 		error: null,
@@ -117,23 +112,12 @@ const authSlice = createSlice({
 	name: "auth",
 	initialState,
 	reducers: {
-		resetAuthState: () => initialState,
+		setLoggedUser: (state, action) => {
+			state.user = action.payload;
+		},
 	},
 
 	extraReducers: (builder) => {
-		//// fetch logged user
-		builder.addCase(getLoggedUser.pending, (state) => {
-			state.loading = true;
-			state.error = null;
-		});
-		builder.addCase(getLoggedUser.fulfilled, (state, action) => {
-			state.user = action.payload;
-			state.loading = false;
-		});
-		builder.addCase(getLoggedUser.rejected, (state, action) => {
-			state.loading = false;
-			state.error = action.error.message;
-		});
 		//// login
 		builder.addCase(login.pending, (state) => {
 			state.login.loading = true;
@@ -165,6 +149,6 @@ const authSlice = createSlice({
 	},
 });
 
-export const { resetAuthState } = authSlice.actions;
+export const { setLoggedUser } = authSlice.actions;
 
 export default authSlice.reducer;

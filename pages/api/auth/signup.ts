@@ -12,17 +12,11 @@ export default async function handler(req, res) {
 				try {
 					const { username, email, password } = body;
 					const existingUser = await User.findOne({ email }).select("email");
-					const existingUsername = await User.findOne({ username }).select(
-						"username"
-					);
 
 					if (existingUser)
 						return res
 							.status(404)
 							.json({ message: "We cannot create account. Try again." });
-
-					if (existingUsername)
-						return res.status(404).json({ message: "Username already exists" });
 
 					await User.create({
 						username,

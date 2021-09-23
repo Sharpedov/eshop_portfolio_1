@@ -163,7 +163,7 @@ const cartSlice = createSlice({
 			state.items = action.payload;
 		},
 
-		clearCart: (state) => {
+		clearCartState: (state) => {
 			state.items = [];
 		},
 	},
@@ -210,6 +210,7 @@ const cartSlice = createSlice({
 	},
 });
 
-export const { toggleCart, clearCart, setShoppingCart } = cartSlice.actions;
+export const { toggleCart, clearCartState, setShoppingCart } =
+	cartSlice.actions;
 
 export default cartSlice.reducer;

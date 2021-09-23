@@ -7,7 +7,7 @@ import useSWR from "swr";
 import { fetcher } from "src/utils/swrFetcher";
 import EmptyPageHeader from "src/components/emptyPageHeader";
 import LocalMallIcon from "@material-ui/icons/LocalMall";
-import { useAuth } from "src/components/authProvider";
+import { useUser } from "src/components/userProvider";
 import OrderDetails from "./orderDetails";
 import { Pagination as MaterialPagination } from "@material-ui/lab";
 import { scroller } from "react-scroll";
@@ -15,7 +15,7 @@ import { scroller } from "react-scroll";
 interface pageProps {}
 
 const AccountOrdersContent = ({}: pageProps) => {
-	const { user, isLogged, loading } = useAuth();
+	const { user, isLogged } = useUser();
 	const { data: orders, error } = useSWR(
 		isLogged && `/api/users/orders?email=${user.email}`,
 		fetcher

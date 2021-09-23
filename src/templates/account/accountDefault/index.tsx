@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
-import { useAuth } from "src/components/authProvider";
+import { useUser } from "src/components/userProvider";
 import { CardActionArea } from "@material-ui/core";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import { useSelector } from "react-redux";
@@ -23,7 +23,7 @@ const mapState = (state) => ({
 });
 
 const AccountDefaultContent = ({}: pageProps) => {
-	const { loading } = useAuth();
+	const { loading } = useUser();
 	const { favouriteItems } = useSelector(mapState);
 
 	const CardElement = ({
