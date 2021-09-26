@@ -1,3 +1,4 @@
+import dbConnect from "mongodb/dbConnect";
 import User from "mongodb/Models/User";
 import {
 	refreshAuthTokens,
@@ -7,6 +8,8 @@ import {
 
 export default async function handler(req, res) {
 	const { method } = req;
+
+	await dbConnect();
 
 	switch (method) {
 		case "POST": {
